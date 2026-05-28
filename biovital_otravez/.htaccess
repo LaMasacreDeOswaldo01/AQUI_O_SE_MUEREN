@@ -1,0 +1,13 @@
+RewriteEngine On
+RewriteBase /biovital/
+
+# Si el archivo o directorio existe, sírvelo directamente
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Redirigir todo lo demás a index.php
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Error 404 personalizado
+ErrorDocument 404 /biovital/index.php
