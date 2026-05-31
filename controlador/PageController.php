@@ -16,15 +16,7 @@ class PageController {
                 return;
             }
         }
-        
-        // Si hay una solicitud de login pendiente (después de registro o clic directo)
-        if (isset($_SESSION['open_login'])) {
-            $rol = $_SESSION['open_login'];
-            unset($_SESSION['open_login']);
-            // Pasar el rol a la vista mediante variable global
-            echo '<script>var openLoginRol = "' . addslashes($rol) . '";</script>';
-        }
-        
+
         renderView('home');
     }
     
