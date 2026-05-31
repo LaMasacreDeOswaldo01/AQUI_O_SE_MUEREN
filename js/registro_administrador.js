@@ -106,7 +106,18 @@ $(document).ready(function() {
             },
             error: function(xhr) {
                 console.error('Error en AJAX:', xhr.responseText);
-                mostrarError('Error de conexión: ' + xhr.status);
+                var errorMsg = 'Error de conexión';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMsg = xhr.responseJSON.message;
+                } else if (xhr.responseText) {
+                    try {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.message) errorMsg = response.message;
+                    } catch (e) {
+                        errorMsg = 'Error de conexión: ' + xhr.status;
+                    }
+                }
+                mostrarError(errorMsg);
                 $submitBtn.prop('disabled', false).html(originalText);
             }
         });

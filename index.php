@@ -155,8 +155,13 @@ function isAjax() {
 // ==================== ROUTER CON PARÁMETROS DINÁMICOS ====================
 $requestUri = $_SERVER['REQUEST_URI'];
 $scriptName = dirname($_SERVER['SCRIPT_NAME']);
-$path = str_replace($scriptName, '', $requestUri);
+
+// Separar el path del query string
+$uriParts = parse_url($requestUri);
+$path = $uriParts['path'] ?? $requestUri;
+$path = str_replace($scriptName, '', $path);
 $path = trim($path, '/');
+
 $method = $_SERVER['REQUEST_METHOD'];
 $isAjax = isAjax();
 

@@ -22,9 +22,7 @@ if(isset($_SESSION['usuario']) && isset($_SESSION['rol'])){
     <meta name="description" content="BioVital - Tu salud es nuestra prioridad. Ecosistema médico digital con especialidades en cardiología, neumonología, psicología y pediatría.">
     <meta name="keywords" content="consultoría médica, salud, cardiología, neumonología, psicología, pediatría, BioVital">
     <script>
-        const APP_URL      = '<?php echo APP_URL; ?>';
-        const openLoginRol = '<?php echo $_SESSION['open_login'] ?? ''; ?>';
-        <?php if(isset($_SESSION['open_login'])) unset($_SESSION['open_login']); ?>
+        const APP_URL = '<?php echo APP_URL; ?>';
     </script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
