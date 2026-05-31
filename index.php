@@ -191,21 +191,33 @@ $pathParts = explode('/', $path);
 
 foreach ($routes as $route => $config) {
     $routeParts = explode('/', $route);
+    $routeLen = count($routeParts);
+    $pathLen = count($pathParts);
     
-    if (count($routeParts) !== count($pathParts)) {
+    // Si la ruta es más corta que el path, no puede coincidir.
+    if ($pathLen > $routeLen) {
         continue;
     }
     
     $match = true;
     $params = [];
     
-    for ($i = 0; $i < count($routeParts); $i++) {
-        if (strpos($routeParts[$i], ':') === 0) {
-            $paramName = substr($routeParts[$i], 1);
-            $params[$paramName] = $pathParts[$i];
-            $_GET[$paramName] = $pathParts[$i];
-        } 
-        elseif ($routeParts[$i] !== $pathParts[$i]) {
+    for ($i = 0; $i < $routeLen; $i++) {
+        $routePart = $routeParts[$i];
+        $pathPart = $i < $pathLen ? $pathParts[$i] : null;
+        
+        if (strpos($routePart, ':') === 0) {
+            $paramName = substr($routePart, 1);
+            if ($pathPart !== null && $pathPart !== '') {
+                $params[$paramName] = $pathPart;
+                $_GET[$paramName] = $pathPart;
+            } elseif (isset($_GET[$paramName]) && $_GET[$paramName] !== '') {
+                $params[$paramName] = $_GET[$paramName];
+            } else {
+                $match = false;
+                break;
+            }
+        } elseif ($pathPart === null || $routePart !== $pathPart) {
             $match = false;
             break;
         }

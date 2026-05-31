@@ -6,7 +6,7 @@ return [
     'home' => ['controller' => 'PageController', 'action' => 'home', 'auth' => false],
     
     // ==================== LOGIN ====================
-    'login' => ['controller' => 'AuthController', 'action' => 'login', 'method' => 'POST', 'auth' => false],
+    'login' => ['controller' => 'AuthController', 'action' => 'login', 'auth' => false],
     'login/:rol' => ['controller' => 'PageController', 'action' => 'loginRedirect', 'auth' => false],
     'logout' => ['controller' => 'AuthController', 'action' => 'logout', 'auth' => true],
     
@@ -98,8 +98,9 @@ return [
     'consultorios' => ['controller' => 'ConsultorioController', 'action' => 'index', 'rol' => 'administrador'],
     'consultorios/crear' => ['controller' => 'ConsultorioController', 'action' => 'crear', 'rol' => 'administrador'],
     'consultorios/editar' => ['controller' => 'ConsultorioController', 'action' => 'editar', 'rol' => 'administrador'],
+    'consultorios/detalle' => ['controller' => 'ConsultorioController', 'action' => 'detalle', 'rol' => 'administrador'],
     'consultorios/detalle/:id' => ['controller' => 'ConsultorioController', 'action' => 'detalle', 'rol' => 'administrador'],
-    //'consultorios/horarios' => ['controller' => 'ConsultorioController', 'action' => 'horarios', 'rol' => 'administrador'],
+    'consultorios/horarios' => ['controller' => 'ConsultorioController', 'action' => 'horarios', 'rol' => 'administrador'],
     'consultorios/horarios/:id' => ['controller' => 'ConsultorioController', 'action' => 'horarios', 'rol' => 'administrador'], 
     'api/consultorios/listar' => ['controller' => 'ConsultorioController', 'action' => 'listar', 'method' => 'POST', 'rol' => 'administrador'],
     'api/consultorios/crear' => ['controller' => 'ConsultorioController', 'action' => 'crearConsultorio', 'method' => 'POST', 'rol' => 'administrador'],
@@ -119,6 +120,7 @@ return [
     // ==================== ESPECIALIDADES ====================
     'especialidades' => ['controller' => 'EspecialidadController', 'action' => 'index', 'rol' => 'administrador'],
     'especialidades/crear' => ['controller' => 'EspecialidadController', 'action' => 'crear', 'rol' => 'administrador'],
+    'especialidades/editar' => ['controller' => 'EspecialidadController', 'action' => 'editar', 'rol' => 'administrador'],
     'especialidades/editar/:id' => ['controller' => 'EspecialidadController', 'action' => 'editar', 'rol' => 'administrador'], 
     'especialidades/detalle/:id' => ['controller' => 'EspecialidadController', 'action' => 'detalle', 'rol' => 'administrador'],
     'especialidades/asignar-medico/:id' => ['controller' => 'EspecialidadController', 'action' => 'asignarMedico', 'rol' => 'administrador'],
