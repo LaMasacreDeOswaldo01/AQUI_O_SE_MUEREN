@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 <?php
 // Configurar APP_URL si no está definido
 if (!defined('APP_URL')) {
@@ -8,11 +10,20 @@ if (!defined('APP_URL')) {
     define('APP_URL', $baseUrl);
 }
 ?>
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
+    <title>Error del sistema - BioVital</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+=======
     <title>Error del sistema | BioVital</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/css/all.min.css">
@@ -22,12 +33,45 @@ if (!defined('APP_URL')) {
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, #0077b6 0%, #4e73df 100%);
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
         }
+<<<<<<< HEAD
+        .error-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .error-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        h1 { font-size: 28px; color: #333; margin-bottom: 15px; }
+        p { color: #666; line-height: 1.6; margin-bottom: 25px; }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .error-id {
+            font-size: 12px;
+            color: #999;
+            margin-top: 20px;
+            font-family: monospace;
+=======
         
         .error-container {
             background: white;
@@ -113,14 +157,18 @@ if (!defined('APP_URL')) {
             h1 { font-size: 1.4rem; }
             .error-icon { width: 70px; height: 70px; }
             .error-icon i { font-size: 30px; }
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         }
     </style>
 </head>
 <body>
     <div class="error-container">
+<<<<<<< HEAD
+=======
         <div class="error-logo">
             <img src="<?php echo APP_URL; ?>/img/logo_azul.png" alt="BioVital">
         </div>
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         <div class="error-icon">
             <i class="fas fa-exclamation-triangle"></i>
         </div>
@@ -130,7 +178,11 @@ if (!defined('APP_URL')) {
             <i class="fas fa-home"></i> Volver al inicio
         </a>
         <?php if (isset($error_id)): ?>
+<<<<<<< HEAD
+        <div class="error-id">ID de referencia: <?php echo htmlspecialchars($error_id); ?></div>
+=======
         <div class="error-id">ID: <?php echo htmlspecialchars($error_id); ?></div>
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         <?php endif; ?>
     </div>
 </body>

@@ -1,4 +1,9 @@
 <?php
+<<<<<<< HEAD
+$nombre_usuario = $nombre_usuario ?? 'Usuario';
+$id_medico = $id_medico ?? $_SESSION['usuario'] ?? 0;
+?>
+=======
 // vista/medico/med_catalogo.php
 // Contenido principal para el dashboard del médico
 // Este archivo se renderiza dentro del layout base dashboard.php
@@ -8,6 +13,7 @@ $nombre_usuario = $nombre_usuario ?? 'Usuario';
 $id_medico = $id_medico ?? $_SESSION['usuario'] ?? 0;
 ?>
 
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 <!-- CSS Adicional para esta vista -->
 <style>
     .welcome-stats {

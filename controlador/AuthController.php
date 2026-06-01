@@ -40,9 +40,24 @@ class AuthController {
     
     /**
      * Procesa el inicio de sesión
+<<<<<<< HEAD
      * POST /login
      */
     public function login() {
+=======
+     * GET /login o POST /login
+     */
+    public function login() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $rol = $_GET['rol'] ?? 'paciente';
+            $rolesValidos = ['paciente', 'medico', 'asistente', 'administrador'];
+            if (!in_array($rol, $rolesValidos)) {
+                $rol = 'paciente';
+            }
+            redirect('?openLogin=' . $rol);
+            return;
+        }
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         // Obtener datos del formulario
         $user = trim($_POST['user'] ?? '');
         $pass = $_POST['pass'] ?? '';

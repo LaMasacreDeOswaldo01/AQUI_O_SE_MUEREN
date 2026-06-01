@@ -155,8 +155,18 @@ function isAjax() {
 // ==================== ROUTER CON PARÁMETROS DINÁMICOS ====================
 $requestUri = $_SERVER['REQUEST_URI'];
 $scriptName = dirname($_SERVER['SCRIPT_NAME']);
+<<<<<<< HEAD
 $path = str_replace($scriptName, '', $requestUri);
 $path = trim($path, '/');
+=======
+
+// Separar el path del query string
+$uriParts = parse_url($requestUri);
+$path = $uriParts['path'] ?? $requestUri;
+$path = str_replace($scriptName, '', $path);
+$path = trim($path, '/');
+
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 $method = $_SERVER['REQUEST_METHOD'];
 $isAjax = isAjax();
 
@@ -186,14 +196,23 @@ $pathParts = explode('/', $path);
 
 foreach ($routes as $route => $config) {
     $routeParts = explode('/', $route);
+<<<<<<< HEAD
     
     if (count($routeParts) !== count($pathParts)) {
+=======
+    $routeLen = count($routeParts);
+    $pathLen = count($pathParts);
+    
+    // Si la ruta es más corta que el path, no puede coincidir.
+    if ($pathLen > $routeLen) {
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         continue;
     }
     
     $match = true;
     $params = [];
     
+<<<<<<< HEAD
     for ($i = 0; $i < count($routeParts); $i++) {
         if (strpos($routeParts[$i], ':') === 0) {
             $paramName = substr($routeParts[$i], 1);
@@ -201,6 +220,24 @@ foreach ($routes as $route => $config) {
             $_GET[$paramName] = $pathParts[$i];
         } 
         elseif ($routeParts[$i] !== $pathParts[$i]) {
+=======
+    for ($i = 0; $i < $routeLen; $i++) {
+        $routePart = $routeParts[$i];
+        $pathPart = $i < $pathLen ? $pathParts[$i] : null;
+        
+        if (strpos($routePart, ':') === 0) {
+            $paramName = substr($routePart, 1);
+            if ($pathPart !== null && $pathPart !== '') {
+                $params[$paramName] = $pathPart;
+                $_GET[$paramName] = $pathPart;
+            } elseif (isset($_GET[$paramName]) && $_GET[$paramName] !== '') {
+                $params[$paramName] = $_GET[$paramName];
+            } else {
+                $match = false;
+                break;
+            }
+        } elseif ($pathPart === null || $routePart !== $pathPart) {
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
             $match = false;
             break;
         }

@@ -1,4 +1,9 @@
 <?php
+<<<<<<< HEAD
+$nombre_usuario = $nombre_usuario ?? 'Usuario';
+$stats_url = $stats_url ?? APP_URL . '/api/administradores/estadisticas-generales';
+?>
+=======
 // vista/administrador/adm_catalogo.php
 // Contenido principal del dashboard del administrador
 // Este archivo se renderiza dentro del layout base dashboard.php
@@ -8,6 +13,7 @@ $nombre_usuario = $nombre_usuario ?? 'Usuario';
 $stats_url = $stats_url ?? APP_URL . '/api/administradores/estadisticas-generales';
 ?>
 
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 <!-- Welcome Banner -->
 <div class="bv-welcome-banner admin bv-animate">
     <div class="d-flex justify-content-between align-items-center">
@@ -23,7 +29,10 @@ $stats_url = $stats_url ?? APP_URL . '/api/administradores/estadisticas-generale
         </div>
     </div>
 </div>
+<<<<<<< HEAD
+=======
 
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 <!-- Info Boxes - Estadísticas -->
 <div class="row">
     <div class="col-12 col-sm-6 col-md-3">
@@ -60,8 +69,12 @@ $stats_url = $stats_url ?? APP_URL . '/api/administradores/estadisticas-generale
                 </span>
             </div>
         </div>
+<<<<<<< HEAD
+    </div>    
+=======
     </div>
     
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     <div class="col-12 col-sm-6 col-md-3">
         <div class="info-box bv-animate bv-animate-delay-2">
             <span class="info-box-icon bg-warning elevation-1">
@@ -78,8 +91,12 @@ $stats_url = $stats_url ?? APP_URL . '/api/administradores/estadisticas-generale
                 </span>
             </div>
         </div>
+<<<<<<< HEAD
+    </div>    
+=======
     </div>
     
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     <div class="col-12 col-sm-6 col-md-3">
         <div class="info-box bv-animate bv-animate-delay-2">
             <span class="info-box-icon bg-danger elevation-1">
@@ -98,7 +115,10 @@ $stats_url = $stats_url ?? APP_URL . '/api/administradores/estadisticas-generale
         </div>
     </div>
 </div>
+<<<<<<< HEAD
+=======
 
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 <!-- Segunda fila de estadísticas -->
 <div class="row mt-3">
     <div class="col-12 col-sm-6 col-md-3">
@@ -480,7 +500,10 @@ $(document).ready(function() {
     }
 });
 
+<<<<<<< HEAD
+=======
 // Función para actualizar estadísticas (puede llamarse desde otros componentes)
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 function actualizarEstadisticas() {
     location.reload();
 }
