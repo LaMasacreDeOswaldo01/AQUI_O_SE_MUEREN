@@ -1,7 +1,15 @@
 <?php
+<<<<<<< HEAD
 if (!function_exists('AuthHelper')) {
     require_once dirname(__DIR__, 2) . '/helpers/AuthHelper.php';
 }
+=======
+
+if (!function_exists('AuthHelper')) {
+    require_once dirname(__DIR__, 2) . '/helpers/AuthHelper.php';
+}
+
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 // Obtener el rol actual
 $current_role = AuthHelper::getCurrentRole();
 $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Usuario');
@@ -14,14 +22,24 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="<?php echo Security::getTokenCSRF(); ?>">
+<<<<<<< HEAD
     <title><?php echo $titulo_pagina; ?></title>    
+=======
+    <title><?php echo $titulo_pagina; ?></title>
+    
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     <!-- Variables globales JavaScript -->
     <script>
         var APP_URL = '<?php echo APP_URL; ?>';
         var CURRENT_ROLE = '<?php echo $current_role; ?>';
         var USER_NAME = '<?php echo $nombre_usuario; ?>';
         var AVATAR_URL = '<?php echo !empty($_SESSION['avatar']) ? $_SESSION['avatar'] : APP_URL . "/img/avatarDES.jpg"; ?>';
+<<<<<<< HEAD
     </script>    
+=======
+    </script>
+    
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     <!-- CSS Globales -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/css/all.min.css">
@@ -30,12 +48,24 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
     <!-- CSS del Sistema -->
     <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/adminlte.min.css">
     <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/dashboard.css">
+<<<<<<< HEAD
     <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/dashboard-utils.css">    
     <!-- jQuery (siempre primero) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>    
     <!-- Configuración y CSRF -->
     <script src="<?php echo APP_URL; ?>/js/config.js"></script>
     <script src="<?php echo APP_URL; ?>/js/csrf.js"></script>    
+=======
+    <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/dashboard-utils.css">
+    
+    <!-- jQuery (siempre primero) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Configuración y CSRF -->
+    <script src="<?php echo APP_URL; ?>/js/config.js"></script>
+    <script src="<?php echo APP_URL; ?>/js/csrf.js"></script>
+    
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     <?php if (isset($css_extra)) echo $css_extra; ?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -109,6 +139,10 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
             </li>
         </ul>
     </nav>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     <!-- Sidebar -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
@@ -116,6 +150,10 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
             <img src="<?php echo APP_URL; ?>/img/logo_azul.png" alt="BioVital Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
             <span class="brand-text font-weight-bold">BIOVITAL</span>
         </a>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         <!-- Sidebar -->
         <div class="sidebar">
             <!-- User Panel -->
@@ -132,6 +170,17 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
             <!-- Sidebar Menu -->
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+<<<<<<< HEAD
+=======
+                    <!-- Inicio / Dashboard -->
+                    <li class="nav-item">
+                        <a href="<?php echo APP_URL; ?>/panel/<?php echo $current_role; ?>" class="nav-link <?php echo ($active_page ?? '') === 'dashboard' ? 'active' : ''; ?>">
+                            <i class="nav-icon fas fa-home"></i>
+                            <p>Inicio</p>
+                        </a>
+                    </li>
+                    <li class="nav-divider"></li>
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
                     <!-- Menú según el rol -->
                     <?php if ($current_role === 'administrador'): ?>
                         <!-- Menú de Administrador -->
@@ -170,12 +219,15 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
                                 <p>Recetas</p>
                             </a>
                         </li>
+<<<<<<< HEAD
                         <li class="nav-item">
                             <a href="<?php echo APP_URL; ?>/facturas" class="nav-link <?php echo ($active_page ?? '') === 'facturas' ? 'active' : ''; ?>">
                                 <i class="nav-icon fas fa-file-invoice-dollar"></i>
                                 <p>Facturas</p>
                             </a>
                         </li>
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
                         
                         <li class="nav-header">REPORTES</li>
                         <li class="nav-item">
@@ -185,6 +237,7 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
                             </a>
                         </li>
                         
+<<<<<<< HEAD
                   <?php elseif ($current_role === 'medico'): ?>
     <!-- Menú de Médico CORREGIDO -->
     <li class="nav-header">USUARIO</li>
@@ -273,6 +326,78 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
         </a>
     </li>
 <?php endif; ?>
+=======
+                    <?php elseif ($current_role === 'medico'): ?>
+                        <!-- Menú de Médico -->
+                        <li class="nav-header">USUARIO</li>
+                        <li class="nav-item">
+                            <a href="<?php echo APP_URL; ?>/perfil" class="nav-link <?php echo ($active_page ?? '') === 'perfil' ? 'active' : ''; ?>">
+                                <i class="nav-icon fas fa-user-cog"></i>
+                                <p>Datos personales</p>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-header">CLÍNICA</li>
+                        <li class="nav-item">
+                            <a href="<?php echo APP_URL; ?>/recetas" class="nav-link <?php echo ($active_page ?? '') === 'recetas' ? 'active' : ''; ?>">
+                                <i class="nav-icon fas fa-prescription-bottle-alt"></i>
+                                <p>Recetas</p>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-header">PACIENTES</li>
+                        <li class="nav-item">
+                            <a href="<?php echo APP_URL; ?>/medico/pacientes" class="nav-link <?php echo ($active_page ?? '') === 'pacientes' ? 'active' : ''; ?>">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>Mis Pacientes</p>
+                            </a>
+                        </li>
+                        
+                    <?php elseif ($current_role === 'asistente'): ?>
+                        <!-- Menú de Asistente -->
+                        <li class="nav-header">USUARIO</li>
+                        <li class="nav-item">
+                            <a href="<?php echo APP_URL; ?>/perfil" class="nav-link <?php echo ($active_page ?? '') === 'perfil' ? 'active' : ''; ?>">
+                                <i class="nav-icon fas fa-user-cog"></i>
+                                <p>Datos personales</p>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-header">CLÍNICA</li>
+                        <li class="nav-item">
+                            <a href="<?php echo APP_URL; ?>/recetas" class="nav-link <?php echo ($active_page ?? '') === 'recetas' ? 'active' : ''; ?>">
+                                <i class="nav-icon fas fa-prescription-bottle-alt"></i>
+                                <p>Recetas</p>
+                            </a>
+                        </li>
+                        
+                    <?php elseif ($current_role === 'paciente'): ?>
+                        <!-- Menú de Paciente -->
+                        <li class="nav-header">USUARIO</li>
+                        <li class="nav-item">
+                            <a href="<?php echo APP_URL; ?>/perfil" class="nav-link <?php echo ($active_page ?? '') === 'perfil' ? 'active' : ''; ?>">
+                                <i class="nav-icon fas fa-user-cog"></i>
+                                <p>Datos personales</p>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-header">CLÍNICA</li>
+                        <li class="nav-item">
+                            <a href="<?php echo APP_URL; ?>/paciente/recetas" class="nav-link <?php echo ($active_page ?? '') === 'recetas' ? 'active' : ''; ?>">
+                                <i class="nav-icon fas fa-prescription-bottle-alt"></i>
+                                <p>Mis Recetas</p>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-header">CITAS</li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-calendar-alt"></i>
+                                <p>Mis Citas</p>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
                 </ul>
             </nav>
         </div>
@@ -325,5 +450,9 @@ $(function() {
     $('[data-toggle="popover"]').popover();
 });
 </script>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 </body>
 </html>

@@ -1,4 +1,12 @@
 <?php
+<<<<<<< HEAD
+=======
+// vista/administrador/adm_consultorio_crear.php
+// Contenido principal para la creación de consultorios
+// Este archivo se renderiza dentro del layout base dashboard.php
+
+// Los datos vienen del controlador a través de $data
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 $nombre_usuario = $nombre_usuario ?? 'Administrador';
 ?>
 
@@ -420,7 +428,12 @@ $(document).ready(function() {
             dataType: 'json',
             timeout: 10000,
             success: function(response) {
+<<<<<<< HEAD
                 console.log('Estados cargados:', response);                
+=======
+                console.log('Estados cargados:', response);
+                
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
                 var estados = [];
                 if (response.success && response.data) {
                     estados = response.data;
@@ -430,10 +443,19 @@ $(document).ready(function() {
                     estados = response.estados;
                 } else {
                     estados = response;
+<<<<<<< HEAD
                 }                
                 if (!Array.isArray(estados)) {
                     estados = [];
                 }                
+=======
+                }
+                
+                if (!Array.isArray(estados)) {
+                    estados = [];
+                }
+                
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
                 let options = '<option value="">Seleccione un estado...</option>';
                 for (let i = 0; i < estados.length; i++) {
                     let estado = estados[i];
@@ -676,8 +698,14 @@ $(document).ready(function() {
         $('#preview_horario').text($('#apertura').val() + ' - ' + $('#cierre').val());
     }
     
+<<<<<<< HEAD
     // ==================== EVENTOS DE UBICACION====================
     
+=======
+    // ==================== EVENTOS ====================
+    
+    // Eventos de ubicación
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     $(document).on('change', '#estado', function() {
         let id_estado = $(this).val();
         if (id_estado) {

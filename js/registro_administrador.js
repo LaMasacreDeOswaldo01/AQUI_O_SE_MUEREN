@@ -64,6 +64,7 @@ $(document).ready(function() {
         
         var datos = {
             funcion: 'crear_administrador',
+<<<<<<< HEAD
             nombre: $('#nombre').val(),
             apellidos: $('#apellidos').val(),
             fecha_nacimiento: $('#fecha_nacimiento').val(),
@@ -80,6 +81,23 @@ $(document).ready(function() {
             respuesta_seguridad_2: $('#respuesta_seguridad_2').val().trim(),
             pregunta_seguridad_3: $('#pregunta_seguridad_3').val(),
             respuesta_seguridad_3: $('#respuesta_seguridad_3').val().trim(),
+=======
+            nombre: $('#nombre').val().trim(),
+            apellidos: $('#apellidos').val().trim(),
+            fecha_nacimiento: $('#fecha_nacimiento').val(),
+            cedula: $('#cedula').val().trim(),
+            telefono: $('#telefono').val().trim(),
+            estado: $('#estado').val(),
+            ciudad: $('#ciudad').val(),
+            municipio: $('#municipio').val(),
+            parroquia: $('#parroquia').val(),
+            direccion: direccion_detallada.trim(),
+            correo: $('#correo').val().trim(),
+            sexo: $('#sexo').val(),
+            adicional: $('#adicional').val().trim(),
+            pass: pass,
+            confirm_pass: confirm_pass,
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
             csrf_token: $('input[name="csrf_token"]').val()
         };
         
@@ -107,7 +125,22 @@ $(document).ready(function() {
             },
             error: function(xhr) {
                 console.error('Error en AJAX:', xhr.responseText);
+<<<<<<< HEAD
                 mostrarError('Error de conexión: ' + xhr.status);
+=======
+                var errorMsg = 'Error de conexión';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMsg = xhr.responseJSON.message;
+                } else if (xhr.responseText) {
+                    try {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.message) errorMsg = response.message;
+                    } catch (e) {
+                        errorMsg = 'Error de conexión: ' + xhr.status;
+                    }
+                }
+                mostrarError(errorMsg);
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
                 $submitBtn.prop('disabled', false).html(originalText);
             }
         });

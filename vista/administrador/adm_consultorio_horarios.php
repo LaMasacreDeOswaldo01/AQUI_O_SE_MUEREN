@@ -1,7 +1,19 @@
 <?php
+<<<<<<< HEAD
 $nombre_usuario = $nombre_usuario ?? 'Administrador';
 $id_consultorio = $id_consultorio ?? $_GET['id'] ?? 0;
 ?>
+=======
+// vista/administrador/adm_consultorio_horarios.php
+// Contenido principal para la gestión de horarios de consultorios
+// Este archivo se renderiza dentro del layout base dashboard.php
+
+// Los datos vienen del controlador a través de $data
+$nombre_usuario = $nombre_usuario ?? 'Administrador';
+$id_consultorio = $id_consultorio ?? $_GET['id'] ?? 0;
+?>
+
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 <!-- CSS Adicional para esta vista -->
 <style>
     .horario-card {
@@ -154,7 +166,11 @@ $id_consultorio = $id_consultorio ?? $_GET['id'] ?? 0;
 
 <section class="content">
     <div class="container-fluid">
+<<<<<<< HEAD
         <input type="hidden" id="id_consultorio" value="<?php echo htmlspecialchars($id_consultorio); ?>">
+=======
+        <input type="hidden" id="id_consultorio" value="<?php echo $id_consultorio; ?>">
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         
         <!-- Welcome Banner -->
         <div class="bv-welcome-banner admin bv-animate">
@@ -226,7 +242,11 @@ $id_consultorio = $id_consultorio ?? $_GET['id'] ?? 0;
                 
                 <!-- Botones de navegación -->
                 <div class="info-card text-center">
+<<<<<<< HEAD
                     <a href="<?php echo APP_URL; ?>/consultorios/detalle?id=<?php echo urlencode($id_consultorio); ?>" class="btn btn-info btn-block btn-sm">
+=======
+                    <a href="<?php echo APP_URL; ?>/consultorios/detalle?id=<?php echo $id_consultorio; ?>" class="btn btn-info btn-block btn-sm">
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
                         <i class="fas fa-arrow-left"></i> Volver al Detalle
                     </a>
                     <button class="btn btn-outline-primary btn-block btn-sm mt-2" id="btnRefreshMobile">
@@ -304,6 +324,7 @@ $id_consultorio = $id_consultorio ?? $_GET['id'] ?? 0;
 </div>
 
 <script>
+<<<<<<< HEAD
 // Verificar que APP_URL esté definida
 if (typeof APP_URL === 'undefined') {
     console.error('ERROR: APP_URL no está definida');
@@ -331,6 +352,11 @@ $(document).ready(function() {
         `);
         return;
     }
+=======
+$(document).ready(function() {
+    console.log('=== GESTIÓN DE HORARIOS DE CONSULTORIO ===');
+    console.log('ID Consultorio:', $('#id_consultorio').val());
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     
     // Variables
     let listaMedicos = [];
@@ -353,9 +379,14 @@ $(document).ready(function() {
                 }
                 $('#consultorio_nombre').text(data.nombre || 'Consultorio');
             },
+<<<<<<< HEAD
             error: function(xhr, status, error) {
                 console.error('Error al cargar nombre del consultorio:', error);
                 $('#consultorio_nombre').text('Consultorio #' + id);
+=======
+            error: function() {
+                $('#consultorio_nombre').text('Consultorio');
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
             }
         });
     }
@@ -363,6 +394,18 @@ $(document).ready(function() {
     function cargarHorarios() {
         let id = $('#id_consultorio').val();
         
+<<<<<<< HEAD
+=======
+        if (!id || id === '0') {
+            $('#contenedor_horarios').html(`
+                <div class="col-12 text-center">
+                    <div class="alert alert-danger">ID de consultorio no válido</div>
+                </div>
+            `);
+            return;
+        }
+        
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         $('#loadingHorarios').show();
         
         $.ajax({
@@ -391,7 +434,10 @@ $(document).ready(function() {
                     <div class="col-12 text-center">
                         <div class="alert alert-danger">
                             <i class="fas fa-exclamation-triangle"></i> Error al cargar los horarios: ${error}
+<<<<<<< HEAD
                             <br><small>Por favor, recargue la página e intente nuevamente.</small>
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
                         </div>
                     </div>
                 `);
@@ -413,7 +459,11 @@ $(document).ready(function() {
                 <div class="col-md-6 col-lg-4">
                     <div class="horario-card">
                         <h4>
+<<<<<<< HEAD
                             ${escapeHtml(dia)}
+=======
+                            ${dia}
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
                             <i class="fas fa-calendar-day"></i>
                         </h4>
             `;
@@ -426,12 +476,17 @@ $(document).ready(function() {
                     let medicoNombre = horario.nombre_medico || 'Sin asignar';
                     let tieneMedico = horario.id_medico !== null && horario.id_medico !== '';
                     let slotClass = tieneMedico ? 'disponible' : 'ocupado';
+<<<<<<< HEAD
                     let medicoInfo = tieneMedico ? '<i class="fas fa-user-md"></i> ' + escapeHtml(medicoNombre) : '<i class="fas fa-user-slash"></i> Sin médico asignado';
+=======
+                    let medicoInfo = tieneMedico ? `<i class="fas fa-user-md"></i> ${escapeHtml(medicoNombre)}` : '<i class="fas fa-user-slash"></i> Sin médico asignado';
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
                     
                     html += `
                         <div class="horario-slot ${slotClass}">
                             <div class="slot-header">
                                 <span class="slot-horario">
+<<<<<<< HEAD
                                     <i class="fas fa-clock"></i> ${escapeHtml(horario.hora_inicio)} - ${escapeHtml(horario.hora_fin)}
                                 </span>
                                 <button class="btn btn-primary btn-horario btn-editar-horario" 
@@ -439,6 +494,15 @@ $(document).ready(function() {
                                         data-turno="${escapeHtml(turno)}"
                                         data-hora-inicio="${escapeHtml(horario.hora_inicio)}"
                                         data-hora-fin="${escapeHtml(horario.hora_fin)}"
+=======
+                                    <i class="fas fa-clock"></i> ${horario.hora_inicio} - ${horario.hora_fin}
+                                </span>
+                                <button class="btn btn-primary btn-horario btn-editar-horario" 
+                                        data-dia="${dia}" 
+                                        data-turno="${turno}"
+                                        data-hora-inicio="${horario.hora_inicio}"
+                                        data-hora-fin="${horario.hora_fin}"
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
                                         data-medico-id="${horario.id_medico || ''}"
                                         data-medico-nombre="${escapeHtml(medicoNombre)}">
                                     <i class="fas fa-edit"></i> Editar
@@ -455,8 +519,13 @@ $(document).ready(function() {
                             <i class="fas fa-ban"></i>
                             <div>Sin horario configurado</div>
                             <button class="btn btn-outline-primary btn-horario mt-2 btn-editar-horario" 
+<<<<<<< HEAD
                                     data-dia="${escapeHtml(dia)}" 
                                     data-turno="${escapeHtml(turno)}"
+=======
+                                    data-dia="${dia}" 
+                                    data-turno="${turno}"
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
                                     data-hora-inicio=""
                                     data-hora-fin=""
                                     data-medico-id=""
@@ -480,6 +549,7 @@ $(document).ready(function() {
     function cargarListaMedicos() {
         let options = '<option value="">Sin asignar (Consultorio cerrado)</option>';
         
+<<<<<<< HEAD
         if (listaMedicos.length === 0) {
             options += '<option value="" disabled>No hay médicos disponibles</option>';
         } else {
@@ -487,6 +557,11 @@ $(document).ready(function() {
                 let medico = listaMedicos[i];
                 options += `<option value="${escapeHtml(medico.id)}">${escapeHtml(medico.nombre)} (${escapeHtml(medico.cedula)})</option>`;
             }
+=======
+        for (let i = 0; i < listaMedicos.length; i++) {
+            let medico = listaMedicos[i];
+            options += `<option value="${medico.id}">${escapeHtml(medico.nombre)} (${medico.cedula})</option>`;
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         }
         
         $('#medico_asignado').html(options);
@@ -505,19 +580,28 @@ $(document).ready(function() {
         // Validaciones
         if (!hora_inicio) {
             mostrarErrorModal('Debe ingresar la hora de inicio');
+<<<<<<< HEAD
             $('#hora_inicio').focus();
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
             return;
         }
         
         if (!hora_fin) {
             mostrarErrorModal('Debe ingresar la hora de fin');
+<<<<<<< HEAD
             $('#hora_fin').focus();
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
             return;
         }
         
         if (hora_inicio >= hora_fin) {
             mostrarErrorModal('La hora de fin debe ser mayor que la hora de inicio');
+<<<<<<< HEAD
             $('#hora_fin').focus();
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
             return;
         }
         
@@ -561,11 +645,15 @@ $(document).ready(function() {
             },
             error: function(xhr, status, error) {
                 console.error('Error:', error);
+<<<<<<< HEAD
                 let errorMsg = 'Error de conexión: ' + status;
                 if (xhr.responseJSON && xhr.responseJSON.message) {
                     errorMsg = xhr.responseJSON.message;
                 }
                 mostrarErrorModal(errorMsg);
+=======
+                mostrarErrorModal('Error de conexión: ' + status);
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
                 $btn.prop('disabled', false).html(originalText);
             }
         });
@@ -584,6 +672,7 @@ $(document).ready(function() {
         $('#horario_turno').val(turno);
         $('#horario_dia_text').val(dia);
         $('#horario_turno_text').val(turno);
+<<<<<<< HEAD
         
         if (horaInicio) {
             $('#hora_inicio').val(horaInicio);
@@ -596,6 +685,10 @@ $(document).ready(function() {
         } else {
             $('#hora_fin').val('17:00');
         }
+=======
+        $('#hora_inicio').val(horaInicio || '08:00');
+        $('#hora_fin').val(horaFin || '17:00');
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         
         if (medicoId && medicoId !== '') {
             $('#medico_asignado').val(medicoId);
@@ -616,6 +709,7 @@ $(document).ready(function() {
         mostrarExito('Horarios actualizados');
     });
     
+<<<<<<< HEAD
     // Cerrar el modal al hacer clic en el botón de cerrar
     $('#modalHorario .close, #modalHorario .btn-secondary').on('click', function() {
         $('#modalHorario').modal('hide');
@@ -623,6 +717,8 @@ $(document).ready(function() {
         $('#modalError').remove();
     });
     
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     // ==================== FUNCIONES DE NOTIFICACIÓN ====================
     
     function mostrarExito(mensaje) {
@@ -642,9 +738,15 @@ $(document).ready(function() {
     }
     
     function mostrarErrorModal(mensaje) {
+<<<<<<< HEAD
         // Verificar si el modal está abierto
         if ($('#modalHorario').hasClass('show')) {
             // Buscar o crear div de error dentro del modal
+=======
+        // Mostrar error en el modal o en una alerta
+        if ($('#modalHorario').hasClass('show')) {
+            // Si el modal está abierto, mostrar error dentro del modal
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
             let errorDiv = $('#modalHorario .modal-body .alert-danger');
             if (errorDiv.length === 0) {
                 $('.modal-body').prepend('<div class="alert alert-danger alert-custom" id="modalError" style="display:none;"><i class="fas fa-exclamation-circle"></i> <span id="modalErrorMsg"></span></div>');
@@ -667,10 +769,14 @@ $(document).ready(function() {
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;')
+<<<<<<< HEAD
             .replace(/'/g, '&#39;')
             .replace(/\\/g, '&#92;')
             .replace(/`/g, '&#96;')
             .replace(/\$/g, '&#36;');
+=======
+            .replace(/'/g, '&#39;');
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     }
     
     // ==================== INICIALIZAR ====================

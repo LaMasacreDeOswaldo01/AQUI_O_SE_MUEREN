@@ -1,7 +1,19 @@
 <?php
+<<<<<<< HEAD
 $nombre_usuario = $nombre_usuario ?? 'Administrador';
 $api_url = $api_url ?? APP_URL . '/api/especialidades';
 ?>
+=======
+// vista/especialidades/esp_listado.php
+// Contenido principal para la gestión de especialidades
+// Este archivo se renderiza dentro del layout base dashboard.php
+
+// Los datos vienen del controlador a través de $data
+$nombre_usuario = $nombre_usuario ?? 'Administrador';
+$api_url = $api_url ?? APP_URL . '/api/especialidades';
+?>
+
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 <style>
     .especialidad-card {
         transition: transform 0.3s, box-shadow 0.3s;
@@ -467,9 +479,15 @@ $(document).ready(function() {
                                             <a href="${APP_URL}/especialidades/detalle/${esp.id_especialidad}" class="btn btn-info btn-sm btn-accion">
                                                 <i class="fas fa-eye"></i> Ver
                                             </a>
+<<<<<<< HEAD
                                            <a href="${APP_URL}/especialidades/editar/${esp.id_especialidad}" class="btn btn-warning btn-sm btn-accion">
                                               <i class="fas fa-edit"></i> Editar
                                               </a>
+=======
+                                            <button class="btn btn-warning btn-sm btn-accion btn-editar" data-id="${esp.id_especialidad}">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </button>
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
                                             ${esp.activo == 1 ? `
                                             <button class="btn btn-danger btn-sm btn-accion btn-eliminar" data-id="${esp.id_especialidad}">
                                                 <i class="fas fa-trash"></i> Eliminar

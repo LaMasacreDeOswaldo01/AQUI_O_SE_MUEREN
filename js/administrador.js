@@ -5,11 +5,23 @@ $(document).ready(function() {
         console.error('ERROR: APP_URL no está definida');
         $('#nombre_us').html('Error de configuración');
         return;
+<<<<<<< HEAD
     }    
     console.log('APP_URL:', APP_URL);    
     var id_usuario = $('#id_usuario').val();
     var edit = false;
     console.log('ID Administrador desde PHP:', id_usuario);    
+=======
+    }
+    
+    console.log('APP_URL:', APP_URL);
+    
+    var id_usuario = $('#id_usuario').val();
+    var edit = false;
+
+    console.log('ID Administrador desde PHP:', id_usuario);
+    
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     if (!id_usuario || id_usuario === '') {
         console.error('ERROR: ID de administrador no encontrado');
         $('#nombre_us').html('Error: Sesión no válida');
@@ -71,7 +83,13 @@ $(document).ready(function() {
                 var defaultAvatar = APP_URL + '/img/avatarDES.jpg?t=' + new Date().getTime();
                 $('#avatar1, #avatar2, #avatar3, #avatar4, #avatar_nav').attr('src', defaultAvatar);
             }
+<<<<<<< HEAD
             // ==================== FIN ACTUALIZAR AVATARES ====================          
+=======
+            // ==================== FIN ACTUALIZAR AVATARES ====================
+            
+            // Cargar dirección en los campos de edición si existe
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
             if (administrador.direccion && administrador.direccion !== '-') {
                 cargarDireccionEnCampos(administrador.direccion);
             } else {
@@ -132,8 +150,15 @@ $(document).ready(function() {
             direccion_detallada = partes.slice(1).join(' - ');
         }
         
+<<<<<<< HEAD
         let ubicacion_partes = ubicacion.split(', ').filter(p => p.trim() !== '');        
         $('#direccion_detallada').val(direccion_detallada);        
+=======
+        let ubicacion_partes = ubicacion.split(', ').filter(p => p.trim() !== '');
+        
+        $('#direccion_detallada').val(direccion_detallada);
+        
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         cargarEstadosConSeleccion(ubicacion_partes);
     }
 
@@ -641,7 +666,12 @@ $(document).ready(function() {
     // ==================== CAMBIAR FOTO ====================
   
 $('#form-photo').submit(function(e) {
+<<<<<<< HEAD
     e.preventDefault();    
+=======
+    e.preventDefault();
+    
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     var fileInput = $(this).find('input[type="file"]')[0];
     if (!fileInput.files || fileInput.files.length === 0) {
         alert('Por favor seleccione una imagen');

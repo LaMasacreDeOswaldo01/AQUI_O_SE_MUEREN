@@ -16,6 +16,7 @@ class PageController {
                 return;
             }
         }
+<<<<<<< HEAD
         
         // Si hay una solicitud de login pendiente (después de registro o clic directo)
         if (isset($_SESSION['open_login'])) {
@@ -25,6 +26,9 @@ class PageController {
             echo '<script>var openLoginRol = "' . addslashes($rol) . '";</script>';
         }
         
+=======
+
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         renderView('home');
     }
     

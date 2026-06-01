@@ -1,7 +1,19 @@
 <?php
+<<<<<<< HEAD
 $nombre_usuario = $nombre_usuario ?? 'Administrador';
 $id_especialidad = $id_especialidad ?? $_GET['id'] ?? 0;
 ?>
+=======
+// vista/especialidades/esp_detalle.php
+// Contenido principal para el detalle de especialidad
+// Este archivo se renderiza dentro del layout base dashboard.php
+
+// Los datos vienen del controlador a través de $data
+$nombre_usuario = $nombre_usuario ?? 'Administrador';
+$id_especialidad = $id_especialidad ?? $_GET['id'] ?? 0;
+?>
+
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 <!-- CSS Adicional para esta vista -->
 <style>
     .info-box-icon-custom {

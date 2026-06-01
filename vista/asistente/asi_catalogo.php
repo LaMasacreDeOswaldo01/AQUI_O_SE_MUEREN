@@ -1,7 +1,19 @@
 <?php
+<<<<<<< HEAD
 $nombre_usuario = $nombre_usuario ?? 'Usuario';
 $id_asistente = $id_asistente ?? $_SESSION['usuario'] ?? 0;
 ?>
+=======
+// vista/asistente/asi_catalogo.php
+// Contenido principal para el dashboard del asistente
+// Este archivo se renderiza dentro del layout base dashboard.php
+
+// Los datos vienen del controlador a través de $data
+$nombre_usuario = $nombre_usuario ?? 'Usuario';
+$id_asistente = $id_asistente ?? $_SESSION['usuario'] ?? 0;
+?>
+
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 <!-- CSS Adicional para esta vista -->
 <style>
     .welcome-stats {
@@ -590,11 +602,14 @@ $(document).ready(function() {
                                             <i class="fas fa-stethoscope"></i> ${escapeHtml(cita.consultorio || 'Consultorio')}
                                         </span>
                                     </div>
+<<<<<<< HEAD
                                     <div class="mt-2">
                                         <button class="btn btn-sm btn-primary btn-generar-factura" data-id="${cita.id_cita || ''}">
                                             <i class="fas fa-file-invoice-dollar"></i> Generar Factura
                                         </button>
                                     </div>
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
                                 </div>
                             </div>
                         `;
@@ -650,6 +665,7 @@ $(document).ready(function() {
         mostrarToast('Funcionalidad en desarrollo', 'info');
     });
     
+<<<<<<< HEAD
     // Generar factura desde el panel de asistente
     $(document).on('click', '.btn-generar-factura', function() {
         let idCita = $(this).data('id');
@@ -693,6 +709,8 @@ $(document).ready(function() {
         });
     });
     
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     // ==================== FUNCIONES UTILITARIAS ====================
     
     function mostrarToast(mensaje, tipo) {
