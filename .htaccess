@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 RewriteEngine On
 RewriteBase /biovital/
 
@@ -12,26 +11,3 @@ RewriteRule ^(.*)$ index.php [QSA,L]
 
 # Error 404 personalizado
 ErrorDocument 404 /biovital/index.php
-=======
-# 1. Desactivar el listado de directorios por seguridad
-# Evita que la gente husmee en tus carpetas de controladores, modelos o vistas
-Options -Indexes
-
-# 2. Activar el motor de redirección
-RewriteEngine On
-
-# Define la ruta base del proyecto
-RewriteBase /AQUI_O_SE_MUEREN-main/
-
-# 3. Excluir archivos, directorios y enlaces simbólicos reales
-# Si la petición apunta a una foto, un script JS o un CSS real, Apache lo sirve directamente
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d [OR]
-RewriteCond %{REQUEST_FILENAME} -l
-RewriteRule ^ - [L]
-
-# 4. Enrutamiento unificado al Front Controller
-# Todo lo que no sea un archivo real se procesa en el index.php manteniendo el Query String (?id=...)
-RewriteRule ^(.*)$ index.php [QSA,L]
-
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15

@@ -1,19 +1,7 @@
 <?php
-<<<<<<< HEAD
 $nombre_usuario = $nombre_usuario ?? 'Usuario';
 $id_paciente = $id_paciente ?? $_SESSION['usuario'] ?? 0;
 ?>
-=======
-// vista/paciente/pac_recetas.php
-// Contenido principal para la visualización de recetas del paciente
-// Este archivo se renderiza dentro del layout base dashboard.php
-
-// Los datos vienen del controlador a través de $data
-$nombre_usuario = $nombre_usuario ?? 'Usuario';
-$id_paciente = $id_paciente ?? $_SESSION['usuario'] ?? 0;
-?>
-
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 <!-- CSS Adicional para esta vista -->
 <style>
     .stats-card {
