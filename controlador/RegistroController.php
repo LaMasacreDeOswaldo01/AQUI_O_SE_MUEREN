@@ -43,6 +43,15 @@ class RegistroController {
     $adicional = trim($_POST['adicional'] ?? '');
     $pass = $_POST['pass'] ?? '';
     $confirm_pass = $_POST['confirm_pass'] ?? '';
+<<<<<<< HEAD
+    $pregunta_seguridad_1 = trim($_POST['pregunta_seguridad_1'] ?? '');
+    $respuesta_seguridad_1 = trim($_POST['respuesta_seguridad_1'] ?? '');
+    $pregunta_seguridad_2 = trim($_POST['pregunta_seguridad_2'] ?? '');
+    $respuesta_seguridad_2 = trim($_POST['respuesta_seguridad_2'] ?? '');
+    $pregunta_seguridad_3 = trim($_POST['pregunta_seguridad_3'] ?? '');
+    $respuesta_seguridad_3 = trim($_POST['respuesta_seguridad_3'] ?? '');
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     
     // ==================== OBTENER UBICACIÓN COMPLETA ====================
     $direccion_completa = $this->construirDireccionCompleta($_POST);
@@ -60,6 +69,36 @@ class RegistroController {
         $errores['ciudad'] = 'Debe seleccionar una ciudad';
     }
     
+<<<<<<< HEAD
+    // Validar pregunta y respuesta de seguridad
+    if (empty($pregunta_seguridad_1)) {
+        $errores['pregunta_seguridad_1'] = 'Debe seleccionar la pregunta de seguridad 1';
+    }
+    if (empty($respuesta_seguridad_1)) {
+        $errores['respuesta_seguridad_1'] = 'Debe proporcionar la respuesta de seguridad 1';
+    }
+    if (empty($pregunta_seguridad_2)) {
+        $errores['pregunta_seguridad_2'] = 'Debe seleccionar la pregunta de seguridad 2';
+    }
+    if (empty($respuesta_seguridad_2)) {
+        $errores['respuesta_seguridad_2'] = 'Debe proporcionar la respuesta de seguridad 2';
+    }
+    if (empty($pregunta_seguridad_3)) {
+        $errores['pregunta_seguridad_3'] = 'Debe seleccionar la pregunta de seguridad 3';
+    }
+    if (empty($respuesta_seguridad_3)) {
+        $errores['respuesta_seguridad_3'] = 'Debe proporcionar la respuesta de seguridad 3';
+    }
+    
+    // Validar que las preguntas sean diferentes
+    if ($pregunta_seguridad_1 == $pregunta_seguridad_2 || 
+        $pregunta_seguridad_1 == $pregunta_seguridad_3 || 
+        $pregunta_seguridad_2 == $pregunta_seguridad_3) {
+        $errores['pregunta_seguridad'] = 'Las preguntas de seguridad deben ser diferentes';
+    }
+    
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     // Si hay errores de validación, retornarlos
     if (!empty($errores)) {
         ApiResponse::validationError($errores, 'Por favor, corrija los siguientes errores');
@@ -95,6 +134,18 @@ class RegistroController {
     
     // ==================== RESPUESTA ====================
     if ($resultado['success']) {
+<<<<<<< HEAD
+        // Primero eliminar cualquier respuesta de seguridad previa del usuario
+        $seguridad = new RespuestaSeguridad();
+        $seguridad->eliminarTodas($resultado['id']);
+        
+        // Guardar las nuevas respuestas de seguridad
+        $seguridad->crear($resultado['id'], $pregunta_seguridad_1, $respuesta_seguridad_1);
+        $seguridad->crear($resultado['id'], $pregunta_seguridad_2, $respuesta_seguridad_2);
+        $seguridad->crear($resultado['id'], $pregunta_seguridad_3, $respuesta_seguridad_3);
+        
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         ApiResponse::created([
             'redirect' => APP_URL . '/login/paciente',
             'user_id' => $resultado['id'],
@@ -127,6 +178,15 @@ class RegistroController {
         $adicional = trim($_POST['adicional'] ?? '');
         $pass = $_POST['pass'] ?? '';
         $confirm_pass = $_POST['confirm_pass'] ?? '';
+<<<<<<< HEAD
+        $pregunta_seguridad_1 = trim($_POST['pregunta_seguridad_1'] ?? '');
+        $respuesta_seguridad_1 = trim($_POST['respuesta_seguridad_1'] ?? '');
+        $pregunta_seguridad_2 = trim($_POST['pregunta_seguridad_2'] ?? '');
+        $respuesta_seguridad_2 = trim($_POST['respuesta_seguridad_2'] ?? '');
+        $pregunta_seguridad_3 = trim($_POST['pregunta_seguridad_3'] ?? '');
+        $respuesta_seguridad_3 = trim($_POST['respuesta_seguridad_3'] ?? '');
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         
         // ==================== OBTENER UBICACIÓN COMPLETA ====================
         $direccion_completa = $this->construirDireccionCompleta($_POST);
@@ -144,6 +204,36 @@ class RegistroController {
             $errores['ciudad'] = 'Debe seleccionar una ciudad';
         }
         
+<<<<<<< HEAD
+        // Validar pregunta y respuesta de seguridad
+        if (empty($pregunta_seguridad_1)) {
+            $errores['pregunta_seguridad_1'] = 'Debe seleccionar la pregunta de seguridad 1';
+        }
+        if (empty($respuesta_seguridad_1)) {
+            $errores['respuesta_seguridad_1'] = 'Debe proporcionar la respuesta de seguridad 1';
+        }
+        if (empty($pregunta_seguridad_2)) {
+            $errores['pregunta_seguridad_2'] = 'Debe seleccionar la pregunta de seguridad 2';
+        }
+        if (empty($respuesta_seguridad_2)) {
+            $errores['respuesta_seguridad_2'] = 'Debe proporcionar la respuesta de seguridad 2';
+        }
+        if (empty($pregunta_seguridad_3)) {
+            $errores['pregunta_seguridad_3'] = 'Debe seleccionar la pregunta de seguridad 3';
+        }
+        if (empty($respuesta_seguridad_3)) {
+            $errores['respuesta_seguridad_3'] = 'Debe proporcionar la respuesta de seguridad 3';
+        }
+        
+        // Validar que las preguntas sean diferentes
+        if ($pregunta_seguridad_1 == $pregunta_seguridad_2 || 
+            $pregunta_seguridad_1 == $pregunta_seguridad_3 || 
+            $pregunta_seguridad_2 == $pregunta_seguridad_3) {
+            $errores['pregunta_seguridad'] = 'Las preguntas de seguridad deben ser diferentes';
+        }
+        
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         // Si hay errores de validación, retornarlos
         if (!empty($errores)) {
             ApiResponse::validationError($errores, 'Por favor, corrija los siguientes errores');
@@ -179,6 +269,18 @@ class RegistroController {
         
         // ==================== RESPUESTA ====================
         if ($resultado['success']) {
+<<<<<<< HEAD
+            // Primero eliminar cualquier respuesta de seguridad previa del usuario
+            $seguridad = new RespuestaSeguridad();
+            $seguridad->eliminarTodas($resultado['id']);
+            
+            // Guardar las nuevas respuestas de seguridad
+            $seguridad->crear($resultado['id'], $pregunta_seguridad_1, $respuesta_seguridad_1);
+            $seguridad->crear($resultado['id'], $pregunta_seguridad_2, $respuesta_seguridad_2);
+            $seguridad->crear($resultado['id'], $pregunta_seguridad_3, $respuesta_seguridad_3);
+            
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
             ApiResponse::created([
                 'redirect' => APP_URL . '/login/medico',
                 'user_id' => $resultado['id'],
@@ -209,6 +311,15 @@ class RegistroController {
         $adicional = trim($_POST['adicional'] ?? '');
         $pass = $_POST['pass'] ?? '';
         $confirm_pass = $_POST['confirm_pass'] ?? '';
+<<<<<<< HEAD
+        $pregunta_seguridad_1 = trim($_POST['pregunta_seguridad_1'] ?? '');
+        $respuesta_seguridad_1 = trim($_POST['respuesta_seguridad_1'] ?? '');
+        $pregunta_seguridad_2 = trim($_POST['pregunta_seguridad_2'] ?? '');
+        $respuesta_seguridad_2 = trim($_POST['respuesta_seguridad_2'] ?? '');
+        $pregunta_seguridad_3 = trim($_POST['pregunta_seguridad_3'] ?? '');
+        $respuesta_seguridad_3 = trim($_POST['respuesta_seguridad_3'] ?? '');
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         
         // ==================== OBTENER UBICACIÓN COMPLETA ====================
         $direccion_completa = $this->construirDireccionCompleta($_POST);
@@ -226,6 +337,36 @@ class RegistroController {
             $errores['ciudad'] = 'Debe seleccionar una ciudad';
         }
         
+<<<<<<< HEAD
+        // Validar pregunta y respuesta de seguridad
+        if (empty($pregunta_seguridad_1)) {
+            $errores['pregunta_seguridad_1'] = 'Debe seleccionar la pregunta de seguridad 1';
+        }
+        if (empty($respuesta_seguridad_1)) {
+            $errores['respuesta_seguridad_1'] = 'Debe proporcionar la respuesta de seguridad 1';
+        }
+        if (empty($pregunta_seguridad_2)) {
+            $errores['pregunta_seguridad_2'] = 'Debe seleccionar la pregunta de seguridad 2';
+        }
+        if (empty($respuesta_seguridad_2)) {
+            $errores['respuesta_seguridad_2'] = 'Debe proporcionar la respuesta de seguridad 2';
+        }
+        if (empty($pregunta_seguridad_3)) {
+            $errores['pregunta_seguridad_3'] = 'Debe seleccionar la pregunta de seguridad 3';
+        }
+        if (empty($respuesta_seguridad_3)) {
+            $errores['respuesta_seguridad_3'] = 'Debe proporcionar la respuesta de seguridad 3';
+        }
+        
+        // Validar que las preguntas sean diferentes
+        if ($pregunta_seguridad_1 == $pregunta_seguridad_2 || 
+            $pregunta_seguridad_1 == $pregunta_seguridad_3 || 
+            $pregunta_seguridad_2 == $pregunta_seguridad_3) {
+            $errores['pregunta_seguridad'] = 'Las preguntas de seguridad deben ser diferentes';
+        }
+        
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         // Si hay errores de validación, retornarlos
         if (!empty($errores)) {
             ApiResponse::validationError($errores, 'Por favor, corrija los siguientes errores');
@@ -260,6 +401,18 @@ class RegistroController {
         
         // ==================== RESPUESTA ====================
         if ($resultado['success']) {
+<<<<<<< HEAD
+            // Primero eliminar cualquier respuesta de seguridad previa del usuario
+            $seguridad = new RespuestaSeguridad();
+            $seguridad->eliminarTodas($resultado['id']);
+            
+            // Guardar las nuevas respuestas de seguridad
+            $seguridad->crear($resultado['id'], $pregunta_seguridad_1, $respuesta_seguridad_1);
+            $seguridad->crear($resultado['id'], $pregunta_seguridad_2, $respuesta_seguridad_2);
+            $seguridad->crear($resultado['id'], $pregunta_seguridad_3, $respuesta_seguridad_3);
+            
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
             ApiResponse::created([
                 'redirect' => APP_URL . '/login/asistente',
                 'user_id' => $resultado['id'],
@@ -291,6 +444,15 @@ class RegistroController {
         $adicional = trim($_POST['adicional'] ?? '');
         $pass = $_POST['pass'] ?? '';
         $confirm_pass = $_POST['confirm_pass'] ?? '';
+<<<<<<< HEAD
+        $pregunta_seguridad_1 = trim($_POST['pregunta_seguridad_1'] ?? '');
+        $respuesta_seguridad_1 = trim($_POST['respuesta_seguridad_1'] ?? '');
+        $pregunta_seguridad_2 = trim($_POST['pregunta_seguridad_2'] ?? '');
+        $respuesta_seguridad_2 = trim($_POST['respuesta_seguridad_2'] ?? '');
+        $pregunta_seguridad_3 = trim($_POST['pregunta_seguridad_3'] ?? '');
+        $respuesta_seguridad_3 = trim($_POST['respuesta_seguridad_3'] ?? '');
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         
         // ==================== OBTENER UBICACIÓN COMPLETA ====================
         $direccion_completa = $this->construirDireccionCompleta($_POST);
@@ -308,6 +470,36 @@ class RegistroController {
             $errores['ciudad'] = 'Debe seleccionar una ciudad';
         }
         
+<<<<<<< HEAD
+        // Validar pregunta y respuesta de seguridad
+        if (empty($pregunta_seguridad_1)) {
+            $errores['pregunta_seguridad_1'] = 'Debe seleccionar la pregunta de seguridad 1';
+        }
+        if (empty($respuesta_seguridad_1)) {
+            $errores['respuesta_seguridad_1'] = 'Debe proporcionar la respuesta de seguridad 1';
+        }
+        if (empty($pregunta_seguridad_2)) {
+            $errores['pregunta_seguridad_2'] = 'Debe seleccionar la pregunta de seguridad 2';
+        }
+        if (empty($respuesta_seguridad_2)) {
+            $errores['respuesta_seguridad_2'] = 'Debe proporcionar la respuesta de seguridad 2';
+        }
+        if (empty($pregunta_seguridad_3)) {
+            $errores['pregunta_seguridad_3'] = 'Debe seleccionar la pregunta de seguridad 3';
+        }
+        if (empty($respuesta_seguridad_3)) {
+            $errores['respuesta_seguridad_3'] = 'Debe proporcionar la respuesta de seguridad 3';
+        }
+        
+        // Validar que las preguntas sean diferentes
+        if ($pregunta_seguridad_1 == $pregunta_seguridad_2 || 
+            $pregunta_seguridad_1 == $pregunta_seguridad_3 || 
+            $pregunta_seguridad_2 == $pregunta_seguridad_3) {
+            $errores['pregunta_seguridad'] = 'Las preguntas de seguridad deben ser diferentes';
+        }
+        
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         // Si hay errores de validación, retornarlos
         if (!empty($errores)) {
             ApiResponse::validationError($errores, 'Por favor, corrija los siguientes errores');
@@ -342,6 +534,18 @@ class RegistroController {
         
         // ==================== RESPUESTA ====================
         if ($resultado['success']) {
+<<<<<<< HEAD
+            // Primero eliminar cualquier respuesta de seguridad previa del usuario
+            $seguridad = new RespuestaSeguridad();
+            $seguridad->eliminarTodas($resultado['id']);
+            
+            // Guardar las nuevas respuestas de seguridad
+            $seguridad->crear($resultado['id'], $pregunta_seguridad_1, $respuesta_seguridad_1);
+            $seguridad->crear($resultado['id'], $pregunta_seguridad_2, $respuesta_seguridad_2);
+            $seguridad->crear($resultado['id'], $pregunta_seguridad_3, $respuesta_seguridad_3);
+            
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
             ApiResponse::created([
                 'redirect' => APP_URL . '/login/administrador',
                 'user_id' => $resultado['id'],

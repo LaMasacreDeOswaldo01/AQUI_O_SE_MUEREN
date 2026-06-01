@@ -6,7 +6,11 @@ return [
     'home' => ['controller' => 'PageController', 'action' => 'home', 'auth' => false],
     
     // ==================== LOGIN ====================
+<<<<<<< HEAD
+    'login' => ['controller' => 'AuthController', 'action' => 'login', 'method' => 'POST', 'auth' => false],
+=======
     'login' => ['controller' => 'AuthController', 'action' => 'login', 'auth' => false],
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     'login/:rol' => ['controller' => 'PageController', 'action' => 'loginRedirect', 'auth' => false],
     'logout' => ['controller' => 'AuthController', 'action' => 'logout', 'auth' => true],
     
@@ -22,6 +26,15 @@ return [
     'api/registro/asistente' => ['controller' => 'RegistroController', 'action' => 'crearAsistente', 'method' => 'POST', 'auth' => false],
     'api/registro/administrador' => ['controller' => 'RegistroController', 'action' => 'crearAdministrador', 'method' => 'POST', 'auth' => false],
     
+<<<<<<< HEAD
+    // ==================== API RECUPERACIÓN DE CUENTA ====================
+    'api/recuperacion/buscar' => ['controller' => 'RecuperacionController', 'action' => 'buscarUsuario', 'method' => 'POST', 'auth' => false],
+    'api/recuperacion/verificar' => ['controller' => 'RecuperacionController', 'action' => 'verificarRespuestas', 'method' => 'POST', 'auth' => false],
+    'api/recuperacion/usuario' => ['controller' => 'RecuperacionController', 'action' => 'obtenerUsuario', 'method' => 'POST', 'auth' => false],
+    'api/recuperacion/password' => ['controller' => 'RecuperacionController', 'action' => 'cambiarPassword', 'method' => 'POST', 'auth' => false],
+    
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     // ==================== PANELES (usando ViewHelper) ====================
     'panel/paciente' => ['controller' => 'PanelController', 'action' => 'paciente', 'rol' => 'paciente'],
     'panel/medico' => ['controller' => 'PanelController', 'action' => 'medico', 'rol' => 'medico'],
@@ -98,9 +111,14 @@ return [
     'consultorios' => ['controller' => 'ConsultorioController', 'action' => 'index', 'rol' => 'administrador'],
     'consultorios/crear' => ['controller' => 'ConsultorioController', 'action' => 'crear', 'rol' => 'administrador'],
     'consultorios/editar' => ['controller' => 'ConsultorioController', 'action' => 'editar', 'rol' => 'administrador'],
+<<<<<<< HEAD
+    'consultorios/detalle/:id' => ['controller' => 'ConsultorioController', 'action' => 'detalle', 'rol' => 'administrador'],
+    //'consultorios/horarios' => ['controller' => 'ConsultorioController', 'action' => 'horarios', 'rol' => 'administrador'],
+=======
     'consultorios/detalle' => ['controller' => 'ConsultorioController', 'action' => 'detalle', 'rol' => 'administrador'],
     'consultorios/detalle/:id' => ['controller' => 'ConsultorioController', 'action' => 'detalle', 'rol' => 'administrador'],
     'consultorios/horarios' => ['controller' => 'ConsultorioController', 'action' => 'horarios', 'rol' => 'administrador'],
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     'consultorios/horarios/:id' => ['controller' => 'ConsultorioController', 'action' => 'horarios', 'rol' => 'administrador'], 
     'api/consultorios/listar' => ['controller' => 'ConsultorioController', 'action' => 'listar', 'method' => 'POST', 'rol' => 'administrador'],
     'api/consultorios/crear' => ['controller' => 'ConsultorioController', 'action' => 'crearConsultorio', 'method' => 'POST', 'rol' => 'administrador'],
@@ -120,7 +138,10 @@ return [
     // ==================== ESPECIALIDADES ====================
     'especialidades' => ['controller' => 'EspecialidadController', 'action' => 'index', 'rol' => 'administrador'],
     'especialidades/crear' => ['controller' => 'EspecialidadController', 'action' => 'crear', 'rol' => 'administrador'],
+<<<<<<< HEAD
+=======
     'especialidades/editar' => ['controller' => 'EspecialidadController', 'action' => 'editar', 'rol' => 'administrador'],
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     'especialidades/editar/:id' => ['controller' => 'EspecialidadController', 'action' => 'editar', 'rol' => 'administrador'], 
     'especialidades/detalle/:id' => ['controller' => 'EspecialidadController', 'action' => 'detalle', 'rol' => 'administrador'],
     'especialidades/asignar-medico/:id' => ['controller' => 'EspecialidadController', 'action' => 'asignarMedico', 'rol' => 'administrador'],
@@ -145,6 +166,20 @@ return [
     'api/recetas/mis-recetas' => ['controller' => 'RecetaController', 'action' => 'misRecetas', 'method' => 'POST', 'rol' => 'paciente'],
     'api/recetas/estadisticas' => ['controller' => 'RecetaController', 'action' => 'estadisticas', 'method' => 'POST', 'rol' => 'administrador'],
     
+<<<<<<< HEAD
+    // ==================== FACTURAS ====================
+    'facturas' => ['controller' => 'FacturaController', 'action' => 'listar', 'rol' => ['asistente', 'administrador']],
+    'factura/ver' => ['controller' => 'FacturaController', 'action' => 'ver', 'auth' => true],
+    'paciente/facturas' => ['controller' => 'FacturaController', 'action' => 'misFacturas', 'rol' => 'paciente'],
+    'api/facturas/generar' => ['controller' => 'FacturaController', 'action' => 'generar', 'method' => 'POST', 'rol' => ['asistente', 'administrador']],
+    'api/facturas/listar' => ['controller' => 'FacturaController', 'action' => 'listarAPI', 'method' => 'POST', 'auth' => true],
+    'api/facturas/obtener' => ['controller' => 'FacturaController', 'action' => 'obtener', 'method' => 'POST', 'auth' => true],
+    'api/facturas/confirmar-pago' => ['controller' => 'FacturaController', 'action' => 'confirmarPago', 'method' => 'POST', 'auth' => true],
+    'api/facturas/actualizar' => ['controller' => 'FacturaController', 'action' => 'actualizar', 'method' => 'POST', 'rol' => ['asistente', 'administrador']],
+    'api/facturas/eliminar' => ['controller' => 'FacturaController', 'action' => 'eliminar', 'method' => 'POST', 'rol' => 'administrador'],
+    
+=======
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     // ==================== CSRF ====================
     'api/csrf/token' => ['controller' => 'CSRFController', 'action' => 'getToken', 'method' => 'POST', 'auth' => false],
 ];

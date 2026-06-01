@@ -1,4 +1,8 @@
 <?php
+<<<<<<< HEAD
+$nombre_usuario = $nombre_usuario ?? 'Administrador';
+?>
+=======
 // vista/administrador/adm_recetas.php
 // Contenido principal para la gestión de recetas médicas (Administrador)
 // Este archivo se renderiza dentro del layout base dashboard.php
@@ -7,6 +11,7 @@
 $nombre_usuario = $nombre_usuario ?? 'Administrador';
 ?>
 
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 <!-- CSS Adicional para esta vista -->
 <style>
     .stats-card {

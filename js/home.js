@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', function () {
   setupAnimations();
   setupCounters();
   setupContactForm();
+<<<<<<< HEAD
+});
+
+=======
   checkOpenLoginParam();
 });
 
@@ -32,6 +36,7 @@ function checkOpenLoginParam() {
   }
 }
 
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 // ========== NAVIGATION ==========
 function setupNavigation() {
   if (hamburger) {

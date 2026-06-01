@@ -40,6 +40,11 @@ class AuthController {
     
     /**
      * Procesa el inicio de sesión
+<<<<<<< HEAD
+     * POST /login
+     */
+    public function login() {
+=======
      * GET /login o POST /login
      */
     public function login() {
@@ -52,6 +57,7 @@ class AuthController {
             redirect('?openLogin=' . $rol);
             return;
         }
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         // Obtener datos del formulario
         $user = trim($_POST['user'] ?? '');
         $pass = $_POST['pass'] ?? '';

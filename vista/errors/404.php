@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 <?php
 // Configurar APP_URL si no está definido
 if (!defined('APP_URL')) {
@@ -8,10 +10,19 @@ if (!defined('APP_URL')) {
     define('APP_URL', $baseUrl);
 }
 ?>
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+<<<<<<< HEAD
+    <title>404 - Página no encontrada</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+=======
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - Página no encontrada | BioVital</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -22,18 +33,53 @@ if (!defined('APP_URL')) {
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, #0077b6 0%, #4e73df 100%);
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 0;
+<<<<<<< HEAD
+        }
+=======
             padding: 20px;
         }
         
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         .error-container {
             text-align: center;
             color: white;
             padding: 40px;
+<<<<<<< HEAD
+        }
+        h1 {
+            font-size: 120px;
+            margin: 0;
+            text-shadow: 4px 4px 0 rgba(0,0,0,0.2);
+        }
+        h2 {
+            font-size: 32px;
+            margin: 20px 0;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        .btn-home {
+            background: white;
+            color: #667eea;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s;
+            display: inline-block;
+        }
+        .btn-home:hover {
+            transform: scale(1.05);
+            color: #764ba2;
+=======
             max-width: 500px;
         }
         
@@ -96,11 +142,18 @@ if (!defined('APP_URL')) {
             h1 { font-size: 80px; }
             h2 { font-size: 1.4rem; }
             .error-container { padding: 20px; }
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         }
     </style>
 </head>
 <body>
     <div class="error-container">
+<<<<<<< HEAD
+        <h1>404</h1>
+        <h2>¡Página no encontrada!</h2>
+        <p>Lo sentimos, la página que buscas no existe o ha sido movida.</p>
+        <a href="<?php echo dirname($_SERVER['SCRIPT_NAME']); ?>" class="btn-home">
+=======
         <div class="error-logo">
             <img src="<?php echo APP_URL; ?>/img/logo_blanco.png" alt="BioVital">
         </div>
@@ -108,6 +161,7 @@ if (!defined('APP_URL')) {
         <h2>¡Página no encontrada!</h2>
         <p>Lo sentimos, la página que buscas no existe o ha sido movida.</p>
         <a href="<?php echo APP_URL; ?>" class="btn-home">
+>>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
             <i class="fas fa-home"></i> Volver al inicio
         </a>
     </div>
