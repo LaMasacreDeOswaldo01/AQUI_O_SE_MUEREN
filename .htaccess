@@ -1,13 +1,21 @@
+# 1. Desactivar el listado de directorios por seguridad
+# Evita que la gente husmee en tus carpetas de controladores, modelos o vistas
+Options -Indexes
+
+# 2. Activar el motor de redirección
 RewriteEngine On
+
+# Define la ruta base del proyecto
 RewriteBase /AQUI_O_SE_MUEREN-main/
 
-# Si el archivo o directorio existe, sírvelo directamente
+# 3. Excluir archivos, directorios y enlaces simbólicos reales
+# Si la petición apunta a una foto, un script JS o un CSS real, Apache lo sirve directamente
 RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_FILENAME} -d [OR]
+RewriteCond %{REQUEST_FILENAME} -l
 RewriteRule ^ - [L]
 
-# Redirigir todo lo demás a index.php
+# 4. Enrutamiento unificado al Front Controller
+# Todo lo que no sea un archivo real se procesa en el index.php manteniendo el Query String (?id=...)
 RewriteRule ^(.*)$ index.php [QSA,L]
 
-# Error 404 personalizado
-ErrorDocument 404 /AQUI_O_SE_MUEREN-main/index.php
