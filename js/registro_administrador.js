@@ -74,6 +74,12 @@ $(document).ready(function() {
             sexo: $('#sexo').val(),
             adicional: $('#adicional').val(),
             pass: pass,
+            pregunta_seguridad_1: $('#pregunta_seguridad_1').val(),
+            respuesta_seguridad_1: $('#respuesta_seguridad_1').val().trim(),
+            pregunta_seguridad_2: $('#pregunta_seguridad_2').val(),
+            respuesta_seguridad_2: $('#respuesta_seguridad_2').val().trim(),
+            pregunta_seguridad_3: $('#pregunta_seguridad_3').val(),
+            respuesta_seguridad_3: $('#respuesta_seguridad_3').val().trim(),
             csrf_token: $('input[name="csrf_token"]').val()
         };
         

@@ -217,6 +217,7 @@ class CitaController {
     
     public function obtenerDetalle() {
         $id_paciente = $_SESSION['usuario'];
+        $rol = $_SESSION['rol'] ?? '';
         $id_cita = isset($_POST['id_cita']) ? (int)$_POST['id_cita'] : 0;
         
         if ($id_cita <= 0) {
@@ -224,11 +225,18 @@ class CitaController {
             return;
         }
         
-        $cita = $this->cita->obtenerDetalle($id_cita, $id_paciente);
+        // Asistentes y administradores pueden ver cualquier cita
+        if (in_array($rol, ['asistente', 'administrador'])) {
+            $cita = $this->cita->obtenerDetalle($id_cita, 0);
+        } else {
+            $cita = $this->cita->obtenerDetalle($id_cita, $id_paciente);
+        }
         
         if ($cita) {
             ApiResponse::success([
                 'id_cita' => $cita->id_cita,
+                'id_paciente' => $cita->id_paciente,
+                'id_medico' => $cita->id_medico,
                 'especialidad' => $cita->especialidad_nombre,
                 'medico' => $cita->medico_nombre,
                 'fecha' => $cita->fecha_cita,
@@ -239,7 +247,8 @@ class CitaController {
                 'consultorio_nombre' => $cita->consultorio_nombre,
                 'consultorio_direccion' => $cita->consultorio_direccion,
                 'consultorio_telefono' => $cita->consultorio_telefono,
-                'consultorio_email' => $cita->consultorio_email
+                'consultorio_email' => $cita->consultorio_email,
+                'rol_actual' => $rol
             ]);
         } else {
             ApiResponse::notFound('Cita');

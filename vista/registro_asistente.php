@@ -467,6 +467,81 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-group required">
+                                    <label for="pregunta_seguridad_1">Pregunta de Seguridad 1</label>
+                                    <select class="form-control" id="pregunta_seguridad_1" name="pregunta_seguridad_1" required>
+                                        <option value="">Seleccione una pregunta...</option>
+                                        <option value="¿Cuál es el nombre de tu primera mascota?">¿Cuál es el nombre de tu primera mascota?</option>
+                                        <option value="¿En qué ciudad naciste?">¿En qué ciudad naciste?</option>
+                                        <option value="¿Cuál es el apellido de soltera de tu madre?">¿Cuál es el apellido de soltera de tu madre?</option>
+                                        <option value="¿Cuál fue tu primer trabajo?">¿Cuál fue tu primer trabajo?</option>
+                                        <option value="¿Cuál es tu comida favorita?">¿Cuál es tu comida favorita?</option>
+                                    </select>
+                                    <small class="form-text text-muted">Úsela para recuperar su cuenta</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group required">
+                                    <label for="respuesta_seguridad_1">Respuesta de Seguridad 1</label>
+                                    <input type="text" class="form-control" id="respuesta_seguridad_1" name="respuesta_seguridad_1" 
+                                           placeholder="Su respuesta secreta" required>
+                                    <small class="form-text text-muted">Recuerde esta respuesta</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-group required">
+                                    <label for="pregunta_seguridad_2">Pregunta de Seguridad 2</label>
+                                    <select class="form-control" id="pregunta_seguridad_2" name="pregunta_seguridad_2" required>
+                                        <option value="">Seleccione una pregunta...</option>
+                                        <option value="¿Cuál es el nombre de tu primera mascota?">¿Cuál es el nombre de tu primera mascota?</option>
+                                        <option value="¿En qué ciudad naciste?">¿En qué ciudad naciste?</option>
+                                        <option value="¿Cuál es el apellido de soltera de tu madre?">¿Cuál es el apellido de soltera de tu madre?</option>
+                                        <option value="¿Cuál fue tu primer trabajo?">¿Cuál fue tu primer trabajo?</option>
+                                        <option value="¿Cuál es tu comida favorita?">¿Cuál es tu comida favorita?</option>
+                                    </select>
+                                    <small class="form-text text-muted">Úsela para recuperar su cuenta</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group required">
+                                    <label for="respuesta_seguridad_2">Respuesta de Seguridad 2</label>
+                                    <input type="text" class="form-control" id="respuesta_seguridad_2" name="respuesta_seguridad_2" 
+                                           placeholder="Su respuesta secreta" required>
+                                    <small class="form-text text-muted">Recuerde esta respuesta</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-group required">
+                                    <label for="pregunta_seguridad_3">Pregunta de Seguridad 3</label>
+                                    <select class="form-control" id="pregunta_seguridad_3" name="pregunta_seguridad_3" required>
+                                        <option value="">Seleccione una pregunta...</option>
+                                        <option value="¿Cuál es el nombre de tu primera mascota?">¿Cuál es el nombre de tu primera mascota?</option>
+                                        <option value="¿En qué ciudad naciste?">¿En qué ciudad naciste?</option>
+                                        <option value="¿Cuál es el apellido de soltera de tu madre?">¿Cuál es el apellido de soltera de tu madre?</option>
+                                        <option value="¿Cuál fue tu primer trabajo?">¿Cuál fue tu primer trabajo?</option>
+                                        <option value="¿Cuál es tu comida favorita?">¿Cuál es tu comida favorita?</option>
+                                    </select>
+                                    <small class="form-text text-muted">Úsela para recuperar su cuenta</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group required">
+                                    <label for="respuesta_seguridad_3">Respuesta de Seguridad 3</label>
+                                    <input type="text" class="form-control" id="respuesta_seguridad_3" name="respuesta_seguridad_3" 
+                                           placeholder="Su respuesta secreta" required>
+                                    <small class="form-text text-muted">Recuerde esta respuesta</small>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="d-flex justify-content-between">
@@ -666,6 +741,12 @@ $(document).ready(function() {
             adicional: $('#adicional').val().trim(),
             pass: pass,
             confirm_pass: confirm_pass,
+            pregunta_seguridad_1: $('#pregunta_seguridad_1').val(),
+            respuesta_seguridad_1: $('#respuesta_seguridad_1').val().trim(),
+            pregunta_seguridad_2: $('#pregunta_seguridad_2').val(),
+            respuesta_seguridad_2: $('#respuesta_seguridad_2').val().trim(),
+            pregunta_seguridad_3: $('#pregunta_seguridad_3').val(),
+            respuesta_seguridad_3: $('#respuesta_seguridad_3').val().trim(),
             estado: $('#estado_id').val(),
             ciudad: $('#ciudad_id').val(),
             municipio: $('#municipio_id').val(),

@@ -170,6 +170,12 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
                                 <p>Recetas</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="<?php echo APP_URL; ?>/facturas" class="nav-link <?php echo ($active_page ?? '') === 'facturas' ? 'active' : ''; ?>">
+                                <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                                <p>Facturas</p>
+                            </a>
+                        </li>
                         
                         <li class="nav-header">REPORTES</li>
                         <li class="nav-item">
@@ -194,6 +200,12 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
         <a href="<?php echo APP_URL; ?>/recetas" class="nav-link <?php echo ($active_page ?? '') === 'recetas' ? 'active' : ''; ?>">
             <i class="nav-icon fas fa-prescription-bottle-alt"></i>
             <p>Recetas</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/facturas" class="nav-link <?php echo ($active_page ?? '') === 'facturas' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-file-invoice-dollar"></i>
+            <p>Facturas</p>
         </a>
     </li>
     
@@ -222,6 +234,12 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
             <p>Recetas</p>
         </a>
     </li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/facturas" class="nav-link <?php echo ($active_page ?? '') === 'facturas' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-file-invoice-dollar"></i>
+            <p>Facturas</p>
+        </a>
+    </li>
     
 <?php elseif ($current_role === 'paciente'): ?>
     <!-- Menú de Paciente -->
@@ -238,6 +256,12 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
         <a href="<?php echo APP_URL; ?>/paciente/recetas" class="nav-link <?php echo ($active_page ?? '') === 'recetas' ? 'active' : ''; ?>">
             <i class="nav-icon fas fa-prescription-bottle-alt"></i>
             <p>Mis Recetas</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/paciente/facturas" class="nav-link <?php echo ($active_page ?? '') === 'facturas' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-file-invoice-dollar"></i>
+            <p>Mis Facturas</p>
         </a>
     </li>
     

@@ -22,6 +22,12 @@ return [
     'api/registro/asistente' => ['controller' => 'RegistroController', 'action' => 'crearAsistente', 'method' => 'POST', 'auth' => false],
     'api/registro/administrador' => ['controller' => 'RegistroController', 'action' => 'crearAdministrador', 'method' => 'POST', 'auth' => false],
     
+    // ==================== API RECUPERACIÓN DE CUENTA ====================
+    'api/recuperacion/buscar' => ['controller' => 'RecuperacionController', 'action' => 'buscarUsuario', 'method' => 'POST', 'auth' => false],
+    'api/recuperacion/verificar' => ['controller' => 'RecuperacionController', 'action' => 'verificarRespuestas', 'method' => 'POST', 'auth' => false],
+    'api/recuperacion/usuario' => ['controller' => 'RecuperacionController', 'action' => 'obtenerUsuario', 'method' => 'POST', 'auth' => false],
+    'api/recuperacion/password' => ['controller' => 'RecuperacionController', 'action' => 'cambiarPassword', 'method' => 'POST', 'auth' => false],
+    
     // ==================== PANELES (usando ViewHelper) ====================
     'panel/paciente' => ['controller' => 'PanelController', 'action' => 'paciente', 'rol' => 'paciente'],
     'panel/medico' => ['controller' => 'PanelController', 'action' => 'medico', 'rol' => 'medico'],
@@ -142,6 +148,17 @@ return [
     'api/recetas/buscar-pacientes' => ['controller' => 'RecetaController', 'action' => 'buscarPacientes', 'method' => 'POST', 'rol' => ['medico', 'asistente']],
     'api/recetas/mis-recetas' => ['controller' => 'RecetaController', 'action' => 'misRecetas', 'method' => 'POST', 'rol' => 'paciente'],
     'api/recetas/estadisticas' => ['controller' => 'RecetaController', 'action' => 'estadisticas', 'method' => 'POST', 'rol' => 'administrador'],
+    
+    // ==================== FACTURAS ====================
+    'facturas' => ['controller' => 'FacturaController', 'action' => 'listar', 'rol' => ['asistente', 'administrador']],
+    'factura/ver' => ['controller' => 'FacturaController', 'action' => 'ver', 'auth' => true],
+    'paciente/facturas' => ['controller' => 'FacturaController', 'action' => 'misFacturas', 'rol' => 'paciente'],
+    'api/facturas/generar' => ['controller' => 'FacturaController', 'action' => 'generar', 'method' => 'POST', 'rol' => ['asistente', 'administrador']],
+    'api/facturas/listar' => ['controller' => 'FacturaController', 'action' => 'listarAPI', 'method' => 'POST', 'auth' => true],
+    'api/facturas/obtener' => ['controller' => 'FacturaController', 'action' => 'obtener', 'method' => 'POST', 'auth' => true],
+    'api/facturas/confirmar-pago' => ['controller' => 'FacturaController', 'action' => 'confirmarPago', 'method' => 'POST', 'auth' => true],
+    'api/facturas/actualizar' => ['controller' => 'FacturaController', 'action' => 'actualizar', 'method' => 'POST', 'rol' => ['asistente', 'administrador']],
+    'api/facturas/eliminar' => ['controller' => 'FacturaController', 'action' => 'eliminar', 'method' => 'POST', 'rol' => 'administrador'],
     
     // ==================== CSRF ====================
     'api/csrf/token' => ['controller' => 'CSRFController', 'action' => 'getToken', 'method' => 'POST', 'auth' => false],

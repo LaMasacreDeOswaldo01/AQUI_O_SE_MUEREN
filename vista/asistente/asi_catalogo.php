@@ -590,6 +590,11 @@ $(document).ready(function() {
                                             <i class="fas fa-stethoscope"></i> ${escapeHtml(cita.consultorio || 'Consultorio')}
                                         </span>
                                     </div>
+                                    <div class="mt-2">
+                                        <button class="btn btn-sm btn-primary btn-generar-factura" data-id="${cita.id_cita || ''}">
+                                            <i class="fas fa-file-invoice-dollar"></i> Generar Factura
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         `;
@@ -643,6 +648,49 @@ $(document).ready(function() {
     $('#btnTriaje, #verTodasCitas').click(function(e) {
         e.preventDefault();
         mostrarToast('Funcionalidad en desarrollo', 'info');
+    });
+    
+    // Generar factura desde el panel de asistente
+    $(document).on('click', '.btn-generar-factura', function() {
+        let idCita = $(this).data('id');
+        if (!idCita) {
+            mostrarToast('ID de cita no válido', 'error');
+            return;
+        }
+        
+        if (!confirm('¿Desea generar una factura para esta cita?')) {
+            return;
+        }
+        
+        let $btn = $(this);
+        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Generando...');
+        
+        $.ajax({
+            url: APP_URL + '/api/facturas/generar',
+            type: 'POST',
+            data: { id_cita: idCita },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    mostrarToast('Factura generada exitosamente', 'success');
+                    if (response.data && response.data.redirect) {
+                        window.location.href = response.data.redirect;
+                    }
+                } else {
+                    mostrarToast(response.message || 'Error al generar factura', 'error');
+                }
+            },
+            error: function(xhr) {
+                let errorMsg = 'Error de conexión';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMsg = xhr.responseJSON.message;
+                }
+                mostrarToast(errorMsg, 'error');
+            },
+            complete: function() {
+                $btn.prop('disabled', false).html('<i class="fas fa-file-invoice-dollar"></i> Generar Factura');
+            }
+        });
     });
     
     // ==================== FUNCIONES UTILITARIAS ====================

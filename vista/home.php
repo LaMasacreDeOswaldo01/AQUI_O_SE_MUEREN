@@ -364,8 +364,74 @@
                     <div class="register-link" id="registerLink">
                         <a href="#" id="registerButton">¿No tienes cuenta? Regístrate aquí</a>
                     </div>
+                    <div class="register-link">
+                        <a href="#" id="recoverButton" data-bs-toggle="modal" data-bs-target="#recoverModal">
+                            <i class="fas fa-key"></i> ¿Olvidó su contraseña o usuario?
+                        </a>
+                    </div>
                     <div id="loginError" class="alert alert-danger mt-3" style="display:none;"></div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Recuperación de Cuenta -->
+<div class="modal fade" id="recoverModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Recuperar Cuenta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Paso 1: Ingresar correo -->
+                <div id="recoverStep1">
+                    <p>Ingrese su correo electrónico para buscar su cuenta.</p>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        <input type="email" class="form-control" id="recoverEmail" placeholder="Correo electrónico" required>
+                    </div>
+                    <button type="button" class="btn btn-primary w-100" id="btnSearchUser">
+                        <i class="fas fa-search"></i> Buscar Cuenta
+                    </button>
+                    <div id="recoverError" class="alert alert-danger mt-3" style="display:none;"></div>
+                </div>
+
+                <!-- Paso 2: Preguntas de seguridad -->
+                <div id="recoverStep2" style="display:none;">
+                    <p>Responda sus preguntas de seguridad para verificar su identidad.</p>
+                    <p class="text-muted small">Se mostrarán solo las preguntas que usted configuró al registrarse.</p>
+                    <div id="securityQuestions"></div>
+                    <button type="button" class="btn btn-primary w-100 mt-3" id="btnVerifyAnswers">
+                        <i class="fas fa-check"></i> Verificar Respuestas
+                    </button>
+                    <button type="button" class="btn btn-secondary w-100 mt-2" id="btnCancelRecover">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <div id="verifyError" class="alert alert-danger mt-3" style="display:none;"></div>
+                </div>
+
+                <!-- Paso 3: Cambiar contraseña -->
+                <div id="recoverStep3" style="display:none;">
+                    <p class="alert alert-success"><i class="fas fa-check-circle"></i> ¡Identidad verificada!</p>
+                    <p>Ingrese su nueva contraseña.</p>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input type="password" class="form-control" id="newPassword" placeholder="Nueva contraseña (mínimo 6 caracteres)" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input type="password" class="form-control" id="confirmNewPassword" placeholder="Confirmar nueva contraseña" required>
+                    </div>
+                    <button type="button" class="btn btn-primary w-100" id="btnChangePassword">
+                        <i class="fas fa-save"></i> Cambiar Contraseña
+                    </button>
+                    <button type="button" class="btn btn-secondary w-100 mt-2" id="btnCancelPassword">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <div id="passwordError" class="alert alert-danger mt-3" style="display:none;"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -581,6 +647,226 @@ $(document).ready(function() {
             alert(mensaje);
         }
     }
+    
+    // ==================== RECUPERACIÓN DE CUENTA ====================
+    var recoverData = {
+        usuario_id: null,
+        rol: null,
+        preguntas: []
+    };
+    
+    // Paso 1: Buscar usuario por correo
+    $('#btnSearchUser').on('click', function() {
+        var correo = $('#recoverEmail').val().trim();
+        
+        if (!correo) {
+            $('#recoverError').text('Por favor ingrese su correo electrónico').fadeIn();
+            return;
+        }
+        
+        var $btn = $(this);
+        var originalText = $btn.html();
+        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Buscando...');
+        
+        $.ajax({
+            url: APP_URL + '/api/recuperacion/buscar',
+            type: 'POST',
+            data: { correo: correo },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    recoverData.usuario_id = response.data.usuario_id;
+                    recoverData.rol = response.data.rol;
+                    recoverData.preguntas = response.data.preguntas;
+                    
+                    // Mostrar preguntas de seguridad
+                    mostrarPreguntasSeguridad();
+                    
+                    // Cambiar al paso 2
+                    $('#recoverStep1').hide();
+                    $('#recoverStep2').fadeIn();
+                } else {
+                    $('#recoverError').text(response.message).fadeIn();
+                }
+            },
+            error: function(xhr) {
+                var errorMsg = 'Error de conexión. Intente nuevamente.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMsg = xhr.responseJSON.message;
+                }
+                $('#recoverError').text(errorMsg).fadeIn();
+            },
+            complete: function() {
+                $btn.prop('disabled', false).html(originalText);
+            }
+        });
+    });
+    
+    // Mostrar preguntas de seguridad
+    function mostrarPreguntasSeguridad() {
+        var html = '';
+        recoverData.preguntas.forEach(function(pregunta, index) {
+            html += '<div class="mb-3">';
+            html += '<label class="form-label"><strong>' + (index + 1) + '. ' + pregunta + '</strong></label>';
+            html += '<input type="text" class="form-control recover-answer" data-pregunta="' + pregunta + '" placeholder="Su respuesta" required>';
+            html += '</div>';
+        });
+        $('#securityQuestions').html(html);
+    }
+    
+    // Paso 2: Verificar respuestas
+    $('#btnVerifyAnswers').on('click', function() {
+        var respuestas = {};
+        var completas = true;
+        
+        $('.recover-answer').each(function() {
+            var pregunta = $(this).data('pregunta');
+            var respuesta = $(this).val().trim();
+            
+            if (!respuesta) {
+                completas = false;
+                return false;
+            }
+            
+            respuestas[pregunta] = respuesta;
+        });
+        
+        if (!completas) {
+            $('#verifyError').text('Por favor responda todas las preguntas').fadeIn();
+            return;
+        }
+        
+        var $btn = $(this);
+        var originalText = $btn.html();
+        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Verificando...');
+        
+        // Enviar como JSON string en un campo simple
+        var formData = {
+            usuario_id: recoverData.usuario_id,
+            rol: recoverData.rol,
+            respuestas_json: JSON.stringify(respuestas)
+        };
+        
+        $.ajax({
+            url: APP_URL + '/api/recuperacion/verificar',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Cambiar al paso 3 (cambiar contraseña)
+                    $('#recoverStep2').hide();
+                    $('#recoverStep3').fadeIn();
+                } else {
+                    $('#verifyError').text(response.message).fadeIn();
+                }
+            },
+            error: function(xhr) {
+                var errorMsg = 'Error de conexión. Intente nuevamente.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMsg = xhr.responseJSON.message;
+                }
+                $('#verifyError').text(errorMsg).fadeIn();
+            },
+            complete: function() {
+                $btn.prop('disabled', false).html(originalText);
+            }
+        });
+    });
+    
+    // Cancelar recuperación (volver al paso 1)
+    $('#btnCancelRecover').on('click', function() {
+        resetRecoverModal();
+    });
+    
+    // Paso 3: Cambiar contraseña
+    $('#btnChangePassword').on('click', function() {
+        var nuevaPassword = $('#newPassword').val();
+        var confirmarPassword = $('#confirmNewPassword').val();
+        
+        if (!nuevaPassword || !confirmarPassword) {
+            $('#passwordError').text('Por favor complete ambos campos').fadeIn();
+            return;
+        }
+        
+        if (nuevaPassword !== confirmarPassword) {
+            $('#passwordError').text('Las contraseñas no coinciden').fadeIn();
+            return;
+        }
+        
+        if (nuevaPassword.length < 6) {
+            $('#passwordError').text('La contraseña debe tener al menos 6 caracteres').fadeIn();
+            return;
+        }
+        
+        var $btn = $(this);
+        var originalText = $btn.html();
+        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Cambiando...');
+        
+        $.ajax({
+            url: APP_URL + '/api/recuperacion/password',
+            type: 'POST',
+            data: {
+                usuario_id: recoverData.usuario_id,
+                rol: recoverData.rol,
+                nueva_password: nuevaPassword,
+                confirmar_password: confirmarPassword
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    alert('¡Contraseña cambiada exitosamente! Ahora puede iniciar sesión con su nueva contraseña.');
+                    var recoverModal = bootstrap.Modal.getInstance(document.getElementById('recoverModal'));
+                    recoverModal.hide();
+                    resetRecoverModal();
+                } else {
+                    $('#passwordError').text(response.message).fadeIn();
+                }
+            },
+            error: function(xhr) {
+                var errorMsg = 'Error de conexión. Intente nuevamente.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMsg = xhr.responseJSON.message;
+                }
+                $('#passwordError').text(errorMsg).fadeIn();
+            },
+            complete: function() {
+                $btn.prop('disabled', false).html(originalText);
+            }
+        });
+    });
+    
+    // Cancelar cambio de contraseña
+    $('#btnCancelPassword').on('click', function() {
+        resetRecoverModal();
+    });
+    
+    // Resetear modal de recuperación
+    function resetRecoverModal() {
+        $('#recoverStep1').show();
+        $('#recoverStep2').hide();
+        $('#recoverStep3').hide();
+        
+        $('#recoverEmail').val('');
+        $('#securityQuestions').html('');
+        $('#newPassword').val('');
+        $('#confirmNewPassword').val('');
+        
+        $('#recoverError').hide();
+        $('#verifyError').hide();
+        $('#passwordError').hide();
+        
+        recoverData = {
+            usuario_id: null,
+            rol: null,
+            preguntas: []
+        };
+    }
+    
+    // Resetear modal cuando se cierra
+    $('#recoverModal').on('hidden.bs.modal', function() {
+        resetRecoverModal();
+    });
 });
 </script>
 
