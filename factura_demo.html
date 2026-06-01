@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo: Diseño de Factura</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            .factura-container { 
+                box-shadow: none !important; 
+                border: 1px solid #ddd !important; 
+                max-width: 100% !important;
+            }
+            body { background: white !important; }
+            .container { max-width: 100% !important; }
+        }
+        .factura-container {
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 20px;
+            border: 2px solid #333;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .factura-line {
+            border-top: 1px solid #333;
+            margin: 10px 0;
+        }
+        .factura-section {
+            margin: 15px 0;
+        }
+        .factura-label {
+            font-weight: bold;
+        }
+        .factura-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .factura-table th, .factura-table td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: left;
+        }
+        .factura-table th {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm no-print">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Demo: Diseño de Factura</h4>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">Este es el diseño de factura que se mostrará cuando las tablas estén creadas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center mt-4">
+            <div class="col-lg-8">
+                <div class="factura-container shadow-sm" id="factura-card">
+                    <!-- Encabezado -->
+                    <div class="text-center">
+                        <h3>MI CLÍNICA</h3>
+                        <p>Dirección: Calle Principal #123</p>
+                        <p>Teléfono: (809) 555-1234</p>
+                    </div>
+                    
+                    <div class="factura-line"></div>
+                    
+                    <!-- Número y fecha -->
+                    <div class="text-center">
+                        <p><strong>FACTURA N°:</strong> FACT-0001</p>
+                        <p><strong>Fecha:</strong> 01/06/2026</p>
+                    </div>
+                    
+                    <div class="factura-line"></div>
+                    
+                    <!-- Datos del paciente y médico -->
+                    <div class="factura-section">
+                        <p><span class="factura-label">PACIENTE:</span> Juan Pérez</p>
+                        <p><span class="factura-label">CÉDULA:</span> 12345678</p>
+                        <p><span class="factura-label">MÉDICO:</span> Dra. Ana García</p>
+                        <p><span class="factura-label">ESPECIALIDAD:</span> Medicina General</p>
+                        <p><span class="factura-label">SERVICIO:</span> Consulta médica</p>
+                        <p><span class="factura-label">FECHA DE CITA:</span> 01/06/2026</p>
+                    </div>
+                    
+                    <div class="factura-line"></div>
+                    
+                    <!-- Tabla de conceptos -->
+                    <div class="factura-section">
+                        <table class="factura-table">
+                            <thead>
+                                <tr>
+                                    <th>DESCRIPCIÓN</th>
+                                    <th>CANTIDAD</th>
+                                    <th>PRECIO</th>
+                                    <th>SUBTOTAL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Consulta médica</td>
+                                    <td>1</td>
+                                    <td>$50.00</td>
+                                    <td>$50.00</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" style="text-align: right;"><strong>TOTAL:</strong></td>
+                                    <td><strong>$50.00</strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    
+                    <div class="factura-line"></div>
+                    
+                    <!-- Forma de Pago -->
+                    <div class="factura-section">
+                        <p><strong>FORMA DE PAGO:</strong></p>
+                        <div class="form-group no-print">
+                            <select class="form-control" id="forma-pago" onchange="cambiarFormaPago()">
+                                <option value="pago_movil">Pago Móvil</option>
+                                <option value="efectivo">Efectivo</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Pago Móvil -->
+                        <div id="pago-movil-section">
+                            <p>Banco: Banco de Venezuela</p>
+                            <p>Celular: 0412-1234567</p>
+                            <p>Referencia: <input type="text" id="referencia-pago" style="width: 200px;" placeholder="Número de referencia"></p>
+                        </div>
+                        
+                        <!-- Efectivo -->
+                        <div id="efectivo-section" style="display: none;">
+                            <p>Entregado: <input type="number" id="monto-entregado" style="width: 150px;" placeholder="Monto entregado" step="0.01"></p>
+                            <p>Cambio: <strong id="monto-cambio">$0.00</strong></p>
+                        </div>
+                        
+                        <button class="btn btn-success btn-sm no-print mt-2" onclick="confirmarPago()">[CONFIRMAR PAGO]</button>
+                    </div>
+                    
+                    <div class="factura-line"></div>
+                    
+                    <!-- Estado y pie -->
+                    <div class="factura-section">
+                        <p><span class="factura-label">ESTADO:</span> 
+                            <span class="badge badge-warning">Pendiente</span>
+                        </p>
+                        <p class="text-center"><em>¡Gracias por su visita!</em></p>
+                    </div>
+                    
+                    <div class="factura-line"></div>
+                    
+                    <!-- Botones -->
+                    <div class="text-center no-print" style="margin-top: 20px;">
+                        <button class="btn btn-secondary" onclick="window.print()">[IMPRIMIR]</button>
+                        <button class="btn btn-info" onclick="alert('Use la opción de impresión del navegador y seleccione Guardar como PDF')">[GUARDAR PDF]</button>
+                        <button class="btn btn-primary" onclick="alert('Cerrar - Funcionalidad completa cuando las tablas estén creadas')">[CERRAR]</button>
+                        <button class="btn btn-warning no-print" onclick="alert('Editar - Funcionalidad completa cuando las tablas estén creadas')">[EDITAR]</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function cambiarFormaPago() {
+        const formaPago = document.getElementById('forma-pago').value;
+        const pagoMovilSection = document.getElementById('pago-movil-section');
+        const efectivoSection = document.getElementById('efectivo-section');
+        
+        if (formaPago === 'pago_movil') {
+            pagoMovilSection.style.display = 'block';
+            efectivoSection.style.display = 'none';
+        } else {
+            pagoMovilSection.style.display = 'none';
+            efectivoSection.style.display = 'block';
+        }
+    }
+    
+    function confirmarPago() {
+        const formaPago = document.getElementById('forma-pago').value;
+        const total = 50.00;
+        
+        if (formaPago === 'pago_movil') {
+            const referencia = document.getElementById('referencia-pago').value;
+            if (!referencia) {
+                alert('Por favor, ingrese el número de referencia del pago móvil.');
+                return;
+            }
+            alert('Pago móvil confirmado exitosamente\nReferencia: ' + referencia + '\n\nFuncionalidad completa cuando las tablas estén creadas');
+        } else {
+            const entregado = parseFloat(document.getElementById('monto-entregado').value) || 0;
+            if (entregado < total) {
+                alert('El monto entregado debe ser mayor o igual al total ($' + total.toFixed(2) + ')');
+                return;
+            }
+            const cambio = entregado - total;
+            alert('Pago en efectivo confirmado exitosamente\nEntregado: $' + entregado.toFixed(2) + '\nCambio: $' + cambio.toFixed(2) + '\n\nFuncionalidad completa cuando las tablas estén creadas');
+        }
+    }
+    
+    // Calcular cambio automáticamente
+    document.getElementById('monto-entregado').addEventListener('input', function() {
+        const entregado = parseFloat(this.value) || 0;
+        const total = 50.00;
+        const cambio = entregado - total;
+        document.getElementById('monto-cambio').textContent = '$' + cambio.toFixed(2);
+    });
+    </script>
+</body>
+</html>

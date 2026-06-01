@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-// Usar la configuración global
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 var BASE_URL = window.CONFIG ? window.CONFIG.BASE_URL : '';
 function getUrl(endpoint) {
     if (window.CONFIG) {
@@ -169,11 +165,7 @@ function listar_recetas() {
     });
 }
 
-<<<<<<< HEAD
 // USAR EVENTOS DELEGADOS 
-=======
-// USAR EVENTOS DELEGADOS - Esta es la solución para evitar duplicación
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 $(document).on('click', '.btn-editar', function() {
     let id = $(this).data('id');
     console.log('Click editar - ID:', id);
@@ -654,12 +646,7 @@ $(document).on('click', '#btnGenerarRecetaDiag', function() {
     let hoy = new Date();
     let fecha = hoy.toISOString().split('T')[0];
     $('#fecha_receta').val(fecha);
-<<<<<<< HEAD
     $('#id_receta').val('');    
-=======
-    $('#id_receta').val('');
-    
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     $('#modalDiagnostico').modal('hide');
     $('#modalTitle').text('Nueva Receta - Diagnóstico');
     $('#modalReceta').modal('show');

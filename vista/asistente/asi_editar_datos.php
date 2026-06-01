@@ -1,20 +1,8 @@
 <?php
-<<<<<<< HEAD
-=======
-// vista/asistente/asi_editar_datos.php
-// Contenido principal para la edición de perfil del asistente
-// Este archivo se renderiza dentro del layout base dashboard.php
-
-// Los datos vienen del controlador a través de $data
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 $nombre_usuario = $nombre_usuario ?? 'Usuario';
 $id_asistente = $id_asistente ?? $_SESSION['usuario'] ?? 0;
 $avatar_actual = $avatar_actual ?? (!empty($_SESSION['avatar']) ? $_SESSION['avatar'] : APP_URL . '/img/avatarDES.jpg');
 ?>
-<<<<<<< HEAD
-=======
-
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 <!-- CSS Adicional para esta vista -->
 <style>
     .profile-header {

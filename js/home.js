@@ -11,32 +11,8 @@ document.addEventListener('DOMContentLoaded', function () {
   setupAnimations();
   setupCounters();
   setupContactForm();
-<<<<<<< HEAD
 });
 
-=======
-  checkOpenLoginParam();
-});
-
-// Check for openLogin parameter in URL
-function checkOpenLoginParam() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const openLogin = urlParams.get('openLogin');
-  if (openLogin) {
-    const iconMap = {
-      'paciente': 'fa-user',
-      'medico': 'fa-user-doctor',
-      'asistente': 'fa-user-nurse',
-      'administrador': 'fa-user-shield'
-    };
-    const iconClass = iconMap[openLogin] || 'fa-user';
-    setTimeout(function() {
-      openLogin(openLogin, iconClass);
-    }, 500);
-  }
-}
-
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 // ========== NAVIGATION ==========
 function setupNavigation() {
   if (hamburger) {

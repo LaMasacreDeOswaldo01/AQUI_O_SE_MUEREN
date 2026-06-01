@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-=======
-/**
- * js/paciente.js 
- * Maneja correctamente el formato ApiResponse de la API de ubicación
- */
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 
 $(document).ready(function() {
     var id_usuario = $('#id_usuario').val();
@@ -88,12 +81,7 @@ $(document).ready(function() {
         });
     }
 
-<<<<<<< HEAD
     // ==================== FUNCIONES DE UBICACIÓN ====================    
-=======
-    // ==================== FUNCIONES DE UBICACIÓN ====================
-    
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     function cargarDireccionEnCampos(direccion_completa) {
         console.log('Parseando dirección:', direccion_completa);
         

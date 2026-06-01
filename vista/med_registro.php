@@ -1,18 +1,12 @@
 <?php
-<<<<<<< HEAD
 
 // Registro de Médico - Estilo BioVital Dashboard
-=======
-// vista/med_registro.php
-// Registro de médicos - Versión con interfaz unificada BioVital
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
     <title>Registro Médico - BioVital</title>
     
     <!-- Variables globales JavaScript -->
@@ -377,66 +371,10 @@
                                         <option value="Otro">Otro</option>
                                     </select>
                                 </div>
-=======
-    <title>Registro de Médico - BioVital</title>
-    
-    <script>var APP_URL = '<?php echo APP_URL; ?>';</script>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Bootstrap 4 CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/css/all.min.css">
-    
-    <!-- CSS Unificado de Registro BioVital -->
-    <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/registro.css">
-</head>
-<body>
-
-<div class="registro-wrapper">
-    <!-- Navbar -->
-    <div class="registro-navbar">
-        <a href="<?php echo APP_URL; ?>">
-            <img src="<?php echo APP_URL; ?>/img/logo_azul.png" alt="BioVital">
-            <span class="brand-text">Bio<em>vital</em></span>
-        </a>
-    </div>
-    
-    <div class="registro-container rol-medico">
-        <div class="registro-header">
-            <h2><i class="fas fa-user-md"></i> Registro de Médico</h2>
-            <p>Complete todos los campos para registrarse como médico</p>
-        </div>
-            <div class="registro-body">
-                <?php
-               $securityPath = dirname(__DIR__) . '/modelo/Security.php';
-if (!file_exists($securityPath)) die("Error: No se encuentra Security.php");
-include_once $securityPath;
-                ?>
-                <form id="form-registro" method="POST" action="<?php echo APP_URL; ?>/api/registro/medico">
-                    <!-- CSRF Token generado directamente en el servidor -->
-                    <?php echo Security::campoCSRF(); ?>
-                    
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group required">
-                                <label for="nombre">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group required">
-                                <label for="apellidos">Apellido</label>
-                                <input type="text" class="form-control" id="apellidos" name="apellidos" required>
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
                             </div>
                         </div>
                     </div>
                     
-<<<<<<< HEAD
                     <div class="text-right">
                         <button type="button" class="btn btn-primary btn-next" data-next="2">
                             Siguiente <i class="fas fa-arrow-right"></i>
@@ -576,80 +514,52 @@ include_once $securityPath;
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h4><i class="fas fa-shield-alt"></i> Preguntas de Seguridad</h4>
+                        <p class="text-muted small mb-3">Selecciona 3 preguntas de seguridad y responde cada una para recuperar tu cuenta en caso de olvidar tu contraseña.</p>
                         
-                        <div class="row mt-3">
-                            <div class="col-md-6">
-                                <div class="form-group required">
-                                    <label for="pregunta_seguridad_1">Pregunta de Seguridad 1</label>
-                                    <select class="form-control" id="pregunta_seguridad_1" name="pregunta_seguridad_1" required>
-                                        <option value="">Seleccione una pregunta...</option>
-                                        <option value="¿Cuál es el nombre de tu primera mascota?">¿Cuál es el nombre de tu primera mascota?</option>
-                                        <option value="¿En qué ciudad naciste?">¿En qué ciudad naciste?</option>
-                                        <option value="¿Cuál es el apellido de soltera de tu madre?">¿Cuál es el apellido de soltera de tu madre?</option>
-                                        <option value="¿Cuál fue tu primer trabajo?">¿Cuál fue tu primer trabajo?</option>
-                                        <option value="¿Cuál es tu comida favorita?">¿Cuál es tu comida favorita?</option>
-                                    </select>
-                                    <small class="form-text text-muted">Úsela para recuperar su cuenta</small>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group required">
-                                    <label for="respuesta_seguridad_1">Respuesta de Seguridad 1</label>
-                                    <input type="text" class="form-control" id="respuesta_seguridad_1" name="respuesta_seguridad_1" 
-                                           placeholder="Su respuesta secreta" required>
-                                    <small class="form-text text-muted">Recuerde esta respuesta</small>
-                                </div>
-                            </div>
+                        <div class="form-group required">
+                            <label for="pregunta1">Pregunta 1</label>
+                            <select class="form-control pregunta-select" id="pregunta1" name="pregunta1" required>
+                                <option value="">-- Selecciona una pregunta --</option>
+                                <option value="¿Cuál es el nombre de tu primera mascota?">¿Cuál es el nombre de tu primera mascota?</option>
+                                <option value="¿En qué ciudad naciste?">¿En qué ciudad naciste?</option>
+                                <option value="¿Cuál es el apellido de soltera de tu madre?">¿Cuál es el apellido de soltera de tu madre?</option>
+                                <option value="¿Cuál fue tu primer trabajo?">¿Cuál fue tu primer trabajo?</option>
+                                <option value="¿Cuál es tu comida favorita?">¿Cuál es tu comida favorita?</option>
+                            </select>
+                            <input type="text" class="form-control mt-2 respuesta-input" id="respuesta1" name="respuesta1" 
+                                   placeholder="Tu respuesta" required>
                         </div>
                         
-                        <div class="row mt-3">
-                            <div class="col-md-6">
-                                <div class="form-group required">
-                                    <label for="pregunta_seguridad_2">Pregunta de Seguridad 2</label>
-                                    <select class="form-control" id="pregunta_seguridad_2" name="pregunta_seguridad_2" required>
-                                        <option value="">Seleccione una pregunta...</option>
-                                        <option value="¿Cuál es el nombre de tu primera mascota?">¿Cuál es el nombre de tu primera mascota?</option>
-                                        <option value="¿En qué ciudad naciste?">¿En qué ciudad naciste?</option>
-                                        <option value="¿Cuál es el apellido de soltera de tu madre?">¿Cuál es el apellido de soltera de tu madre?</option>
-                                        <option value="¿Cuál fue tu primer trabajo?">¿Cuál fue tu primer trabajo?</option>
-                                        <option value="¿Cuál es tu comida favorita?">¿Cuál es tu comida favorita?</option>
-                                    </select>
-                                    <small class="form-text text-muted">Úsela para recuperar su cuenta</small>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group required">
-                                    <label for="respuesta_seguridad_2">Respuesta de Seguridad 2</label>
-                                    <input type="text" class="form-control" id="respuesta_seguridad_2" name="respuesta_seguridad_2" 
-                                           placeholder="Su respuesta secreta" required>
-                                    <small class="form-text text-muted">Recuerde esta respuesta</small>
-                                </div>
-                            </div>
+                        <div class="form-group required">
+                            <label for="pregunta2">Pregunta 2</label>
+                            <select class="form-control pregunta-select" id="pregunta2" name="pregunta2" required>
+                                <option value="">-- Selecciona una pregunta --</option>
+                                <option value="¿Cuál es el nombre de tu primera mascota?">¿Cuál es el nombre de tu primera mascota?</option>
+                                <option value="¿En qué ciudad naciste?">¿En qué ciudad naciste?</option>
+                                <option value="¿Cuál es el apellido de soltera de tu madre?">¿Cuál es el apellido de soltera de tu madre?</option>
+                                <option value="¿Cuál fue tu primer trabajo?">¿Cuál fue tu primer trabajo?</option>
+                                <option value="¿Cuál es tu comida favorita?">¿Cuál es tu comida favorita?</option>
+                            </select>
+                            <input type="text" class="form-control mt-2 respuesta-input" id="respuesta2" name="respuesta2" 
+                                   placeholder="Tu respuesta" required>
                         </div>
                         
-                        <div class="row mt-3">
-                            <div class="col-md-6">
-                                <div class="form-group required">
-                                    <label for="pregunta_seguridad_3">Pregunta de Seguridad 3</label>
-                                    <select class="form-control" id="pregunta_seguridad_3" name="pregunta_seguridad_3" required>
-                                        <option value="">Seleccione una pregunta...</option>
-                                        <option value="¿Cuál es el nombre de tu primera mascota?">¿Cuál es el nombre de tu primera mascota?</option>
-                                        <option value="¿En qué ciudad naciste?">¿En qué ciudad naciste?</option>
-                                        <option value="¿Cuál es el apellido de soltera de tu madre?">¿Cuál es el apellido de soltera de tu madre?</option>
-                                        <option value="¿Cuál fue tu primer trabajo?">¿Cuál fue tu primer trabajo?</option>
-                                        <option value="¿Cuál es tu comida favorita?">¿Cuál es tu comida favorita?</option>
-                                    </select>
-                                    <small class="form-text text-muted">Úsela para recuperar su cuenta</small>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group required">
-                                    <label for="respuesta_seguridad_3">Respuesta de Seguridad 3</label>
-                                    <input type="text" class="form-control" id="respuesta_seguridad_3" name="respuesta_seguridad_3" 
-                                           placeholder="Su respuesta secreta" required>
-                                    <small class="form-text text-muted">Recuerde esta respuesta</small>
-                                </div>
-                            </div>
+                        <div class="form-group required">
+                            <label for="pregunta3">Pregunta 3</label>
+                            <select class="form-control pregunta-select" id="pregunta3" name="pregunta3" required>
+                                <option value="">-- Selecciona una pregunta --</option>
+                                <option value="¿Cuál es el nombre de tu primera mascota?">¿Cuál es el nombre de tu primera mascota?</option>
+                                <option value="¿En qué ciudad naciste?">¿En qué ciudad naciste?</option>
+                                <option value="¿Cuál es el apellido de soltera de tu madre?">¿Cuál es el apellido de soltera de tu madre?</option>
+                                <option value="¿Cuál fue tu primer trabajo?">¿Cuál fue tu primer trabajo?</option>
+                                <option value="¿Cuál es tu comida favorita?">¿Cuál es tu comida favorita?</option>
+                            </select>
+                            <input type="text" class="form-control mt-2 respuesta-input" id="respuesta3" name="respuesta3" 
+                                   placeholder="Tu respuesta" required>
                         </div>
                     </div>
                     
@@ -672,153 +582,11 @@ include_once $securityPath;
                     <i class="fas fa-sign-in-alt"></i> ¿Ya tienes cuenta? Inicia sesión aquí</a>
                 </div>
             </form>
-=======
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group required">
-                                <label for="fecha_nacimiento">Fecha de Nacimiento</label>
-                                <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group required">
-                                <label for="cedula">Cédula</label>
-                                <input type="text" class="form-control" id="cedula" name="cedula" required>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group required">
-                                <label for="telefono">Teléfono</label>
-                                <input type="tel" class="form-control" id="telefono" name="telefono" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group required">
-                                <label for="sexo">Sexo</label>
-                                <select class="form-control" id="sexo" name="sexo" required>
-                                    <option value="">Seleccione...</option>
-                                    <option value="Masculino">Masculino</option>
-                                    <option value="Femenino">Femenino</option>
-                                    <option value="Otro">Otro</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- ==================== SISTEMA DE UBICACIÓN ==================== -->
-                    <div class="seccion-titulo">
-                        <i class="fas fa-map-marker-alt"></i> Ubicación
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group required">
-                                <label for="estado">Estado</label>
-                                <select class="form-control" id="estado" name="estado" required>
-                                    <option value="">Seleccione un estado...</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group required">
-                                <label for="ciudad">Ciudad</label>
-                                <select class="form-control" id="ciudad" name="ciudad" required disabled>
-                                    <option value="">Primero seleccione un estado...</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="municipio">Municipio</label>
-                                <select class="form-control" id="municipio" name="municipio" disabled>
-                                    <option value="">Primero seleccione un estado...</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="parroquia">Parroquia</label>
-                                <select class="form-control" id="parroquia" name="parroquia" disabled>
-                                    <option value="">Primero seleccione un municipio...</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group required">
-                        <label for="direccion">Dirección Detallada</label>
-                        <input type="text" class="form-control" id="direccion" name="direccion" required placeholder="Av. Principal, Edificio, Número, etc.">
-                        <small class="form-text text-muted">Ej: Av. Principal, Edificio Central, Piso 3, Oficina 5</small>
-                    </div>
-                    <!-- ==================== FIN SISTEMA DE UBICACIÓN ==================== -->
-                    
-                    <div class="form-group required">
-                        <label for="correo">Correo Electrónico</label>
-                        <input type="email" class="form-control" id="correo" name="correo" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="adicional">Información Adicional</label>
-                        <textarea class="form-control" id="adicional" name="adicional" rows="2" placeholder="Especialidad, años de experiencia, etc."></textarea>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group required">
-                                <label for="pass">Contraseña</label>
-                                <input type="password" class="form-control" id="pass" name="pass" required>
-                                <small class="text-muted">Mínimo 6 caracteres</small>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group required">
-                                <label for="confirm_pass">Confirmar Contraseña</label>
-                                <input type="password" class="form-control" id="confirm_pass" name="confirm_pass" required>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary btn-registro">
-                        <i class="fas fa-check-circle"></i> Crear Cuenta
-                    </button>
-                    
-                    <div class="csrf-info">
-                        <i class="fas fa-shield-alt"></i> Formulario protegido contra CSRF - Tus datos están seguros
-                    </div>
-                </form>
-                
-                <div id="alert-success" class="alert alert-success alert-dismissible fade show" role="alert" style="display:none;">
-                    <i class="fas fa-check-circle"></i> <span id="success-message"></span>
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span>&times;</span>
-                    </button>
-                </div>
-
-                <div id="alert-error" class="alert alert-danger alert-dismissible fade show" role="alert" style="display:none;">
-                    <i class="fas fa-exclamation-circle"></i> <span id="error-message"></span>
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span>&times;</span>
-                    </button>
-                </div>
-
-                <!-- Enlace a login -->
-                <div class="login-link">
-                    <a href="<?php echo APP_URL; ?>"><i class="fas fa-sign-in-alt"></i> ¿Ya tienes cuenta? Inicia sesión aquí</a>
-                </div>
-            </div>
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         </div>
     </div>
 </div>
 
 <!-- Scripts -->
-<<<<<<< HEAD
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="<?php echo APP_URL; ?>/js/registro_ubicacion.js"></script>
@@ -1054,12 +822,6 @@ $(document).ready(function() {
             especialidad: $('#especialidad').val(),
             pass: pass,
             confirm_pass: confirm_pass,  // ← IMPORTANTE: enviar confirm_pass
-            pregunta_seguridad_1: $('#pregunta_seguridad_1').val(),
-            respuesta_seguridad_1: $('#respuesta_seguridad_1').val().trim(),
-            pregunta_seguridad_2: $('#pregunta_seguridad_2').val(),
-            respuesta_seguridad_2: $('#respuesta_seguridad_2').val().trim(),
-            pregunta_seguridad_3: $('#pregunta_seguridad_3').val(),
-            respuesta_seguridad_3: $('#respuesta_seguridad_3').val().trim(),
             // Enviar tanto IDs como nombres para compatibilidad
             estado: $('#estado_id').val(),
             ciudad: $('#ciudad_id').val(),
@@ -1071,7 +833,14 @@ $(document).ready(function() {
             municipio_nombre: municipio_nombre,
             parroquia_nombre: parroquia_nombre,
             direccion_detallada: direccion_detallada,
-            csrf_token: $('input[name="csrf_token"]').val()
+            csrf_token: $('input[name="csrf_token"]').val(),
+            // Preguntas de seguridad seleccionadas
+            pregunta1: $('#pregunta1').val().trim(),
+            respuesta1: $('#respuesta1').val().trim(),
+            pregunta2: $('#pregunta2').val().trim(),
+            respuesta2: $('#respuesta2').val().trim(),
+            pregunta3: $('#pregunta3').val().trim(),
+            respuesta3: $('#respuesta3').val().trim()
         };
         
         console.log('Datos enviados:', datos);
@@ -1150,11 +919,5 @@ $(document).ready(function() {
 });
 </script>
 
-=======
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="<?php echo APP_URL; ?>/js/registro_medico.js"></script>
-<script src="<?php echo APP_URL; ?>/js/registro_ubicacion.js"></script>
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 </body>
 </html>

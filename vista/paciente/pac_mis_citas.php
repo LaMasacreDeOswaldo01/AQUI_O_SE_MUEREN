@@ -372,6 +372,11 @@ $(document).ready(function() {
                                     <button class="btn btn-info btn-sm btn-ver-detalle" data-id="${cita.id_cita}">
                                         <i class="fas fa-eye"></i> Ver Detalles
                                     </button>
+                                    ${cita.estado !== 'cancelada' ? `
+                                    <button class="btn btn-success btn-sm btn-ver-factura" data-id="${cita.id_cita}">
+                                        <i class="fas fa-file-invoice-dollar"></i> Ver Factura
+                                    </button>
+                                    ` : ''}
                                     ${cita.estado !== 'cancelada' && cita.estado !== 'completada' ? `
                                     <button class="btn btn-danger btn-sm btn-cancelar" data-id="${cita.id_cita}">
                                         <i class="fas fa-ban"></i> Cancelar
@@ -486,6 +491,33 @@ $(document).ready(function() {
             cancelarCita(id);
         }
     });
+    
+    // Ver factura desde cita
+    $(document).on('click', '.btn-ver-factura', function() {
+        let id = $(this).data('id');
+        buscarFacturaDeCita(id);
+    });
+    
+    function buscarFacturaDeCita(idCita) {
+        $.ajax({
+            url: APP_URL + '/api/facturas/buscar-por-cita',
+            type: 'POST',
+            data: { id_cita: idCita },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success && response.data.factura) {
+                    // Ya existe factura, redirigir al detalle
+                    window.location.href = APP_URL + '/facturas/detalle?id=' + response.data.factura.id_factura;
+                } else {
+                    // No existe factura, mostrar mensaje
+                    alert('Esta cita aún no tiene factura generada. Contacte al asistente o administrador para generarla.');
+                }
+            },
+            error: function() {
+                alert('Error al buscar factura de la cita');
+            }
+        });
+    }
     
     function cancelarCita(id) {
         $.ajax({

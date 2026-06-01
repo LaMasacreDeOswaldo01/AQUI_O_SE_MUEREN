@@ -217,10 +217,6 @@ class CitaController {
     
     public function obtenerDetalle() {
         $id_paciente = $_SESSION['usuario'];
-<<<<<<< HEAD
-        $rol = $_SESSION['rol'] ?? '';
-=======
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         $id_cita = isset($_POST['id_cita']) ? (int)$_POST['id_cita'] : 0;
         
         if ($id_cita <= 0) {
@@ -228,25 +224,11 @@ class CitaController {
             return;
         }
         
-<<<<<<< HEAD
-        // Asistentes y administradores pueden ver cualquier cita
-        if (in_array($rol, ['asistente', 'administrador'])) {
-            $cita = $this->cita->obtenerDetalle($id_cita, 0);
-        } else {
-            $cita = $this->cita->obtenerDetalle($id_cita, $id_paciente);
-        }
-=======
         $cita = $this->cita->obtenerDetalle($id_cita, $id_paciente);
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
         
         if ($cita) {
             ApiResponse::success([
                 'id_cita' => $cita->id_cita,
-<<<<<<< HEAD
-                'id_paciente' => $cita->id_paciente,
-                'id_medico' => $cita->id_medico,
-=======
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
                 'especialidad' => $cita->especialidad_nombre,
                 'medico' => $cita->medico_nombre,
                 'fecha' => $cita->fecha_cita,
@@ -257,12 +239,7 @@ class CitaController {
                 'consultorio_nombre' => $cita->consultorio_nombre,
                 'consultorio_direccion' => $cita->consultorio_direccion,
                 'consultorio_telefono' => $cita->consultorio_telefono,
-<<<<<<< HEAD
-                'consultorio_email' => $cita->consultorio_email,
-                'rol_actual' => $rol
-=======
                 'consultorio_email' => $cita->consultorio_email
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
             ]);
         } else {
             ApiResponse::notFound('Cita');

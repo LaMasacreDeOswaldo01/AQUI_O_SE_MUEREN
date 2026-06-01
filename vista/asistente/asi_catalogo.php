@@ -1,19 +1,7 @@
 <?php
-<<<<<<< HEAD
 $nombre_usuario = $nombre_usuario ?? 'Usuario';
 $id_asistente = $id_asistente ?? $_SESSION['usuario'] ?? 0;
 ?>
-=======
-// vista/asistente/asi_catalogo.php
-// Contenido principal para el dashboard del asistente
-// Este archivo se renderiza dentro del layout base dashboard.php
-
-// Los datos vienen del controlador a través de $data
-$nombre_usuario = $nombre_usuario ?? 'Usuario';
-$id_asistente = $id_asistente ?? $_SESSION['usuario'] ?? 0;
-?>
-
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 <!-- CSS Adicional para esta vista -->
 <style>
     .welcome-stats {
@@ -602,14 +590,13 @@ $(document).ready(function() {
                                             <i class="fas fa-stethoscope"></i> ${escapeHtml(cita.consultorio || 'Consultorio')}
                                         </span>
                                     </div>
-<<<<<<< HEAD
-                                    <div class="mt-2">
-                                        <button class="btn btn-sm btn-primary btn-generar-factura" data-id="${cita.id_cita || ''}">
-                                            <i class="fas fa-file-invoice-dollar"></i> Generar Factura
-                                        </button>
-                                    </div>
-=======
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
+                                    ${cita.estado === 'completada' ? `
+                                        <div class="timeline-actions mt-2">
+                                            <a href="${APP_URL}/facturas/crear?id_cita=${cita.id_cita}" class="btn btn-sm btn-primary">
+                                                <i class="fas fa-file-invoice-dollar"></i> Generar Factura
+                                            </a>
+                                        </div>
+                                    ` : ''}
                                 </div>
                             </div>
                         `;
@@ -665,52 +652,6 @@ $(document).ready(function() {
         mostrarToast('Funcionalidad en desarrollo', 'info');
     });
     
-<<<<<<< HEAD
-    // Generar factura desde el panel de asistente
-    $(document).on('click', '.btn-generar-factura', function() {
-        let idCita = $(this).data('id');
-        if (!idCita) {
-            mostrarToast('ID de cita no válido', 'error');
-            return;
-        }
-        
-        if (!confirm('¿Desea generar una factura para esta cita?')) {
-            return;
-        }
-        
-        let $btn = $(this);
-        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Generando...');
-        
-        $.ajax({
-            url: APP_URL + '/api/facturas/generar',
-            type: 'POST',
-            data: { id_cita: idCita },
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    mostrarToast('Factura generada exitosamente', 'success');
-                    if (response.data && response.data.redirect) {
-                        window.location.href = response.data.redirect;
-                    }
-                } else {
-                    mostrarToast(response.message || 'Error al generar factura', 'error');
-                }
-            },
-            error: function(xhr) {
-                let errorMsg = 'Error de conexión';
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    errorMsg = xhr.responseJSON.message;
-                }
-                mostrarToast(errorMsg, 'error');
-            },
-            complete: function() {
-                $btn.prop('disabled', false).html('<i class="fas fa-file-invoice-dollar"></i> Generar Factura');
-            }
-        });
-    });
-    
-=======
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     // ==================== FUNCIONES UTILITARIAS ====================
     
     function mostrarToast(mensaje, tipo) {

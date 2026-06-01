@@ -1,106 +1,43 @@
 <?php
-
-require_once __DIR__ . '/../modelo/Factura.php';
-require_once __DIR__ . '/../modelo/Cita.php';
-require_once __DIR__ . '/../helpers/ApiResponse.php';
-
 class FacturaController {
-    private $factura;
-    private $cita;
-    
-    public function __construct() {
-        $this->factura = new Factura();
-        $this->cita = new Cita();
-    }
     
     // ==================== VISTAS ====================
     
     /**
-     * Vista de detalle de factura
+     * Listado de facturas (asistente y administrador)
      */
-    public function ver() {
-        $id_factura = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-        $rol = $_SESSION['rol'] ?? '';
-        $usuario_id = $_SESSION['usuario'] ?? 0;
+    public function index() {
+        $this->verificarRol(['asistente', 'administrador']);
         
-        if ($id_factura <= 0) {
-            header('Location: ' . APP_URL . '/panel/' . $rol);
-            exit;
-        }
-        
-        $factura = $this->factura->obtenerPorId($id_factura);
-        
-        if (!$factura) {
-            header('Location: ' . APP_URL . '/panel/' . $rol);
-            exit;
-        }
-        
-        // Verificar permisos por rol
-        if (!$this->verificarPermisoVer($factura, $rol, $usuario_id)) {
-            header('Location: ' . APP_URL . '/panel/' . $rol);
-            exit;
-        }
+        $factura = new Factura();
+        $facturas = $factura->listarTodas();
         
         $options = [
-            'title' => 'Factura ' . $factura->numero_factura . ' - BioVital',
+            'title' => 'Gestión de Facturas - BioVital',
             'breadcrumbs' => [
-                ['label' => 'Inicio', 'url' => APP_URL . '/panel/' . $rol],
-                ['label' => 'Facturas', 'url' => APP_URL . '/facturas'],
-                ['label' => $factura->numero_factura]
+                ['label' => 'Inicio', 'url' => APP_URL . '/panel/' . $_SESSION['rol']],
+                ['label' => 'Gestión de Facturas']
             ],
-            'active_page' => 'facturas',
-            'css' => '<link rel="stylesheet" href="' . APP_URL . '/css/factura.css">'
+            'active_page' => 'facturas'
         ];
         
         $data = [
-            'factura' => $factura,
-            'rol' => $rol,
-            'usuario_id' => $usuario_id,
-            'puede_editar' => $this->puedeEditar($rol),
-            'puede_eliminar' => $this->puedeEliminar($rol),
-            'puede_confirmar_pago' => $this->puedeConfirmarPago($rol),
-            'puede_imprimir' => $this->puedeImprimir($rol)
+            'facturas' => $facturas,
+            'rol' => $_SESSION['rol']
         ];
         
-        ViewHelper::renderDashboard('facturas/factura_detalle', $data, $options);
+        ViewHelper::renderDashboard('facturas/listado', $data, $options);
     }
     
     /**
-     * Vista de listado de facturas (asistente/admin)
-     */
-    public function listar() {
-        $rol = $_SESSION['rol'] ?? '';
-        
-        if (!in_array($rol, ['asistente', 'administrador'])) {
-            header('Location: ' . APP_URL . '/panel/' . $rol);
-            exit;
-        }
-        
-        $options = [
-            'title' => 'Facturas - BioVital',
-            'breadcrumbs' => [
-                ['label' => 'Inicio', 'url' => APP_URL . '/panel/' . $rol],
-                ['label' => 'Facturas']
-            ],
-            'active_page' => 'facturas',
-            'css' => '<link rel="stylesheet" href="' . APP_URL . '/css/dashboard-utils.css">',
-            'scripts' => '<script src="' . APP_URL . '/js/facturas.js"></script>'
-        ];
-        
-        $data = [
-            'rol' => $rol,
-            'puede_editar' => $this->puedeEditar($rol),
-            'puede_eliminar' => $this->puedeEliminar($rol)
-        ];
-        
-        ViewHelper::renderDashboard('facturas/facturas_listado', $data, $options);
-    }
-    
-    /**
-     * Vista de historial de facturas del paciente
+     * Listado de facturas del paciente actual
      */
     public function misFacturas() {
-        AuthHelper::checkRole('paciente', true);
+        $this->verificarRol(['paciente']);
+        
+        $id_paciente = $_SESSION['usuario'];
+        $factura = new Factura();
+        $facturas = $factura->listarPorPaciente($id_paciente);
         
         $options = [
             'title' => 'Mis Facturas - BioVital',
@@ -108,312 +45,549 @@ class FacturaController {
                 ['label' => 'Inicio', 'url' => APP_URL . '/panel/paciente'],
                 ['label' => 'Mis Facturas']
             ],
-            'active_page' => 'facturas',
-            'css' => '<link rel="stylesheet" href="' . APP_URL . '/css/dashboard-utils.css">',
-            'scripts' => '<script src="' . APP_URL . '/js/facturas.js"></script>'
+            'active_page' => 'mis-facturas'
         ];
         
         $data = [
-            'usuario_id' => $_SESSION['usuario'] ?? 0
+            'facturas' => $facturas
         ];
         
-        ViewHelper::renderDashboard('facturas/facturas_paciente', $data, $options);
+        ViewHelper::renderDashboard('facturas/mis_facturas', $data, $options);
+    }
+    
+    /**
+     * Listado de facturas del médico actual
+     * NOTA: Según nuevas reglas, el médico NO ve facturas, solo configura su tarifa
+     */
+    public function facturasMedico() {
+        $this->verificarRol(['medico']);
+        
+        // Redirigir a configuración de tarifa
+        redirect('/facturas/configurar-tarifa');
+    }
+    
+    /**
+     * Detalle de factura
+     */
+    public function detalle() {
+        $id_factura = $_GET['id'] ?? 0;
+        
+        if (!$id_factura) {
+            redirect('/');
+        }
+        
+        $factura = new Factura();
+        $facturaData = $factura->obtenerPorId($id_factura);
+        
+        if (!$facturaData) {
+            redirect('/');
+        }
+        
+        // Verificar permisos según rol
+        $rol = $_SESSION['rol'] ?? '';
+        $user_id = $_SESSION['usuario'] ?? 0;
+        
+        if ($rol === 'paciente' && $facturaData->id_paciente != $user_id) {
+            redirect('/');
+        }
+        
+        if ($rol === 'medico' && $facturaData->id_medico != $user_id) {
+            redirect('/');
+        }
+        
+        $detalles = $factura->obtenerDetalles($id_factura);
+        $auditoria = $factura->obtenerAuditoria($id_factura);
+        $configPagoMovil = $factura->obtenerConfigPagoMovil();
+        
+        // Determinar permisos
+        $permisos = $this->obtenerPermisos($rol);
+        
+        renderView('facturas/detalle', [
+            'factura' => $facturaData,
+            'detalles' => $detalles,
+            'auditoria' => $auditoria,
+            'config_pago_movil' => $configPagoMovil,
+            'permisos' => $permisos,
+            'rol' => $rol
+        ]);
+    }
+    
+    /**
+     * Formulario para crear factura desde cita
+     */
+    public function crearDesdeCita() {
+        $this->verificarRol(['asistente', 'administrador']);
+        
+        $id_cita = $_GET['id_cita'] ?? 0;
+        
+        if (!$id_cita) {
+            redirect('/');
+        }
+        
+        // Obtener datos de la cita
+        $cita = new Cita();
+        $datosCita = $cita->obtenerPorId($id_cita);
+        
+        if (!$datosCita) {
+            redirect('/');
+        }
+        
+        renderView('facturas/crear', [
+            'cita' => $datosCita
+        ]);
     }
     
     // ==================== API ====================
     
     /**
-     * Genera una factura desde una cita
+     * Crear factura
      */
-    public function generar() {
-        $rol = $_SESSION['rol'] ?? '';
+    public function crear() {
+        $this->verificarRol(['asistente', 'administrador']);
         
-        // Solo asistente y administrador pueden generar facturas
-        if (!in_array($rol, ['asistente', 'administrador'])) {
-            ApiResponse::error('No tiene permisos para generar facturas', 'forbidden', [], 403);
+        $id_cita = $_POST['id_cita'] ?? 0;
+        $id_paciente = $_POST['id_paciente'] ?? 0;
+        $id_medico = $_POST['id_medico'] ?? 0;
+        $fecha_cita = $_POST['fecha_cita'] ?? '';
+        $subtotal = $_POST['subtotal'] ?? 0;
+        $iva = $_POST['iva'] ?? 0;
+        $total = $_POST['total'] ?? 0;
+        $forma_pago = $_POST['forma_pago'] ?? 'pago_movil';
+        $observaciones = $_POST['observaciones'] ?? '';
+        
+        $detalles = $_POST['detalles'] ?? [];
+        
+        if (empty($id_cita) || empty($id_paciente) || empty($id_medico)) {
+            ApiResponse::error('Datos incompletos', 'validation_error', [], 400);
             return;
         }
         
-        $id_cita = isset($_POST['id_cita']) ? (int)$_POST['id_cita'] : 0;
-        
-        if ($id_cita <= 0) {
-            ApiResponse::error('ID de cita no válido', 'validation_error', [], 400);
-            return;
+        // Si no se proporcionan detalles, usar la tarifa del médico automáticamente
+        if (empty($detalles) || empty($subtotal)) {
+            $medico = new Medico();
+            $tarifa = $medico->obtenerTarifa($id_medico);
+            
+            $detalles = [[
+                'concepto' => 'Consulta médica',
+                'descripcion' => 'Consulta con ' . ($_POST['nombre_medico'] ?? 'médico'),
+                'cantidad' => 1,
+                'precio_unitario' => $tarifa,
+                'subtotal' => $tarifa
+            ]];
+            
+            $subtotal = $tarifa;
+            $iva = 0;
+            $total = $tarifa;
         }
         
-        // Verificar que no exista factura para esta cita
-        if ($this->factura->existeFacturaParaCita($id_cita)) {
-            ApiResponse::error('Ya existe una factura para esta cita', 'duplicate', [], 409);
-            return;
-        }
-        
-        // Obtener detalles de la cita
-        $cita = $this->cita->obtenerDetalle($id_cita, 0); // 0 para no filtrar por paciente
-        
-        if (!$cita) {
-            ApiResponse::error('Cita no encontrada', 'not_found', [], 404);
-            return;
-        }
-        
-        // Datos de la clínica
-        $datos_clinica = [
-            'nombre' => 'BioVital Clínica',
-            'direccion' => 'Av. Principal, Edificio Médico',
-            'telefono' => '+58-212-1234567',
-            'email' => 'contacto@biovital.com'
-        ];
-        
-        // Datos del beneficiario (pago móvil)
-        $datos_beneficiario = [
-            'banco' => 'Banco de Venezuela',
-            'celular' => '0412-1234567',
-            'cedula' => '12345678',
-            'tipo_cuenta' => 'Ahorros'
-        ];
-        
-        // Detalles de la factura
-        $subtotal = 50.00; // Precio base de consulta
-        $iva = 0.00; // IVA 0%
-        $total = $subtotal + $iva;
-        
-        $detalles_factura = [
-            'items' => [
-                [
-                    'concepto' => 'Consulta médica - ' . $cita->especialidad_nombre,
-                    'cantidad' => 1,
-                    'precio_unitario' => $subtotal,
-                    'subtotal' => $subtotal
-                ]
-            ]
-        ];
-        
-        $datos = [
+        $factura = new Factura();
+        $resultado = $factura->crear([
             'id_cita' => $id_cita,
-            'id_paciente' => $cita->id_paciente,
-            'id_medico' => $cita->id_medico,
+            'id_paciente' => $id_paciente,
+            'id_medico' => $id_medico,
+            'fecha_cita' => $fecha_cita,
             'subtotal' => $subtotal,
             'iva' => $iva,
             'total' => $total,
-            'datos_clinica' => $datos_clinica,
-            'datos_beneficiario' => $datos_beneficiario,
-            'detalles_factura' => $detalles_factura
-        ];
-        
-        $resultado = $this->factura->crear($datos);
+            'forma_pago' => $forma_pago,
+            'observaciones' => $observaciones,
+            'detalles' => $detalles,
+            'creado_por' => $_SESSION['user_id'],
+            'rol_usuario' => $_SESSION['rol']
+        ]);
         
         if ($resultado['success']) {
             ApiResponse::created([
-                'id_factura' => $resultado['id'],
+                'id_factura' => $resultado['id_factura'],
                 'numero_factura' => $resultado['numero_factura'],
-                'redirect' => APP_URL . '/factura/ver?id=' . $resultado['id']
-            ], 'Factura generada exitosamente');
+                'redirect' => APP_URL . '/facturas/detalle?id=' . $resultado['id_factura']
+            ], 'Factura creada exitosamente');
         } else {
-            ApiResponse::error($resultado['message'], 'creation_error', [], 500);
+            ApiResponse::error('Error al crear factura', 'creation_error', [], 500);
         }
     }
     
     /**
-     * Lista facturas según el rol
+     * Actualizar factura
      */
-    public function listarAPI() {
-        $rol = $_SESSION['rol'] ?? '';
-        $usuario_id = $_SESSION['usuario'] ?? 0;
+    public function actualizar() {
+        $this->verificarRol(['asistente', 'administrador']);
         
-        $filtros = [
-            'estado' => $_POST['estado'] ?? '',
-            'busqueda' => $_POST['busqueda'] ?? ''
-        ];
+        $id_factura = $_POST['id_factura'] ?? 0;
         
-        $facturas = $this->factura->listarPorRol($usuario_id, $rol, $filtros);
-        
-        $resultado = [];
-        foreach ($facturas as $f) {
-            $resultado[] = [
-                'id_factura' => $f->id_factura,
-                'numero_factura' => $f->numero_factura,
-                'paciente_nombre' => $f->paciente_nombre,
-                'medico_nombre' => $f->medico_nombre,
-                'fecha_emision' => date('d/m/Y H:i', strtotime($f->fecha_emision)),
-                'estado' => $f->estado,
-                'total' => number_format($f->total, 2),
-                'referencia_pago' => $f->referencia_pago
-            ];
-        }
-        
-        ApiResponse::success($resultado);
-    }
-    
-    /**
-     * Obtiene detalles de una factura
-     */
-    public function obtener() {
-        $id_factura = isset($_POST['id_factura']) ? (int)$_POST['id_factura'] : 0;
-        $rol = $_SESSION['rol'] ?? '';
-        $usuario_id = $_SESSION['usuario'] ?? 0;
-        
-        if ($id_factura <= 0) {
-            ApiResponse::error('ID de factura no válido', 'validation_error', [], 400);
+        if (!$id_factura) {
+            ApiResponse::error('ID de factura requerido', 'validation_error', [], 400);
             return;
         }
         
-        $factura = $this->factura->obtenerPorId($id_factura);
+        $factura = new Factura();
+        $facturaData = $factura->obtenerPorId($id_factura);
         
-        if (!$factura) {
+        if (!$facturaData) {
+            ApiResponse::error('Factura no encontrada', 'not_found', [], 404);
+            return;
+        }
+        
+        // Verificar que no esté pagada
+        if ($facturaData->estado === 'pagada') {
+            ApiResponse::error('No se puede modificar una factura pagada', 'invalid_state', [], 400);
+            return;
+        }
+        
+        $datos = [
+            'subtotal' => $_POST['subtotal'] ?? null,
+            'iva' => $_POST['iva'] ?? null,
+            'total' => $_POST['total'] ?? null,
+            'observaciones' => $_POST['observaciones'] ?? null,
+            'forma_pago' => $_POST['forma_pago'] ?? null,
+            'detalles' => $_POST['detalles'] ?? null
+        ];
+        
+        $resultado = $factura->actualizar($id_factura, $datos, $_SESSION['user_id'], $_SESSION['rol']);
+        
+        if ($resultado['success']) {
+            ApiResponse::success([], 'Factura actualizada exitosamente');
+        } else {
+            ApiResponse::error('Error al actualizar factura', 'update_error', [], 500);
+        }
+    }
+    
+    /**
+     * Marcar factura como pagada (pago móvil)
+     */
+    public function marcarPagada() {
+        $this->verificarRol(['paciente', 'asistente', 'administrador']);
+        
+        $id_factura = $_POST['id_factura'] ?? 0;
+        $referencia_pago = trim($_POST['referencia_pago'] ?? '');
+        
+        if (!$id_factura) {
+            ApiResponse::error('ID de factura requerido', 'validation_error', [], 400);
+            return;
+        }
+        
+        if (empty($referencia_pago)) {
+            ApiResponse::error('La referencia de pago es requerida', 'validation_error', [], 400);
+            return;
+        }
+        
+        $factura = new Factura();
+        $facturaData = $factura->obtenerPorId($id_factura);
+        
+        if (!$facturaData) {
             ApiResponse::error('Factura no encontrada', 'not_found', [], 404);
             return;
         }
         
         // Verificar permisos
-        if (!$this->verificarPermisoVer($factura, $rol, $usuario_id)) {
-            ApiResponse::error('No tiene permisos para ver esta factura', 'forbidden', [], 403);
+        $rol = $_SESSION['rol'];
+        $user_id = $_SESSION['user_id'];
+        
+        if ($rol === 'paciente' && $facturaData->id_paciente != $user_id) {
+            ApiResponse::error('No tienes permiso para marcar esta factura como pagada', 'permission_denied', [], 403);
             return;
         }
         
-        ApiResponse::success($factura);
-    }
-    
-    /**
-     * Confirma el pago de una factura
-     */
-    public function confirmarPago() {
-        $rol = $_SESSION['rol'] ?? '';
-        $usuario_id = $_SESSION['usuario'] ?? 0;
-        
-        // Solo paciente, asistente y administrador pueden confirmar pago
-        if (!in_array($rol, ['paciente', 'asistente', 'administrador'])) {
-            ApiResponse::error('No tiene permisos para confirmar pagos', 'forbidden', [], 403);
+        if ($facturaData->estado === 'pagada') {
+            ApiResponse::error('La factura ya está pagada', 'invalid_state', [], 400);
             return;
         }
         
-        $id_factura = isset($_POST['id_factura']) ? (int)$_POST['id_factura'] : 0;
-        $referencia = trim($_POST['referencia'] ?? '');
-        
-        if ($id_factura <= 0) {
-            ApiResponse::error('ID de factura no válido', 'validation_error', [], 400);
-            return;
-        }
-        
-        if (empty($referencia)) {
-            ApiResponse::error('La referencia de pago es requerida', 'validation_error', [], 400);
-            return;
-        }
-        
-        $factura = $this->factura->obtenerPorId($id_factura);
-        
-        if (!$factura) {
-            ApiResponse::error('Factura no encontrada', 'not_found', [], 404);
-            return;
-        }
-        
-        // Paciente solo puede confirmar sus propias facturas
-        if ($rol === 'paciente' && $factura->id_paciente != $usuario_id) {
-            ApiResponse::error('Solo puede confirmar pagos de sus propias facturas', 'forbidden', [], 403);
-            return;
-        }
-        
-        $resultado = $this->factura->confirmarPago($id_factura, $referencia, $usuario_id);
+        $resultado = $factura->marcarPagada($id_factura, $referencia_pago, $user_id, $rol);
         
         if ($resultado['success']) {
             ApiResponse::success([], 'Pago confirmado exitosamente');
         } else {
-            ApiResponse::error($resultado['message'], 'payment_error', [], 500);
+            ApiResponse::error('Error al confirmar pago', 'update_error', [], 500);
         }
     }
     
     /**
-     * Actualiza una factura
+     * Cancelar factura
      */
-    public function actualizar() {
-        $rol = $_SESSION['rol'] ?? '';
-        $usuario_id = $_SESSION['usuario'] ?? 0;
+    public function cancelar() {
+        $this->verificarRol(['administrador']);
         
-        // Solo asistente y administrador pueden editar
-        if (!in_array($rol, ['asistente', 'administrador'])) {
-            ApiResponse::error('No tiene permisos para editar facturas', 'forbidden', [], 403);
+        $id_factura = $_POST['id_factura'] ?? 0;
+        
+        if (!$id_factura) {
+            ApiResponse::error('ID de factura requerido', 'validation_error', [], 400);
             return;
         }
         
-        $id_factura = isset($_POST['id_factura']) ? (int)$_POST['id_factura'] : 0;
-        
-        if ($id_factura <= 0) {
-            ApiResponse::error('ID de factura no válido', 'validation_error', [], 400);
-            return;
-        }
-        
-        $datos = [
-            'subtotal' => (float)$_POST['subtotal'],
-            'iva' => (float)$_POST['iva'],
-            'total' => (float)$_POST['total'],
-            'detalles_factura' => json_decode($_POST['detalles_factura'], true) ?? []
-        ];
-        
-        $resultado = $this->factura->actualizar($id_factura, $datos, $usuario_id);
+        $factura = new Factura();
+        $resultado = $factura->cancelar($id_factura, $_SESSION['user_id'], $_SESSION['rol']);
         
         if ($resultado['success']) {
-            ApiResponse::success([], 'Factura actualizada exitosamente');
+            ApiResponse::success([], 'Factura cancelada exitosamente');
         } else {
-            ApiResponse::error($resultado['message'], 'update_error', [], 500);
+            ApiResponse::error('Error al cancelar factura', 'update_error', [], 500);
         }
     }
     
     /**
-     * Elimina una factura
+     * Eliminar factura
      */
     public function eliminar() {
-        $rol = $_SESSION['rol'] ?? '';
+        $this->verificarRol(['administrador']);
         
-        // Solo administrador puede eliminar
-        if ($rol !== 'administrador') {
-            ApiResponse::error('No tiene permisos para eliminar facturas', 'forbidden', [], 403);
+        $id_factura = $_POST['id_factura'] ?? 0;
+        
+        if (!$id_factura) {
+            ApiResponse::error('ID de factura requerido', 'validation_error', [], 400);
             return;
         }
         
-        $id_factura = isset($_POST['id_factura']) ? (int)$_POST['id_factura'] : 0;
-        
-        if ($id_factura <= 0) {
-            ApiResponse::error('ID de factura no válido', 'validation_error', [], 400);
-            return;
-        }
-        
-        $resultado = $this->factura->eliminar($id_factura);
+        $factura = new Factura();
+        $resultado = $factura->eliminar($id_factura, $_SESSION['user_id'], $_SESSION['rol']);
         
         if ($resultado['success']) {
             ApiResponse::success([], 'Factura eliminada exitosamente');
         } else {
-            ApiResponse::error($resultado['message'], 'delete_error', [], 500);
+            ApiResponse::error('Error al eliminar factura', 'delete_error', [], 500);
         }
     }
     
-    // ==================== MÉTODOS DE VERIFICACIÓN DE PERMISOS ====================
+    /**
+     * Buscar facturas (API para asistente y administrador)
+     */
+    public function buscar() {
+        $this->verificarRol(['asistente', 'administrador']);
+        
+        $filtros = [
+            'numero' => $_POST['numero'] ?? '',
+            'paciente' => $_POST['paciente'] ?? '',
+            'estado' => $_POST['estado'] ?? '',
+            'fecha_desde' => $_POST['fecha_desde'] ?? '',
+            'fecha_hasta' => $_POST['fecha_hasta'] ?? ''
+        ];
+        
+        $factura = new Factura();
+        $facturas = $factura->listarTodas($filtros);
+        
+        ApiResponse::success(['facturas' => $facturas], 'Facturas encontradas');
+    }
     
-    private function verificarPermisoVer($factura, $rol, $usuario_id) {
+    /**
+     * Obtener datos de factura para edición
+     */
+    public function obtenerDatos() {
+        $id_factura = $_POST['id_factura'] ?? 0;
+        
+        if (!$id_factura) {
+            ApiResponse::error('ID de factura requerido', 'validation_error', [], 400);
+            return;
+        }
+        
+        $factura = new Factura();
+        $facturaData = $factura->obtenerPorId($id_factura);
+        
+        if (!$facturaData) {
+            ApiResponse::error('Factura no encontrada', 'not_found', [], 404);
+            return;
+        }
+        
+        // Verificar permisos
+        $rol = $_SESSION['rol'];
+        $user_id = $_SESSION['user_id'];
+        
+        if ($rol === 'paciente' && $facturaData->id_paciente != $user_id) {
+            ApiResponse::error('No tienes permiso para ver esta factura', 'permission_denied', [], 403);
+            return;
+        }
+        
+        if ($rol === 'medico' && $facturaData->id_medico != $user_id) {
+            ApiResponse::error('No tienes permiso para ver esta factura', 'permission_denied', [], 403);
+            return;
+        }
+        
+        $detalles = $factura->obtenerDetalles($id_factura);
+        
+        ApiResponse::success([
+            'factura' => $facturaData,
+            'detalles' => $detalles
+        ], 'Datos de factura');
+    }
+    
+    /**
+     * Vista para que el médico configure su tarifa
+     */
+    public function configurarTarifa() {
+        $this->verificarRol(['medico']);
+        
+        $id_medico = $_SESSION['user_id'];
+        $medico = new Medico();
+        $tarifaActual = $medico->obtenerTarifa($id_medico);
+        
+        $options = [
+            'title' => 'Configurar Tarifa - BioVital',
+            'breadcrumbs' => [
+                ['label' => 'Inicio', 'url' => APP_URL . '/panel/medico'],
+                ['label' => 'Configurar Tarifa']
+            ],
+            'active_page' => 'configurar-tarifa'
+        ];
+        
+        $data = [
+            'tarifa_actual' => $tarifaActual
+        ];
+        
+        ViewHelper::renderDashboard('facturas/configurar_tarifa', $data, $options);
+    }
+    
+    /**
+     * API para actualizar la tarifa del médico
+     */
+    public function actualizarTarifa() {
+        $this->verificarRol(['medico']);
+        
+        $tarifa = $_POST['tarifa'] ?? 0;
+        
+        if ($tarifa < 0) {
+            ApiResponse::error('La tarifa no puede ser negativa', 'validation_error', [], 400);
+            return;
+        }
+        
+        $id_medico = $_SESSION['user_id'];
+        $medico = new Medico();
+        $resultado = $medico->actualizarTarifa($id_medico, $tarifa);
+        
+        if ($resultado) {
+            ApiResponse::success(['tarifa' => $tarifa], 'Tarifa actualizada exitosamente');
+        } else {
+            ApiResponse::error('Error al actualizar tarifa', 'update_error', [], 500);
+        }
+    }
+    
+    /**
+     * Vista para que el administrador vea todas las tarifas
+     */
+    public function verTarifas() {
+        $this->verificarRol(['administrador']);
+        
+        $medico = new Medico();
+        $tarifas = $medico->obtenerTodasLasTarifas();
+        
+        $options = [
+            'title' => 'Tarifas de Médicos - BioVital',
+            'breadcrumbs' => [
+                ['label' => 'Inicio', 'url' => APP_URL . '/panel/administrador'],
+                ['label' => 'Gestión de Facturas', 'url' => APP_URL . '/facturas'],
+                ['label' => 'Tarifas de Médicos']
+            ],
+            'active_page' => 'ver-tarifas'
+        ];
+        
+        $data = [
+            'tarifas' => $tarifas
+        ];
+        
+        ViewHelper::renderDashboard('facturas/ver_tarifas', $data, $options);
+    }
+    
+    /**
+     * API para obtener la tarifa de un médico
+     */
+    public function obtenerTarifaMedico() {
+        $id_medico = $_POST['id_medico'] ?? 0;
+        
+        if (!$id_medico) {
+            ApiResponse::error('ID de médico requerido', 'validation_error', [], 400);
+            return;
+        }
+        
+        $medico = new Medico();
+        $tarifa = $medico->obtenerTarifa($id_medico);
+        
+        ApiResponse::success(['tarifa' => $tarifa], 'Tarifa obtenida');
+    }
+    
+    /**
+     * API para buscar factura por cita
+     */
+    public function buscarPorCita() {
+        $id_cita = $_POST['id_cita'] ?? 0;
+        
+        if (!$id_cita) {
+            ApiResponse::error('ID de cita requerido', 'validation_error', [], 400);
+            return;
+        }
+        
+        $factura = new Factura();
+        $facturaData = $factura->buscarPorCita($id_cita);
+        
+        if ($facturaData) {
+            ApiResponse::success(['factura' => $facturaData], 'Factura encontrada');
+        } else {
+            ApiResponse::success(['factura' => null], 'No existe factura para esta cita');
+        }
+    }
+    
+    /**
+     * Demo del diseño de factura (sin base de datos)
+     */
+    public function demoDiseño() {
+        renderView('facturas/demo_diseño');
+    }
+    
+    // ==================== MÉTODOS AUXILIARES ====================
+    
+    private function verificarRol($rolesPermitidos) {
+        if (!isset($_SESSION['rol'])) {
+            redirect('/login');
+        }
+        
+        if (!in_array($_SESSION['rol'], $rolesPermitidos)) {
+            redirect('/');
+        }
+    }
+    
+    private function obtenerPermisos($rol) {
+        $permisos = [
+            'ver' => false,
+            'editar' => false,
+            'eliminar' => false,
+            'marcar_pago' => false,
+            'imprimir' => false,
+            'guardar_pdf' => false,
+            'ver_auditoria' => false
+        ];
+        
         switch ($rol) {
             case 'paciente':
-                return $factura->id_paciente == $usuario_id;
+                $permisos['ver'] = true;
+                $permisos['marcar_pago'] = true;
+                $permisos['imprimir'] = true;
+                $permisos['guardar_pdf'] = true;
+                break;
+                
             case 'medico':
-                return $factura->id_medico == $usuario_id;
+                $permisos['ver'] = true;
+                $permisos['imprimir'] = true;
+                $permisos['guardar_pdf'] = true;
+                break;
+                
             case 'asistente':
+                $permisos['ver'] = true;
+                $permisos['editar'] = true;
+                $permisos['marcar_pago'] = true;
+                $permisos['imprimir'] = true;
+                $permisos['guardar_pdf'] = true;
+                $permisos['ver_auditoria'] = true;
+                break;
+                
             case 'administrador':
-                return true;
-            default:
-                return false;
+                $permisos['ver'] = true;
+                $permisos['editar'] = true;
+                $permisos['eliminar'] = true;
+                $permisos['marcar_pago'] = true;
+                $permisos['imprimir'] = true;
+                $permisos['guardar_pdf'] = true;
+                $permisos['ver_auditoria'] = true;
+                break;
         }
-    }
-    
-    private function puedeEditar($rol) {
-        return in_array($rol, ['asistente', 'administrador']);
-    }
-    
-    private function puedeEliminar($rol) {
-        return $rol === 'administrador';
-    }
-    
-    private function puedeConfirmarPago($rol) {
-        return in_array($rol, ['paciente', 'asistente', 'administrador']);
-    }
-    
-    private function puedeImprimir($rol) {
-        return in_array($rol, ['paciente', 'medico', 'asistente', 'administrador']);
+        
+        return $permisos;
     }
 }
 ?>

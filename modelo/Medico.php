@@ -436,6 +436,57 @@ class Medico {
         }
     }
     
+    // ==================== MÉTODOS PARA TARIFA ====================
+    
+    /**
+     * Obtiene la tarifa de consulta de un médico
+     */
+    function obtenerTarifa($id_medico) {
+        try {
+            $sql = "SELECT tarifa_consulta FROM registro_medico WHERE id_medico = :id_medico";
+            $query = $this->acceso->prepare($sql);
+            $query->execute(array(':id_medico' => $id_medico));
+            $resultado = $query->fetch(PDO::FETCH_OBJ);
+            return $resultado ? $resultado->tarifa_consulta : 50.00;
+        } catch(PDOException $e) {
+            error_log("Error en obtenerTarifa: " . $e->getMessage());
+            return 50.00;
+        }
+    }
+    
+    /**
+     * Actualiza la tarifa de consulta de un médico
+     */
+    function actualizarTarifa($id_medico, $tarifa) {
+        try {
+            $sql = "UPDATE registro_medico SET tarifa_consulta = :tarifa WHERE id_medico = :id_medico";
+            $query = $this->acceso->prepare($sql);
+            $query->execute(array(':tarifa' => $tarifa, ':id_medico' => $id_medico));
+            return true;
+        } catch(PDOException $e) {
+            error_log("Error en actualizarTarifa: " . $e->getMessage());
+            return false;
+        }
+    }
+    
+    /**
+     * Obtiene todas las tarifas de los médicos (para administrador)
+     */
+    function obtenerTodasLasTarifas() {
+        try {
+            $sql = "SELECT id_medico, nombre_medico, apellido_medico, especialidad, tarifa_consulta
+                    FROM registro_medico
+                    WHERE medico_tipo = 2
+                    ORDER BY apellido_medico, nombre_medico";
+            $query = $this->acceso->prepare($sql);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_OBJ);
+        } catch(PDOException $e) {
+            error_log("Error en obtenerTodasLasTarifas: " . $e->getMessage());
+            return array();
+        }
+    }
+    
     // ==================== MÉTODOS PARA CONSULTORIOS ====================
     
     /**     * Obtiene los consultorios de un médico     */
