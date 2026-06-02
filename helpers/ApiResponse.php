@@ -1,17 +1,29 @@
 <?php
-class ApiResponse {
-    
+
+/**
+ * Clase ApiResponse
+ *
+ * Proporciona métodos estandarizados para enviar respuestas JSON a los clientes,
+ * simplificando la gestión de códigos de estado, mensajes y datos, tanto para
+ * operaciones exitosas como para errores.
+ *
+ * Diseñada para ser utilizada en aplicaciones web construidas con PHP, asegurando
+ * consistencia en las respuestas de la API y facilitando la depuración y el registro
+ * de errores.
+ */
+class ApiResponse
+{
     // ==================== CONSTANTES PARA CÓDIGOS DE ESTADO ====================
-    
+
     // Códigos de estado generales
     const CODE_SUCCESS = 'success';
     const CODE_ERROR = 'error';
-    
+
     // Códigos para operaciones CRUD
     const CODE_CREATED = 'created';
     const CODE_UPDATED = 'updated';
     const CODE_DELETED = 'deleted';
-    
+
     // Códigos para errores comunes
     const CODE_NOT_FOUND = 'not_found';
     const CODE_VALIDATION_ERROR = 'validation_error';
@@ -21,301 +33,372 @@ class ApiResponse {
     const CODE_FORBIDDEN = 'forbidden';
     const CODE_DUPLICATE_ENTRY = 'duplicate_entry';
     const CODE_UNAUTHORIZED = 'unauthorized';
+
+    // ==================== CONFIGURACIÓN DEL ENTORNO ====================
     
-    // ==================== MÉTODO PRINCIPAL ====================
-    
+    private static $environment = null;
+
+    /**
+     * Inicializa o establece el entorno de la aplicación.
+     * Se recomienda llamar a esto al inicio de tu aplicación.
+     *
+     * @param string $env El entorno actual ('production', 'development', 'testing', etc.)
+     */
+    public static function setEnvironment(string $env): void
+    {
+        self::$environment = strtolower($env);
+    }
+
+    /**
+     * Obtiene el entorno actual de la aplicación.
+     * Si no se ha establecido, intenta leer la variable de entorno 'APP_ENV'.
+     * Si tampoco está disponible, asume 'development'.
+     *
+     * @return string El entorno actual.
+     */
+    private static function getEnvironment(): string
+    {
+        if (self::$environment === null) {
+            self::$environment = getenv('APP_ENV') ?: 'development';
+        }
+        return strtolower(self::$environment);
+    }
+
+    // ==================== MÉTODO PRINCIPAL DE ENVÍO ====================
+
     /**
      * Envía una respuesta JSON estandarizada al cliente.
-     * 
-     * @param bool $success Indica si la operación fue exitosa
-     * @param string $code Código de la operación (ej: 'created', 'validation_error')
-     * @param string $message Mensaje amigable para el usuario (o técnico para debug)
-     * @param mixed $data Datos adicionales a incluir en la respuesta (array u objeto)
-     * @param int $httpStatusCode Código HTTP de la respuesta (ej: 200, 400, 401, 403, 404, 500)
-     * @return void Termina la ejecución del script
+     * Este es el método central que maneja la construcción y envío de la respuesta.
+     *
+     * @param bool $success Indica si la operación fue exitosa.
+     * @param string $code Código descriptivo de la operación (ej: 'created', 'validation_error').
+     * @param string $message Mensaje amigable para el usuario o técnico para depuración.
+     * @param array $data Datos adicionales a incluir en la respuesta (siempre un array).
+     * @param int $httpStatusCode Código de estado HTTP de la respuesta (ej: 200, 400, 401, 403, 404, 500).
+     * @return void Termina la ejecución del script para asegurar una única respuesta.
      */
-    public static function send($success, $code, $message, $data = [], $httpStatusCode = 200) {
-        // Evitar enviar múltiples respuestas
+    public static function send(bool $success, string $code, string $message, array $data = [], int $httpStatusCode = 200): void
+    {
+        // 1. Prevenir envío múltiple de cabeceras o contenido
         if (headers_sent()) {
-            error_log("[ApiResponse] Error: Headers ya enviados en " . self::getCallerInfo());
-            error_log("[ApiResponse] No se pudo enviar respuesta JSON. Success: " . ($success ? 'true' : 'false') . ", Code: $code");
-            return;
+            error_log("[ApiResponse] Error crítico: Cabeceras ya enviadas antes de intentar responder. Caller: " . self::getCallerInfo());
+            
+            if (self::getEnvironment() !== 'production') {
+                http_response_code(500);
+                header('Content-Type: text/plain; charset=utf-8');
+                echo "Internal Server Error: Headers already sent.";
+            }
+            exit();
         }
-        
-        // Establecer código de respuesta HTTP
+
+        // 2. Establecer código de respuesta HTTP
         http_response_code($httpStatusCode);
+
+        // 3. Establecer cabeceras de respuesta
+        header('Content-Type: application/json; charset=utf-8');
         
-        // Establecer cabecera Content-Type como JSON
-        header('Content-Type: application/json');
-        header('Cache-Control: no-cache, must-revalidate');
-        
-        // Construir la respuesta base
+        if ($success && $httpStatusCode < 300) {
+            header('Cache-Control: no-cache, must-revalidate');
+            header('Pragma: no-cache');
+            header('Expires: 0');
+        } else {
+            header('Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate');
+            header('Pragma: no-cache');
+            header('Expires: 0');
+        }
+
+        // 4. Construir la estructura de la respuesta JSON
         $response = [
             'success' => $success,
             'code' => $code,
             'message' => $message,
             'data' => $data,
-            'timestamp' => date('Y-m-d H:i:s')
+            'timestamp' => date('c') // Formato ISO 8601 estándar
         ];
-        
-        // ==================== INFORMACIÓN DE DEPURACIÓN (SOLO EN DESARROLLO) ====================
-        $environment = getenv('APP_ENV') ?: 'development';
+
+        // 5. Agregar información de depuración (SOLO en entornos de desarrollo)
+        $environment = self::getEnvironment();
         if ($environment !== 'production') {
             $response['debug'] = self::getDebugInfo();
         }
-        
-        // ==================== REGISTRO DE LOGS (SOLO ERRORES EN PRODUCCIÓN) ====================
+
+        // 6. Registrar logs de errores (SOLO errores y en producción)
         if (!$success && $environment === 'production') {
-            self::logError($code, $message, $data);
+            self::logError($code, $message, $data, $httpStatusCode);
         }
-        
-        // Enviar respuesta como JSON
-        echo json_encode($response, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+
+        // 7. Enviar la respuesta JSON
+        $jsonOptions = JSON_UNESCAPED_UNICODE;
+        if ($environment !== 'production') {
+            $jsonOptions |= JSON_PRETTY_PRINT;
+        }
+
+        echo json_encode($response, $jsonOptions);
+
+        // 8. Terminar la ejecución del script
         exit();
     }
-    
-    // ==================== RESPUESTAS EXITOSAS ====================
-    
+
+    // ==================== RESPUESTAS DE ÉXITO (2xx) ====================
+
     /**
-     * Respuesta de éxito genérica
+     * Respuesta de éxito genérica.
      * HTTP Status: 200 OK
-     * 
-     * @param mixed $data Datos a incluir en la respuesta
-     * @param string $code Código de la operación
-     * @param string $message Mensaje de éxito
      */
-    public static function success($data = [], $code = self::CODE_SUCCESS, $message = 'Operación exitosa') {
+    public static function success(array $data = [], string $code = self::CODE_SUCCESS, string $message = 'Operación exitosa'): void
+    {
         self::send(true, $code, $message, $data, 200);
     }
-    
+
     /**
-     * Respuesta de éxito al crear un recurso
+     * Respuesta de éxito al crear un nuevo recurso.
      * HTTP Status: 201 Created
-     * 
-     * @param mixed $data Datos del recurso creado (incluyendo ID si es necesario)
-     * @param string $message Mensaje de éxito
      */
-    public static function created($data = [], $message = 'Recurso creado exitosamente') {
+    public static function created(array $data = [], string $message = 'Recurso creado exitosamente'): void
+    {
         self::send(true, self::CODE_CREATED, $message, $data, 201);
     }
-    
+
     /**
-     * Respuesta de éxito al actualizar un recurso
+     * Respuesta de éxito al actualizar un recurso existente.
      * HTTP Status: 200 OK
-     * 
-     * @param mixed $data Datos actualizados del recurso
-     * @param string $message Mensaje de éxito
      */
-    public static function updated($data = [], $message = 'Recurso actualizado exitosamente') {
+    public static function updated(array $data = [], string $message = 'Recurso actualizado exitosamente'): void
+    {
         self::send(true, self::CODE_UPDATED, $message, $data, 200);
     }
-    
+
     /**
-     * Respuesta de éxito al eliminar un recurso
+     * Respuesta de éxito al eliminar un recurso.
      * HTTP Status: 200 OK
-     * 
-     * @param string $message Mensaje de éxito
      */
-    public static function deleted($message = 'Recurso eliminado exitosamente') {
-        self::send(true, self::CODE_DELETED, $message, [], 200);
+    public static function deleted(string $message = 'Recurso eliminado exitosamente', array $data = []): void
+    {
+        self::send(true, self::CODE_DELETED, $message, $data, 200);
     }
-    
+
     /**
-     * Respuesta sin contenido (para operaciones que no retornan datos)
+     * Respuesta sin contenido. Útil para operaciones asíncronas de guardado o eliminación pura.
      * HTTP Status: 204 No Content
      */
-    public static function noContent() {
+    public static function noContent(): void
+    {
+        if (headers_sent()) {
+            error_log("[ApiResponse] Error crítico: Cabeceras ya enviadas antes de intentar enviar 204 No Content. Caller: " . self::getCallerInfo());
+            if (self::getEnvironment() !== 'production') {
+                http_response_code(500);
+                header('Content-Type: text/plain; charset=utf-8');
+                echo "Internal Server Error: Headers already sent during noContent().";
+            }
+            exit();
+        }
+
         http_response_code(204);
-        header('Content-Type: application/json');
         exit();
     }
-    
-    // ==================== RESPUESTAS DE ERROR ====================
-    
+
+    // ==================== RESPUESTAS DE ERROR (4xx y 5xx) ====================
+
     /**
-     * Respuesta de error genérico
-     * HTTP Status: 400 Bad Request
-     * 
-     * @param string $message Mensaje de error
-     * @param string $code Código de error
-     * @param mixed $data Datos adicionales del error
-     * @param int $httpStatusCode Código HTTP (por defecto 400)
+     * Respuesta de error genérica.
+     * HTTP Status: 400 Bad Request (por defecto)
      */
-    public static function error($message, $code = self::CODE_ERROR, $data = [], $httpStatusCode = 400) {
+    public static function error(string $message, string $code = self::CODE_ERROR, array $data = [], int $httpStatusCode = 400): void
+    {
+        if ($httpStatusCode < 400 || $httpStatusCode >= 600) {
+            error_log("[ApiResponse] Advertencia: Se intentó usar el método error() con un código HTTP no válido: {$httpStatusCode}. Reajustando a 400.");
+            $httpStatusCode = 400;
+            $code = self::CODE_ERROR;
+        }
         self::send(false, $code, $message, $data, $httpStatusCode);
     }
-    
+
     /**
-     * Error de validación de datos (formulario con campos incorrectos)
+     * Error de validación de datos (ej: campos requeridos vacíos o formatos incorrectos).
      * HTTP Status: 422 Unprocessable Entity
-     * 
-     * @param array $errors Array con los errores de validación (campo => mensaje)
-     * @param string $message Mensaje general del error
      */
-    public static function validationError($errors, $message = 'Error de validación') {
+    public static function validationError(array $errors, string $message = 'Error de validación'): void
+    {
         self::send(false, self::CODE_VALIDATION_ERROR, $message, ['errors' => $errors], 422);
     }
-    
+
     /**
-     * Error de autenticación (usuario no ha iniciado sesión)
+     * Error de autenticación (ej: token inválido o credenciales incorrectas).
      * HTTP Status: 401 Unauthorized
-     * 
-     * @param string $message Mensaje de error
      */
-    public static function unauthorized($message = 'No autenticado. Debe iniciar sesión') {
+    public static function unauthorized(string $message = 'No autenticado. Debe iniciar sesión'): void
+    {
         self::send(false, self::CODE_UNAUTHORIZED, $message, [], 401);
     }
-    
+
     /**
-     * Error de permisos (usuario autenticado pero sin autorización)
+     * Error de autorización (ej: usuario logueado pero sin roles suficientes).
      * HTTP Status: 403 Forbidden
-     * 
-     * @param string $message Mensaje de error
      */
-    public static function forbidden($message = 'No tiene permisos para realizar esta acción') {
+    public static function forbidden(string $message = 'No tiene permisos para realizar esta acción'): void
+    {
         self::send(false, self::CODE_FORBIDDEN, $message, [], 403);
     }
-    
+
     /**
-     * Error de recurso no encontrado
+     * Error de recurso no encontrado.
      * HTTP Status: 404 Not Found
-     * 
-     * @param string $resource Nombre del recurso no encontrado
      */
-    public static function notFound($resource = 'Recurso') {
-        self::send(false, self::CODE_NOT_FOUND, "{$resource} no encontrado", [], 404);
+    public static function notFound(string $resource = 'Recurso', array $data = []): void
+    {
+        self::send(false, self::CODE_NOT_FOUND, "{$resource} no encontrado", $data, 404);
     }
-    
+
     /**
-     * Error de token CSRF inválido
+     * Error de token CSRF inválido.
      * HTTP Status: 403 Forbidden
-     * 
-     * @param string $message Mensaje de error
      */
-    public static function csrfError($message = 'Token CSRF inválido. Por favor, recargue la página') {
+    public static function csrfError(string $message = 'Token CSRF inválido. Por favor, recargue la página'): void
+    {
         self::send(false, self::CODE_CSRF_ERROR, $message, [], 403);
     }
-    
+
     /**
-     * Error de entrada duplicada (registro ya existe)
+     * Error de entrada duplicada (ej: cédula, correo o ID ya registrados).
      * HTTP Status: 409 Conflict
-     * 
-     * @param string $message Mensaje de error
-     * @param mixed $data Datos adicionales
      */
-    public static function duplicateEntry($message = 'El registro ya existe', $data = []) {
+    public static function duplicateEntry(string $message = 'El registro ya existe', array $data = []): void
+    {
         self::send(false, self::CODE_DUPLICATE_ENTRY, $message, $data, 409);
     }
-    
+
     /**
-     * Error interno del servidor
+     * Error interno del servidor.
      * HTTP Status: 500 Internal Server Error
-     * 
-     * @param string $message Mensaje de error
      */
-    public static function serverError($message = 'Error interno del servidor. Por favor, intente más tarde') {
-        self::send(false, self::CODE_SERVER_ERROR, $message, [], 500);
+    public static function serverError(string $message = 'Error interno del servidor. Por favor, intente más tarde', array $data = []): void
+    {
+        $prodMessage = (self::getEnvironment() === 'production') ? 'Error interno del servidor. Por favor, intente más tarde.' : $message;
+        self::send(false, self::CODE_SERVER_ERROR, $prodMessage, $data, 500);
     }
-    
+
     // ==================== MÉTODOS AUXILIARES PRIVADOS ====================
-    
+
     /**
-     * Obtiene información de depuración para respuestas en modo desarrollo
-     * 
-     * @return array Información del archivo y línea que llamó a la API
+     * Obtiene información detallada del frame para depuración en desarrollo.
      */
-    private static function getDebugInfo() {
-        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5);
+    private static function getDebugInfo(): array
+    {
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 10);
         
-        // Buscar el primer frame que no sea de esta clase ni de funciones anónimas
         foreach ($trace as $index => $frame) {
+            if (!isset($frame['class']) || $frame['class'] !== __CLASS__) {
+                return [
+                    'caller_file' => $frame['file'] ?? 'unknown',
+                    'caller_line' => $frame['line'] ?? 'unknown',
+                    'caller_function' => $frame['function'] ?? 'unknown',
+                    'caller_class' => $frame['class'] ?? 'global',
+                    'trace_index' => $index
+                ];
+            }
+        }
+
+        if (!empty($trace)) {
+            $lastFrame = end($trace);
+            return [
+                'caller_file' => $lastFrame['file'] ?? 'unknown',
+                'caller_line' => $lastFrame['line'] ?? 'unknown',
+                'caller_function' => $lastFrame['function'] ?? 'unknown',
+                'caller_class' => $lastFrame['class'] ?? 'global',
+                'trace_index' => count($trace) - 1
+            ];
+        }
+
+        return ['caller' => 'unknown'];
+    }
+
+    /**
+     * Obtiene una cadena formateada del origen exacto de la llamada, saltándose la propia infraestructura.
+     */
+    private static function getCallerInfo(): string
+    {
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5);
+
+        foreach ($trace as $frame) {
             if (isset($frame['class']) && $frame['class'] === __CLASS__) {
                 continue;
             }
-            if (isset($frame['function']) && $frame['function'] === '{closure}') {
-                continue;
-            }
-            
-            return [
-                'caller_file' => $frame['file'] ?? 'unknown',
-                'caller_line' => $frame['line'] ?? 'unknown',
-                'caller_function' => $frame['function'] ?? 'unknown',
-                'caller_class' => $frame['class'] ?? 'global',
-                'trace_index' => $index
+
+            $file = $frame['file'] ?? 'unknown';
+            $line = $frame['line'] ?? 'unknown';
+            $function = $frame['function'] ?? 'unknown';
+            $class = isset($frame['class']) ? $frame['class'] . '::' : '';
+
+            return "{$class}{$function} en {$file}:{$line}";
+        }
+
+        return 'Origen desconocido';
+    }
+
+    /**
+     * Registra detalles de un error en el log de PHP (Solo producción)
+     */
+    private static function logError(string $code, string $message, array $data, int $httpStatusCode): void
+    {
+        if (self::getEnvironment() === 'production') {
+            $logData = [
+                'timestamp' => date('c'),
+                'http_status' => $httpStatusCode,
+                'api_code' => $code,
+                'message' => $message,
+                'request_data' => self::sanitizeData($_POST ?: []),
+                'query_params' => self::sanitizeData($_GET ?: []),
+                'server_data' => [
+                    'remote_addr' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+                    'request_uri' => $_SERVER['REQUEST_URI'] ?? 'unknown',
+                    'request_method' => $_SERVER['REQUEST_METHOD'] ?? 'unknown',
+                    'http_user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? 'unknown',
+                ],
+                'caller' => self::getCallerInfo(),
+                'error_details' => self::sanitizeData($data)
             ];
+
+            error_log("[ApiResponse Error] " . json_encode($logData, JSON_UNESCAPED_UNICODE | JSON_PARTIAL_OUTPUT_ON_ERROR));
         }
-        
-        // Si no se encontró información, usar el frame más reciente
-        $lastFrame = end($trace);
-        return [
-            'caller_file' => $lastFrame['file'] ?? 'unknown',
-            'caller_line' => $lastFrame['line'] ?? 'unknown',
-            'caller_function' => $lastFrame['function'] ?? 'unknown',
-            'caller_class' => $lastFrame['class'] ?? 'global'
-        ];
     }
-    
+
     /**
-     * Obtiene información del caller para logs de error
-     * 
-     * @return string Información del archivo y línea
+     * Sanitiza arrays de entrada para evitar almacenar datos sensibles en los archivos de log.
      */
-    private static function getCallerInfo() {
-        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
-        $caller = $trace[1] ?? $trace[0] ?? [];
+    private static function sanitizeData(array $data): array
+    {
+        $sensitiveKeys = ['password', 'contrasena', 'password_hash', 'token', 'token_csrf', 'credit_card', 'cvv'];
         
-        $file = $caller['file'] ?? 'unknown';
-        $line = $caller['line'] ?? 'unknown';
-        $function = $caller['function'] ?? 'unknown';
-        
-        return "$file:$line (function: $function)";
-    }
-    
-    /**
-     * Registra errores en el log del sistema (solo para producción)
-     * 
-     * @param string $code Código de error
-     * @param string $message Mensaje de error
-     * @param mixed $data Datos adicionales
-     */
-    private static function logError($code, $message, $data) {
-        $logData = [
-            'timestamp' => date('Y-m-d H:i:s'),
-            'code' => $code,
-            'message' => $message,
-            'data' => $data,
-            'caller' => self::getCallerInfo(),
-            'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
-            'uri' => $_SERVER['REQUEST_URI'] ?? 'unknown',
-            'method' => $_SERVER['REQUEST_METHOD'] ?? 'unknown'
-        ];
-        
-        error_log("[ApiResponse Error] " . json_encode($logData, JSON_UNESCAPED_UNICODE));
-    }
-    
-    // ==================== MÉTODOS DE UTILIDAD ====================
-    
-    /**
-     * Verifica si la respuesta fue exitosa (útil para testing)
-     * 
-     * @param array $response Respuesta decodificada de la API
-     * @return bool True si fue exitosa
-     */
-    public static function isSuccessResponse($response) {
-        return is_array($response) && isset($response['success']) && $response['success'] === true;
-    }
-    
-    /**
-     * Obtiene el código de error de una respuesta (útil para testing)
-     * 
-     * @param array $response Respuesta decodificada de la API
-     * @return string|null Código de error o null si no existe
-     */
-    public static function getErrorCode($response) {
-        if (self::isSuccessResponse($response)) {
-            return null;
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $data[$key] = self::sanitizeData($value);
+            } elseif (in_array(strtolower($key), $sensitiveKeys)) {
+                $data[$key] = '********';
+            }
         }
-        return $response['code'] ?? null;
+        return $data;
+    }
+
+    // ==================== MÉTODOS DE UTILIDAD PARA TESTING ====================
+
+    public static function isSuccessResponse(array $response): bool
+    {
+        return isset($response['success']) && $response['success'] === true;
+    }
+
+    public static function getErrorCode(array $response): ?string
+    {
+        return self::isSuccessResponse($response) ? null : ($response['code'] ?? null);
+    }
+
+    public static function getResponseMessage(array $response): ?string
+    {
+        return $response['message'] ?? null;
+    }
+
+    public static function getResponseData(array $response): array
+    {
+        return isset($response['data']) && is_array($response['data']) ? $response['data'] : [];
     }
 }
 ?>
