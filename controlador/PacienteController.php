@@ -300,5 +300,15 @@ class PacienteController {
         
         ViewHelper::renderDashboard('paciente/pac_recetas', $data, $options);
     }
+
+    public function estadisticasDashboard() {
+        AuthHelper::checkRole('paciente', true);
+        
+        $id_paciente = $_SESSION['usuario'] ?? 0;
+        $paciente = new Paciente();
+        $estadisticas = $paciente->obtenerEstadisticasDashboard($id_paciente);
+        
+        ApiResponse::success($estadisticas);
+    }
 }
 ?>

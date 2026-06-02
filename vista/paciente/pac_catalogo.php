@@ -1,19 +1,7 @@
 <?php
-<<<<<<< HEAD
 $nombre_usuario = $nombre_usuario ?? 'Usuario';
 $id_paciente = $id_paciente ?? $_SESSION['usuario'] ?? 0;
 ?>
-=======
-// vista/paciente/pac_catalogo.php
-// Contenido principal para el dashboard del paciente
-// Este archivo se renderiza dentro del layout base dashboard.php
-
-// Los datos vienen del controlador a través de $data
-$nombre_usuario = $nombre_usuario ?? 'Usuario';
-$id_paciente = $id_paciente ?? $_SESSION['usuario'] ?? 0;
-?>
-
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 <!-- CSS Adicional para esta vista -->
 <style>
     .welcome-stats {
@@ -438,7 +426,7 @@ $(document).ready(function() {
     
     function cargarEstadisticas() {
         $.ajax({
-            url: APP_URL + '/api/pacientes/mis-estadisticas',
+            url: APP_URL + '/api/pacientes/estadisticas-dashboard',
             type: 'POST',
             data: { id_paciente: <?php echo $id_paciente; ?> },
             dataType: 'json',
@@ -452,22 +440,37 @@ $(document).ready(function() {
                 }
                 
                 $('#total_recetas').text(data.total_recetas || 0);
-                $('#total_medicos').text(data.medicos_atendieron || 0);
-                $('#proximas_citas').text(data.proximas_citas || 0);
-                $('#total_estudios').text(data.total_estudios || 0);
+                $('#total_citas').text(data.total_citas || 0);
+                $('#facturas_pendientes').text(data.facturas_pendientes || 0);
                 
-                // Animación de conteo
+                if (data.proxima_cita) {
+                    $('#proxima_cita_info').html(`
+                        <div class="cita-info">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>${data.proxima_cita.fecha} - ${data.proxima_cita.hora}</span>
+                        </div>
+                        <div class="cita-medico">
+                            <i class="fas fa-user-md"></i>
+                            <span>${data.proxima_cita.medico}</span>
+                        </div>
+                        <div class="cita-especialidad">
+                            <i class="fas fa-stethoscope"></i>
+                            <span>${data.proxima_cita.especialidad}</span>
+                        </div>
+                    `);
+                } else {
+                    $('#proxima_cita_info').html('<p class="text-muted">No tienes citas programadas</p>');
+                }
+                
                 animarContador('total_recetas', data.total_recetas || 0);
-                animarContador('total_medicos', data.medicos_atendieron || 0);
-                animarContador('proximas_citas', data.proximas_citas || 0);
-                animarContador('total_estudios', data.total_estudios || 0);
+                animarContador('total_citas', data.total_citas || 0);
             },
             error: function(xhr, status, error) {
                 console.error('Error al cargar estadísticas:', error);
                 $('#total_recetas').text('0');
-                $('#total_medicos').text('0');
-                $('#proximas_citas').text('0');
-                $('#total_estudios').text('0');
+                $('#total_citas').text('0');
+                $('#facturas_pendientes').text('0');
+                $('#proxima_cita_info').html('<p class="text-muted">No disponible</p>');
             }
         });
     }

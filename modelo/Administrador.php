@@ -565,5 +565,124 @@ function editarUsuario($id, $rol, $correo, $telefono, $estado) {
             return array();
         }
     }
+
+    function obtenerEstadisticasDashboard() {
+        try {
+            $stats = [];
+            
+            // Total usuarios
+            $sql = "SELECT 
+                        (SELECT COUNT(*) FROM registro_paciente) as pacientes,
+                        (SELECT COUNT(*) FROM registro_medico) as medicos,
+                        (SELECT COUNT(*) FROM registro_asistente) as asistentes,
+                        (SELECT COUNT(*) FROM registro_administrador) as administradores";
+            $query = $this->acceso->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetch(PDO::FETCH_OBJ);
+            $stats['total_usuarios'] = ($resultado->pacientes ?? 0) + ($resultado->medicos ?? 0) + ($resultado->asistentes ?? 0) + ($resultado->administradores ?? 0);
+            $stats['total_pacientes'] = $resultado->pacientes ?? 0;
+            $stats['total_medicos'] = $resultado->medicos ?? 0;
+            $stats['total_asistentes'] = $resultado->asistentes ?? 0;
+            
+            // Usuarios nuevos este mes
+            $sql = "SELECT 
+                        (SELECT COUNT(*) FROM registro_paciente WHERE MONTH(fecha_registro_paciente) = MONTH(CURRENT_DATE) AND YEAR(fecha_registro_paciente) = YEAR(CURRENT_DATE)) as pacientes_nuevos,
+                        (SELECT COUNT(*) FROM registro_medico WHERE MONTH(fecha_registro_medico) = MONTH(CURRENT_DATE) AND YEAR(fecha_registro_medico) = YEAR(CURRENT_DATE)) as medicos_nuevos";
+            $query = $this->acceso->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetch(PDO::FETCH_OBJ);
+            $stats['usuarios_nuevos'] = ($resultado->pacientes_nuevos ?? 0) + ($resultado->medicos_nuevos ?? 0);
+            
+            // Total recetas
+            $sql = "SELECT COUNT(*) as total FROM recetas WHERE estado = 1";
+            $query = $this->acceso->prepare($sql);
+            $query->execute();
+            $stats['total_recetas'] = $query->fetch(PDO::FETCH_OBJ)->total ?? 0;
+            
+            // Recetas este mes
+            $sql = "SELECT COUNT(*) as total FROM recetas WHERE MONTH(fecha_receta) = MONTH(CURRENT_DATE) AND YEAR(fecha_receta) = YEAR(CURRENT_DATE) AND estado = 1";
+            $query = $this->acceso->prepare($sql);
+            $query->execute();
+            $stats['recetas_mes'] = $query->fetch(PDO::FETCH_OBJ)->total ?? 0;
+            
+            // Médicos activos
+            $sql = "SELECT COUNT(*) as total FROM registro_medico WHERE estado_medico = 'activo'";
+            $query = $this->acceso->prepare($sql);
+            $query->execute();
+            $stats['medicos_activos'] = $query->fetch(PDO::FETCH_OBJ)->total ?? 0;
+            
+            // Pacientes atendidos
+            $sql = "SELECT COUNT(DISTINCT id_paciente) as total FROM citas WHERE estado = 'completada'";
+            $query = $this->acceso->prepare($sql);
+            $query->execute();
+            $stats['pacientes_atendidos'] = $query->fetch(PDO::FETCH_OBJ)->total ?? 0;
+            
+            // Total consultorios
+            $sql = "SELECT COUNT(*) as total FROM consultorios WHERE activo = 1";
+            $query = $this->acceso->prepare($sql);
+            $query->execute();
+            $stats['total_consultorios'] = $query->fetch(PDO::FETCH_OBJ)->total ?? 0;
+            
+            // Total especialidades
+            $sql = "SELECT COUNT(*) as total FROM especialidades WHERE activo = 1";
+            $query = $this->acceso->prepare($sql);
+            $query->execute();
+            $stats['total_especialidades'] = $query->fetch(PDO::FETCH_OBJ)->total ?? 0;
+            
+            // Citas del mes
+            $sql = "SELECT 
+                        COUNT(*) as total,
+                        SUM(CASE WHEN estado = 'pendiente' THEN 1 ELSE 0 END) as pendientes,
+                        SUM(CASE WHEN estado = 'confirmada' THEN 1 ELSE 0 END) as confirmadas,
+                        SUM(CASE WHEN estado = 'completada' THEN 1 ELSE 0 END) as completadas,
+                        SUM(CASE WHEN estado = 'cancelada' THEN 1 ELSE 0 END) as canceladas
+                    FROM citas 
+                    WHERE MONTH(fecha_cita) = MONTH(CURRENT_DATE) AND YEAR(fecha_cita) = YEAR(CURRENT_DATE)";
+            $query = $this->acceso->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetch(PDO::FETCH_OBJ);
+            $stats['citas_mes'] = $resultado->total ?? 0;
+            $stats['citas_pendientes'] = $resultado->pendientes ?? 0;
+            $stats['citas_confirmadas'] = $resultado->confirmadas ?? 0;
+            $stats['citas_completadas'] = $resultado->completadas ?? 0;
+            $stats['citas_canceladas'] = $resultado->canceladas ?? 0;
+            
+            // Ingresos del mes
+            $sql = "SELECT 
+                        SUM(total) as total_facturado,
+                        SUM(CASE WHEN estado = 'pagada' THEN total ELSE 0 END) as total_cobrado
+                    FROM facturas 
+                    WHERE MONTH(fecha_emision) = MONTH(CURRENT_DATE) AND YEAR(fecha_emision) = YEAR(CURRENT_DATE)";
+            $query = $this->acceso->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetch(PDO::FETCH_OBJ);
+            $stats['ingresos_mes'] = $resultado->total_facturado ?? 0;
+            $stats['ingresos_cobrados'] = $resultado->total_cobrado ?? 0;
+            
+            return $stats;
+        } catch(PDOException $e) {
+            error_log("Error en obtenerEstadisticasDashboard: " . $e->getMessage());
+            return [
+                'total_usuarios' => 0,
+                'total_pacientes' => 0,
+                'total_medicos' => 0,
+                'total_asistentes' => 0,
+                'usuarios_nuevos' => 0,
+                'total_recetas' => 0,
+                'recetas_mes' => 0,
+                'medicos_activos' => 0,
+                'pacientes_atendidos' => 0,
+                'total_consultorios' => 0,
+                'total_especialidades' => 0,
+                'citas_mes' => 0,
+                'citas_pendientes' => 0,
+                'citas_confirmadas' => 0,
+                'citas_completadas' => 0,
+                'citas_canceladas' => 0,
+                'ingresos_mes' => 0,
+                'ingresos_cobrados' => 0
+            ];
+        }
+    }
 }
 ?>

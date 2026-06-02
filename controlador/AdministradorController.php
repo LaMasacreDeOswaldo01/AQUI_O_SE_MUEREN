@@ -365,5 +365,14 @@ private function getTablasPorRol($rol) {
     
     return $tablas[$rol] ?? false;
 }
+
+public function estadisticasDashboard() {
+    AuthHelper::checkRole('administrador', true);
+    
+    $administrador = new Administrador();
+    $estadisticas = $administrador->obtenerEstadisticasDashboard();
+    
+    ApiResponse::success($estadisticas);
+}
 }
 ?>

@@ -348,5 +348,15 @@ class MedicoController {
         
         ViewHelper::renderDashboard('medico/med_pacientes', $data, $options);
     }
+
+    public function estadisticasDashboard() {
+        AuthHelper::checkRole('medico', true);
+        
+        $id_medico = $_SESSION['usuario'] ?? 0;
+        $medico = new Medico();
+        $estadisticas = $medico->obtenerEstadisticasDashboard($id_medico);
+        
+        ApiResponse::success($estadisticas);
+    }
 }
 ?>

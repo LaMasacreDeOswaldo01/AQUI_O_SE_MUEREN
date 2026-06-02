@@ -431,5 +431,46 @@ class Asistente {
             return array();
         }
     }
+
+    function obtenerEstadisticasDashboard() {
+        try {
+            $stats = [];
+            
+            $sql = "SELECT COUNT(*) as total FROM recetas WHERE estado = 1";
+            $query = $this->acceso->prepare($sql);
+            $query->execute();
+            $result = $query->fetch(PDO::FETCH_OBJ);
+            $stats['recetas_hoy'] = $result->total ?? 0;
+            
+            $sql = "SELECT COUNT(*) as total FROM registro_paciente WHERE paciente_tipo = 1";
+            $query = $this->acceso->prepare($sql);
+            $query->execute();
+            $stats['pacientes_hoy'] = $query->fetch(PDO::FETCH_OBJ)->total ?? 0;
+            
+            $sql = "SELECT COUNT(*) as total FROM registro_medico WHERE medico_tipo = 2";
+            $query = $this->acceso->prepare($sql);
+            $query->execute();
+            $stats['medicos_activos'] = $query->fetch(PDO::FETCH_OBJ)->total ?? 0;
+            
+            $sql = "SELECT COUNT(*) as total 
+                    FROM citas 
+                    WHERE DATE(fecha_cita) = CURDATE() AND estado IN ('pendiente', 'confirmada')";
+            $query = $this->acceso->prepare($sql);
+            $query->execute();
+            $stats['citas_pendientes'] = $query->fetch(PDO::FETCH_OBJ)->total ?? 0;
+            
+            $stats['facturas_pendientes'] = 0;
+            
+            return $stats;
+        } catch(Exception $e) {
+            return [
+                'recetas_hoy' => 0,
+                'pacientes_hoy' => 0,
+                'medicos_activos' => 0,
+                'citas_pendientes' => 0,
+                'facturas_pendientes' => 0
+            ];
+        }
+    }
 }
 ?>

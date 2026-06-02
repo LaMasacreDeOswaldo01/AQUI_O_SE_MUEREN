@@ -1,19 +1,7 @@
 <?php
-<<<<<<< HEAD
 $nombre_usuario = $nombre_usuario ?? 'Usuario';
 $id_medico = $id_medico ?? $_SESSION['usuario'] ?? 0;
 ?>
-=======
-// vista/medico/med_catalogo.php
-// Contenido principal para el dashboard del médico
-// Este archivo se renderiza dentro del layout base dashboard.php
-
-// Los datos vienen del controlador a través de $data
-$nombre_usuario = $nombre_usuario ?? 'Usuario';
-$id_medico = $id_medico ?? $_SESSION['usuario'] ?? 0;
-?>
-
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
 <!-- CSS Adicional para esta vista -->
 <style>
     .welcome-stats {
@@ -424,7 +412,7 @@ $(document).ready(function() {
     
     function cargarEstadisticas() {
         $.ajax({
-            url: APP_URL + '/api/medicos/mis-estadisticas',
+            url: APP_URL + '/api/medicos/estadisticas-dashboard',
             type: 'POST',
             data: { id_medico: <?php echo $id_medico; ?> },
             dataType: 'json',
@@ -440,23 +428,11 @@ $(document).ready(function() {
                 $('#total_recetas').text(data.total_recetas || 0);
                 $('#total_pacientes').text(data.total_pacientes || 0);
                 $('#citas_hoy').text(data.citas_hoy || 0);
+                $('#recetas_mes').text(data.recetas_mes || 0);
+                $('#ingresos_mes').text('$' + (data.ingresos_mes || 0).toFixed(2));
                 
-                // Calcular cambios (simulados - puedes implementar con datos reales)
-                let cambioRecetas = ((data.total_recetas || 0) - (data.recetas_mes_anterior || 0));
-                let cambioPacientes = ((data.total_pacientes || 0) - (data.pacientes_mes_anterior || 0));
-                
-                if (cambioRecetas >= 0) {
-                    $('#recetas_cambio').html(`<i class="fas fa-arrow-up"></i> <span>${Math.abs(cambioRecetas)}%</span> vs mes anterior`);
-                } else {
-                    $('#recetas_cambio').removeClass('up').addClass('down')
-                        .html(`<i class="fas fa-arrow-down"></i> <span>${Math.abs(cambioRecetas)}%</span> vs mes anterior`);
-                }
-                
-                if (cambioPacientes >= 0) {
-                    $('#pacientes_cambio').html(`<i class="fas fa-arrow-up"></i> <span>${Math.abs(cambioPacientes)}%</span> vs mes anterior`);
-                } else {
-                    $('#pacientes_cambio').removeClass('up').addClass('down')
-                        .html(`<i class="fas fa-arrow-down"></i> <span>${Math.abs(cambioPacientes)}%</span> vs mes anterior`);
+                if (data.ingresos_mes > 0) {
+                    $('#ingresos_cambio').html(`<i class="fas fa-arrow-up"></i> <span>Este mes</span>`);
                 }
             },
             error: function(xhr, status, error) {
@@ -464,6 +440,8 @@ $(document).ready(function() {
                 $('#total_recetas').text('0');
                 $('#total_pacientes').text('0');
                 $('#citas_hoy').text('0');
+                $('#recetas_mes').text('0');
+                $('#ingresos_mes').text('$0.00');
             }
         });
     }

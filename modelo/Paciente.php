@@ -389,5 +389,76 @@ class Paciente {
             return ['success' => false, 'message' => 'error_bd'];
         }
     }
+
+    function obtenerEstadisticasDashboard($id_paciente) {
+        try {
+            $stats = [];
+            
+            $sql = "SELECT COUNT(*) as total 
+                    FROM citas 
+                    WHERE id_paciente = :id_paciente 
+                    AND estado = 'completada'";
+            $query = $this->acceso->prepare($sql);
+            $query->execute([':id_paciente' => $id_paciente]);
+            $stats['total_citas'] = $query->fetch(PDO::FETCH_OBJ)->total ?? 0;
+            
+            $sql = "SELECT COUNT(*) as total 
+                    FROM recetas 
+                    WHERE id_paciente = :id_paciente 
+                    AND estado = 1";
+            $query = $this->acceso->prepare($sql);
+            $query->execute([':id_paciente' => $id_paciente]);
+            $stats['total_recetas'] = $query->fetch(PDO::FETCH_OBJ)->total ?? 0;
+            
+            $sql = "SELECT COUNT(*) as total 
+                    FROM facturas 
+                    WHERE id_paciente = :id_paciente 
+                    AND estado = 'pendiente'";
+            $query = $this->acceso->prepare($sql);
+            $query->execute([':id_paciente' => $id_paciente]);
+            $stats['facturas_pendientes'] = $query->fetch(PDO::FETCH_OBJ)->total ?? 0;
+            
+            $sql = "SELECT c.fecha_cita, c.hora_inicio, rm.nombre_medico, rm.apellido_medico, e.nombre_especialidad
+                    FROM citas c
+                    INNER JOIN registro_medico rm ON c.id_medico = rm.id_medico
+                    INNER JOIN especialidades e ON c.id_especialidad = e.id_especialidad
+                    WHERE c.id_paciente = :id_paciente 
+                    AND c.fecha_cita >= CURRENT_DATE 
+                    AND c.estado IN ('pendiente', 'confirmada')
+                    ORDER BY c.fecha_cita ASC, c.hora_inicio ASC
+                    LIMIT 1";
+            $query = $this->acceso->prepare($sql);
+            $query->execute([':id_paciente' => $id_paciente]);
+            $proxima_cita = $query->fetch(PDO::FETCH_OBJ);
+            $stats['proxima_cita'] = $proxima_cita ? [
+                'fecha' => $proxima_cita->fecha_cita,
+                'hora' => $proxima_cita->hora_inicio,
+                'medico' => $proxima_cita->nombre_medico . ' ' . $proxima_cita->apellido_medico,
+                'especialidad' => $proxima_cita->nombre_especialidad
+            ] : null;
+            
+            $sql = "SELECT r.nombre_medicamento, r.fecha_receta, rm.nombre_medico, rm.apellido_medico
+                    FROM recetas r
+                    INNER JOIN registro_medico rm ON r.id_medico = rm.id_medico
+                    WHERE r.id_paciente = :id_paciente 
+                    AND r.estado = 1
+                    ORDER BY r.fecha_receta DESC
+                    LIMIT 5";
+            $query = $this->acceso->prepare($sql);
+            $query->execute([':id_paciente' => $id_paciente]);
+            $stats['recetas_recientes'] = $query->fetchAll();
+            
+            return $stats;
+        } catch(PDOException $e) {
+            error_log("Error en obtenerEstadisticasDashboard: " . $e->getMessage());
+            return [
+                'total_citas' => 0,
+                'total_recetas' => 0,
+                'facturas_pendientes' => 0,
+                'proxima_cita' => null,
+                'recetas_recientes' => []
+            ];
+        }
+    }
 }
 ?>

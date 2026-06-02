@@ -6,11 +6,7 @@ return [
     'home' => ['controller' => 'PageController', 'action' => 'home', 'auth' => false],
     
     // ==================== LOGIN ====================
-<<<<<<< HEAD
     'login' => ['controller' => 'AuthController', 'action' => 'login', 'method' => 'POST', 'auth' => false],
-=======
-    'login' => ['controller' => 'AuthController', 'action' => 'login', 'auth' => false],
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     'login/:rol' => ['controller' => 'PageController', 'action' => 'loginRedirect', 'auth' => false],
     'logout' => ['controller' => 'AuthController', 'action' => 'logout', 'auth' => true],
     
@@ -20,21 +16,18 @@ return [
     'registro/asistente' => ['controller' => 'RegistroController', 'action' => 'showRegistroAsistente', 'auth' => false],
     'registro/administrador' => ['controller' => 'RegistroController', 'action' => 'showRegistroAdministrador', 'auth' => false],
     
+    // ==================== RECUPERACIÓN DE CUENTA ====================
+    'recuperar-cuenta' => ['controller' => 'RecuperacionController', 'action' => 'showRecuperarCuenta', 'auth' => false],
+    'api/recuperar/buscar-usuario' => ['controller' => 'RecuperacionController', 'action' => 'buscarUsuario', 'method' => 'POST', 'auth' => false],
+    'api/recuperar/verificar-respuestas' => ['controller' => 'RecuperacionController', 'action' => 'verificarRespuestas', 'method' => 'POST', 'auth' => false],
+    'api/recuperar/cambiar-password' => ['controller' => 'RecuperacionController', 'action' => 'cambiarPassword', 'method' => 'POST', 'auth' => false],
+    
     // ==================== API REGISTRO ====================
     'api/registro/paciente' => ['controller' => 'RegistroController', 'action' => 'crearPaciente', 'method' => 'POST', 'auth' => false],
     'api/registro/medico' => ['controller' => 'RegistroController', 'action' => 'crearMedico', 'method' => 'POST', 'auth' => false],
     'api/registro/asistente' => ['controller' => 'RegistroController', 'action' => 'crearAsistente', 'method' => 'POST', 'auth' => false],
     'api/registro/administrador' => ['controller' => 'RegistroController', 'action' => 'crearAdministrador', 'method' => 'POST', 'auth' => false],
     
-<<<<<<< HEAD
-    // ==================== API RECUPERACIÓN DE CUENTA ====================
-    'api/recuperacion/buscar' => ['controller' => 'RecuperacionController', 'action' => 'buscarUsuario', 'method' => 'POST', 'auth' => false],
-    'api/recuperacion/verificar' => ['controller' => 'RecuperacionController', 'action' => 'verificarRespuestas', 'method' => 'POST', 'auth' => false],
-    'api/recuperacion/usuario' => ['controller' => 'RecuperacionController', 'action' => 'obtenerUsuario', 'method' => 'POST', 'auth' => false],
-    'api/recuperacion/password' => ['controller' => 'RecuperacionController', 'action' => 'cambiarPassword', 'method' => 'POST', 'auth' => false],
-    
-=======
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     // ==================== PANELES (usando ViewHelper) ====================
     'panel/paciente' => ['controller' => 'PanelController', 'action' => 'paciente', 'rol' => 'paciente'],
     'panel/medico' => ['controller' => 'PanelController', 'action' => 'medico', 'rol' => 'medico'],
@@ -56,6 +49,7 @@ return [
     
     // ==================== MÉDICO ====================
     'medico/pacientes' => ['controller' => 'MedicoController', 'action' => 'pacientes', 'rol' => 'medico'],
+    'api/medicos/estadisticas-dashboard' => ['controller' => 'MedicoController', 'action' => 'estadisticasDashboard', 'method' => 'POST', 'rol' => 'medico'],
     'api/medicos/buscar' => ['controller' => 'MedicoController', 'action' => 'buscar', 'method' => 'POST', 'rol' => 'medico'],
     'api/medicos/capturar-datos' => ['controller' => 'MedicoController', 'action' => 'capturarDatos', 'method' => 'POST', 'rol' => 'medico'],
     'api/medicos/editar' => ['controller' => 'MedicoController', 'action' => 'editarUsuario', 'method' => 'POST', 'rol' => 'medico'],
@@ -83,6 +77,7 @@ return [
     'api/citas/cancelar' => ['controller' => 'CitaController', 'action' => 'cancelar', 'method' => 'POST', 'rol' => 'paciente'],
     'api/citas/obtener-horarios' => ['controller' => 'CitaController', 'action' => 'obtenerHorarios', 'method' => 'POST', 'auth' => true],
     'api/citas/obtener-detalle' => ['controller' => 'CitaController', 'action' => 'obtenerDetalle', 'method' => 'POST', 'rol' => 'paciente'],
+    'api/pacientes/estadisticas-dashboard' => ['controller' => 'PacienteController', 'action' => 'estadisticasDashboard', 'method' => 'POST', 'rol' => 'paciente'],
     'api/pacientes/buscar' => ['controller' => 'PacienteController', 'action' => 'buscar', 'method' => 'POST', 'rol' => 'paciente'],
     'api/pacientes/capturar-datos' => ['controller' => 'PacienteController', 'action' => 'capturarDatos', 'method' => 'POST', 'rol' => 'paciente'],
     'api/pacientes/editar' => ['controller' => 'PacienteController', 'action' => 'editarUsuario', 'method' => 'POST', 'rol' => 'paciente'],
@@ -92,6 +87,7 @@ return [
 
     
     // ==================== ASISTENTE ====================
+    'api/asistentes/estadisticas-dashboard' => ['controller' => 'AsistenteController', 'action' => 'estadisticasDashboard', 'method' => 'POST', 'rol' => 'asistente'],
     'api/asistentes/buscar' => ['controller' => 'AsistenteController', 'action' => 'buscar', 'method' => 'POST', 'rol' => 'asistente'],
     'api/asistentes/capturar-datos' => ['controller' => 'AsistenteController', 'action' => 'capturarDatos', 'method' => 'POST', 'rol' => 'asistente'],
     'api/asistentes/editar' => ['controller' => 'AsistenteController', 'action' => 'editarUsuario', 'method' => 'POST', 'rol' => 'asistente'],
@@ -100,6 +96,7 @@ return [
     
     // ==================== ADMINISTRADOR ====================
     'administrador/usuarios' => ['controller' => 'AdministradorController', 'action' => 'listarUsuarios', 'rol' => 'administrador'],
+    'api/administradores/estadisticas-dashboard' => ['controller' => 'AdministradorController', 'action' => 'estadisticasDashboard', 'method' => 'POST', 'rol' => 'administrador'],
     'api/administradores/buscar' => ['controller' => 'AdministradorController', 'action' => 'buscar', 'method' => 'POST', 'rol' => 'administrador'],
     'api/administradores/capturar-datos' => ['controller' => 'AdministradorController', 'action' => 'capturarDatos', 'method' => 'POST', 'rol' => 'administrador'],
     'api/administradores/editar' => ['controller' => 'AdministradorController', 'action' => 'editarUsuario', 'method' => 'POST', 'rol' => 'administrador'],
@@ -111,14 +108,8 @@ return [
     'consultorios' => ['controller' => 'ConsultorioController', 'action' => 'index', 'rol' => 'administrador'],
     'consultorios/crear' => ['controller' => 'ConsultorioController', 'action' => 'crear', 'rol' => 'administrador'],
     'consultorios/editar' => ['controller' => 'ConsultorioController', 'action' => 'editar', 'rol' => 'administrador'],
-<<<<<<< HEAD
     'consultorios/detalle/:id' => ['controller' => 'ConsultorioController', 'action' => 'detalle', 'rol' => 'administrador'],
     //'consultorios/horarios' => ['controller' => 'ConsultorioController', 'action' => 'horarios', 'rol' => 'administrador'],
-=======
-    'consultorios/detalle' => ['controller' => 'ConsultorioController', 'action' => 'detalle', 'rol' => 'administrador'],
-    'consultorios/detalle/:id' => ['controller' => 'ConsultorioController', 'action' => 'detalle', 'rol' => 'administrador'],
-    'consultorios/horarios' => ['controller' => 'ConsultorioController', 'action' => 'horarios', 'rol' => 'administrador'],
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     'consultorios/horarios/:id' => ['controller' => 'ConsultorioController', 'action' => 'horarios', 'rol' => 'administrador'], 
     'api/consultorios/listar' => ['controller' => 'ConsultorioController', 'action' => 'listar', 'method' => 'POST', 'rol' => 'administrador'],
     'api/consultorios/crear' => ['controller' => 'ConsultorioController', 'action' => 'crearConsultorio', 'method' => 'POST', 'rol' => 'administrador'],
@@ -138,10 +129,6 @@ return [
     // ==================== ESPECIALIDADES ====================
     'especialidades' => ['controller' => 'EspecialidadController', 'action' => 'index', 'rol' => 'administrador'],
     'especialidades/crear' => ['controller' => 'EspecialidadController', 'action' => 'crear', 'rol' => 'administrador'],
-<<<<<<< HEAD
-=======
-    'especialidades/editar' => ['controller' => 'EspecialidadController', 'action' => 'editar', 'rol' => 'administrador'],
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     'especialidades/editar/:id' => ['controller' => 'EspecialidadController', 'action' => 'editar', 'rol' => 'administrador'], 
     'especialidades/detalle/:id' => ['controller' => 'EspecialidadController', 'action' => 'detalle', 'rol' => 'administrador'],
     'especialidades/asignar-medico/:id' => ['controller' => 'EspecialidadController', 'action' => 'asignarMedico', 'rol' => 'administrador'],
@@ -164,22 +151,28 @@ return [
     'api/recetas/obtener' => ['controller' => 'RecetaController', 'action' => 'obtener', 'method' => 'POST', 'rol' => ['medico', 'asistente', 'administrador']],
     'api/recetas/buscar-pacientes' => ['controller' => 'RecetaController', 'action' => 'buscarPacientes', 'method' => 'POST', 'rol' => ['medico', 'asistente']],
     'api/recetas/mis-recetas' => ['controller' => 'RecetaController', 'action' => 'misRecetas', 'method' => 'POST', 'rol' => 'paciente'],
-    'api/recetas/estadisticas' => ['controller' => 'RecetaController', 'action' => 'estadisticas', 'method' => 'POST', 'rol' => 'administrador'],
+    'api/recetas/estadisticas' => ['controller' => 'RecetaController', 'action' => 'estadisticas', 'method' => 'POST', 'rol' => ['administrador', 'asistente']],
     
-<<<<<<< HEAD
     // ==================== FACTURAS ====================
-    'facturas' => ['controller' => 'FacturaController', 'action' => 'listar', 'rol' => ['asistente', 'administrador']],
-    'factura/ver' => ['controller' => 'FacturaController', 'action' => 'ver', 'auth' => true],
-    'paciente/facturas' => ['controller' => 'FacturaController', 'action' => 'misFacturas', 'rol' => 'paciente'],
-    'api/facturas/generar' => ['controller' => 'FacturaController', 'action' => 'generar', 'method' => 'POST', 'rol' => ['asistente', 'administrador']],
-    'api/facturas/listar' => ['controller' => 'FacturaController', 'action' => 'listarAPI', 'method' => 'POST', 'auth' => true],
-    'api/facturas/obtener' => ['controller' => 'FacturaController', 'action' => 'obtener', 'method' => 'POST', 'auth' => true],
-    'api/facturas/confirmar-pago' => ['controller' => 'FacturaController', 'action' => 'confirmarPago', 'method' => 'POST', 'auth' => true],
+    'facturas' => ['controller' => 'FacturaController', 'action' => 'index', 'rol' => ['asistente', 'administrador']],
+    'facturas/mis-facturas' => ['controller' => 'FacturaController', 'action' => 'misFacturas', 'rol' => 'paciente'],
+    'facturas/mis-pacientes' => ['controller' => 'FacturaController', 'action' => 'facturasMedico', 'rol' => 'medico'],
+    'facturas/detalle' => ['controller' => 'FacturaController', 'action' => 'detalle', 'auth' => true],
+    'facturas/crear' => ['controller' => 'FacturaController', 'action' => 'crearDesdeCita', 'rol' => ['asistente', 'administrador']],
+    'api/facturas/crear' => ['controller' => 'FacturaController', 'action' => 'crear', 'method' => 'POST', 'rol' => ['asistente', 'administrador']],
     'api/facturas/actualizar' => ['controller' => 'FacturaController', 'action' => 'actualizar', 'method' => 'POST', 'rol' => ['asistente', 'administrador']],
+    'api/facturas/marcar-pagada' => ['controller' => 'FacturaController', 'action' => 'marcarPagada', 'method' => 'POST', 'rol' => ['paciente', 'asistente', 'administrador']],
+    'api/facturas/cancelar' => ['controller' => 'FacturaController', 'action' => 'cancelar', 'method' => 'POST', 'rol' => 'administrador'],
     'api/facturas/eliminar' => ['controller' => 'FacturaController', 'action' => 'eliminar', 'method' => 'POST', 'rol' => 'administrador'],
+    'api/facturas/buscar' => ['controller' => 'FacturaController', 'action' => 'buscar', 'method' => 'POST', 'rol' => ['asistente', 'administrador']],
+    'api/facturas/obtener' => ['controller' => 'FacturaController', 'action' => 'obtenerDatos', 'method' => 'POST', 'auth' => true],
+    'facturas/configurar-tarifa' => ['controller' => 'FacturaController', 'action' => 'configurarTarifa', 'rol' => 'medico'],
+    'api/facturas/actualizar-tarifa' => ['controller' => 'FacturaController', 'action' => 'actualizarTarifa', 'method' => 'POST', 'rol' => 'medico'],
+    'api/medico/obtener-tarifa' => ['controller' => 'FacturaController', 'action' => 'obtenerTarifaMedico', 'method' => 'POST', 'auth' => true],
+    'api/facturas/buscar-por-cita' => ['controller' => 'FacturaController', 'action' => 'buscarPorCita', 'method' => 'POST', 'auth' => true],
+    'facturas/ver-tarifas' => ['controller' => 'FacturaController', 'action' => 'verTarifas', 'rol' => 'administrador'],
+    'facturas/demo-diseño' => ['controller' => 'FacturaController', 'action' => 'demoDiseño'],
     
-=======
->>>>>>> 08fa34e7676afef1b6a097b9607f3411a6663e15
     // ==================== CSRF ====================
     'api/csrf/token' => ['controller' => 'CSRFController', 'action' => 'getToken', 'method' => 'POST', 'auth' => false],
 ];

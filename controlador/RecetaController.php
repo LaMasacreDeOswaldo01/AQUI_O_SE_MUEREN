@@ -3,16 +3,7 @@ class RecetaController {
     private $receta;
     
     public function __construct() {
-        // Verificar autenticación
-        if (!isset($_SESSION['usuario']) || !isset($_SESSION['rol'])) {
-            if ($this->isAjax()) {
-                jsonResponse(['error' => 'No autorizado'], 401);
-            } else {
-                redirect('login');
-            }
-            exit();
-        }
-        
+        // No verificar autenticación en el constructor para permitir métodos API
         // Cargar el modelo
         require_once MODEL_PATH . '/Receta.php';
         $this->receta = new Receta();
@@ -21,6 +12,17 @@ class RecetaController {
     private function isAjax() {
         return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
                strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+    }
+    
+    private function checkAuth() {
+        if (!isset($_SESSION['usuario']) || !isset($_SESSION['rol'])) {
+            if ($this->isAjax()) {
+                jsonResponse(['error' => 'No autorizado'], 401);
+            } else {
+                redirect('login');
+            }
+            exit();
+        }
     }
     
     // ==================== VISTAS ====================   
@@ -341,7 +343,7 @@ class RecetaController {
     }
   
 public function estadisticas() {
-    if ($_SESSION['rol'] !== 'administrador') {
+    if (!in_array($_SESSION['rol'], ['administrador', 'asistente'])) {
         jsonResponse(['error' => 'No autorizado'], 403);
         return;
     }

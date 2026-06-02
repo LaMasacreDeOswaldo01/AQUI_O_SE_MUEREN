@@ -5,7 +5,15 @@
 class AsistenteController {
     
     public function __construct() {
-        // Verificar autenticación y rol
+        // No verificar rol en el constructor para permitir métodos API
+    }
+    
+    private function isAjax() {
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
+               strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+    }
+    
+    private function checkAuth() {
         if (!isset($_SESSION['usuario']) || !isset($_SESSION['rol']) || $_SESSION['rol'] !== 'asistente') {
             if ($this->isAjax()) {
                 ApiResponse::unauthorized('No autorizado');
@@ -16,13 +24,10 @@ class AsistenteController {
         }
     }
     
-    private function isAjax() {
-        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
-               strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
-    }
-    
     // ==================== BUSCAR ASISTENTE (cargar datos para el perfil) ====================
     public function buscar() {
+        $this->checkAuth();
+        
         $id_asistente = $_POST['dato'] ?? $_POST['id_asistente'] ?? 0;
         $id_sesion = $_SESSION['usuario'];
         
@@ -73,6 +78,8 @@ class AsistenteController {
     
     // ==================== CAPTURAR DATOS PARA EDICIÓN ====================
     public function capturarDatos() {
+        $this->checkAuth();
+        
         $id_asistente = $_POST['id_asistente'] ?? 0;
         $id_sesion = $_SESSION['usuario'];
         
@@ -160,6 +167,8 @@ class AsistenteController {
     
     // ==================== EDITAR ASISTENTE ====================
     public function editarUsuario() {
+        $this->checkAuth();
+        
         $id_asistente = $_POST['id_asistente'] ?? 0;
         $id_sesion = $_SESSION['usuario'];
         
@@ -188,6 +197,8 @@ class AsistenteController {
     
     // ==================== CAMBIAR FOTO ====================
     public function cambiarFoto() {
+        $this->checkAuth();
+        
         $id_asistente = $_SESSION['usuario'];
         
         if (empty($id_asistente)) {
@@ -236,6 +247,8 @@ class AsistenteController {
     
     // ==================== CAMBIAR CONTRASEÑA ====================
     public function cambiarPassword() {
+        $this->checkAuth();
+        
         $id_asistente = $_POST['id_asistente'] ?? 0;
         $id_sesion = $_SESSION['usuario'];
         
@@ -266,6 +279,8 @@ class AsistenteController {
     
     // ==================== MIS ESTADÍSTICAS ====================
     public function misEstadisticas() {
+        $this->checkAuth();
+        
         $id_asistente = $_POST['id_asistente'] ?? 0;
         $id_sesion = $_SESSION['usuario'];
         
@@ -278,6 +293,13 @@ class AsistenteController {
         $estadisticas = $asistente->obtenerEstadisticas($id_asistente);
         
         ApiResponse::success($estadisticas, 'estadisticas', 'Estadísticas cargadas correctamente');
+    }
+
+    public function estadisticasDashboard() {
+        $asistente = new Asistente();
+        $estadisticas = $asistente->obtenerEstadisticasDashboard();
+        
+        ApiResponse::success($estadisticas);
     }
 }
 ?>
