@@ -211,7 +211,8 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> ¡Acceso concedido!';
-                    window.location.href = APP_URL + '/' + response.redirect;
+                    // Redirigir directamente sin pasar por el router
+                    window.location.href = APP_URL + '/panel/' + currentRole;
                 } else {
                     loginErrorMsg.textContent = response.error || 'Cédula o contraseña incorrecta';
                     loginError.classList.add('show');
@@ -219,8 +220,13 @@ $(document).ready(function () {
                     submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Autenticar Entrada';
                 }
             },
-            error: function () {
-                loginErrorMsg.textContent = 'Error de conexión con el servidor';
+            error: function (xhr, status, error) {
+                console.error('Error en login:', xhr.status, error);
+                if (xhr.status === 405) {
+                    loginErrorMsg.textContent = 'Error: Método no permitido. Contacte al administrador.';
+                } else {
+                    loginErrorMsg.textContent = 'Error de conexión con el servidor';
+                }
                 loginError.classList.add('show');
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Autenticar Entrada';

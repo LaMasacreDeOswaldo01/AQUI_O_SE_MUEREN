@@ -1,7 +1,13 @@
 <?php
+// vista/administrador/adm_catalogo.php
+// Contenido principal del dashboard del administrador
+// Este archivo se renderiza dentro del layout base dashboard.php
+
+// Los datos vienen del controlador a través de $data
 $nombre_usuario = $nombre_usuario ?? 'Usuario';
 $stats_url = $stats_url ?? APP_URL . '/api/administradores/estadisticas-generales';
 ?>
+
 <!-- Welcome Banner -->
 <div class="bv-welcome-banner admin bv-animate">
     <div class="d-flex justify-content-between align-items-center">
@@ -17,6 +23,7 @@ $stats_url = $stats_url ?? APP_URL . '/api/administradores/estadisticas-generale
         </div>
     </div>
 </div>
+
 <!-- Info Boxes - Estadísticas -->
 <div class="row">
     <div class="col-12 col-sm-6 col-md-3">
@@ -53,7 +60,8 @@ $stats_url = $stats_url ?? APP_URL . '/api/administradores/estadisticas-generale
                 </span>
             </div>
         </div>
-    </div>    
+    </div>
+    
     <div class="col-12 col-sm-6 col-md-3">
         <div class="info-box bv-animate bv-animate-delay-2">
             <span class="info-box-icon bg-warning elevation-1">
@@ -70,7 +78,8 @@ $stats_url = $stats_url ?? APP_URL . '/api/administradores/estadisticas-generale
                 </span>
             </div>
         </div>
-    </div>    
+    </div>
+    
     <div class="col-12 col-sm-6 col-md-3">
         <div class="info-box bv-animate bv-animate-delay-2">
             <span class="info-box-icon bg-danger elevation-1">
@@ -89,6 +98,7 @@ $stats_url = $stats_url ?? APP_URL . '/api/administradores/estadisticas-generale
         </div>
     </div>
 </div>
+
 <!-- Segunda fila de estadísticas -->
 <div class="row mt-3">
     <div class="col-12 col-sm-6 col-md-3">
@@ -470,6 +480,7 @@ $(document).ready(function() {
     }
 });
 
+// Función para actualizar estadísticas (puede llamarse desde otros componentes)
 function actualizarEstadisticas() {
     location.reload();
 }

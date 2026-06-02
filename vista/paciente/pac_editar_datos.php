@@ -1,8 +1,14 @@
 <?php
+// vista/paciente/pac_editar_datos.php
+// Contenido principal para la edición de perfil del paciente
+// Este archivo se renderiza dentro del layout base dashboard.php
+
+// Los datos vienen del controlador a través de $data
 $nombre_usuario = $nombre_usuario ?? 'Usuario';
 $id_paciente = $id_paciente ?? $_SESSION['usuario'] ?? 0;
 $avatar_actual = $avatar_actual ?? (!empty($_SESSION['avatar']) ? $_SESSION['avatar'] : APP_URL . '/img/avatarDES.jpg');
 ?>
+
 <!-- CSS Adicional para esta vista -->
 <style>
     .profile-header {
@@ -451,7 +457,7 @@ $avatar_actual = $avatar_actual ?? (!empty($_SESSION['avatar']) ? $_SESSION['ava
 <div class="modal fade" id="cambiocontra" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius: 16px;">
-            <div class="modal-header" style="background: linear-gradient(135deg, var(--bv-primary), var(--bv-accent)); color: white; border-radius: 16px 16px 0 0;">
+            <div class="modal-header" style="background: #1a6b9e; color: white; border-radius: 16px 16px 0 0;">
                 <h5 class="modal-title"><i class="fas fa-key"></i> Cambiar contraseña</h5>
                 <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
             </div>
@@ -490,7 +496,7 @@ $avatar_actual = $avatar_actual ?? (!empty($_SESSION['avatar']) ? $_SESSION['ava
 <div class="modal fade" id="cambiophoto" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius: 16px;">
-            <div class="modal-header" style="background: linear-gradient(135deg, var(--bv-primary), var(--bv-accent)); color: white; border-radius: 16px 16px 0 0;">
+            <div class="modal-header" style="background: #1a6b9e; color: white; border-radius: 16px 16px 0 0;">
                 <h5 class="modal-title"><i class="fas fa-camera"></i> Cambiar avatar</h5>
                 <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
             </div>
