@@ -1,7 +1,13 @@
 <?php
+// vista/asistente/asi_catalogo.php
+// Contenido principal para el dashboard del asistente
+// Este archivo se renderiza dentro del layout base dashboard.php
+
+// Los datos vienen del controlador a través de $data
 $nombre_usuario = $nombre_usuario ?? 'Usuario';
 $id_asistente = $id_asistente ?? $_SESSION['usuario'] ?? 0;
 ?>
+
 <!-- CSS Adicional para esta vista -->
 <style>
     .welcome-stats {
@@ -590,13 +596,6 @@ $(document).ready(function() {
                                             <i class="fas fa-stethoscope"></i> ${escapeHtml(cita.consultorio || 'Consultorio')}
                                         </span>
                                     </div>
-                                    ${cita.estado === 'completada' ? `
-                                        <div class="timeline-actions mt-2">
-                                            <a href="${APP_URL}/facturas/crear?id_cita=${cita.id_cita}" class="btn btn-sm btn-primary">
-                                                <i class="fas fa-file-invoice-dollar"></i> Generar Factura
-                                            </a>
-                                        </div>
-                                    ` : ''}
                                 </div>
                             </div>
                         `;

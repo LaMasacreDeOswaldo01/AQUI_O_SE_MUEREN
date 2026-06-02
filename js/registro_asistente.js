@@ -17,16 +17,21 @@ $(document).ready(function() {
         
         var datos = {
             funcion: 'crear_asistente',
-            nombre: $('#nombre').val(),
-            apellidos: $('#apellidos').val(),
+            nombre: $('#nombre').val().trim(),
+            apellidos: $('#apellidos').val().trim(),
             fecha_nacimiento: $('#fecha_nacimiento').val(),
-            cedula: $('#cedula').val(),
-            telefono: $('#telefono').val(),
-            direccion: $('#direccion').val(),
-            correo: $('#correo').val(),
+            cedula: $('#cedula').val().trim(),
+            telefono: $('#telefono').val().trim(),
+            estado: $('#estado').val(),
+            ciudad: $('#ciudad').val(),
+            municipio: $('#municipio').val(),
+            parroquia: $('#parroquia').val(),
+            direccion: $('#direccion').val().trim(),
+            correo: $('#correo').val().trim(),
             sexo: $('#sexo').val(),
-            adicional: $('#adicional').val(),
+            adicional: $('#adicional').val().trim(),
             pass: pass,
+            confirm_pass: confirm_pass,
             csrf_token: $('input[name="csrf_token"]').val()
         };
         

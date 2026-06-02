@@ -110,7 +110,9 @@ spl_autoload_register(function($className) {
  */
 function jsonResponse($data, $statusCode = 200) {
     if (class_exists('ApiResponse')) {
-        ApiResponse::send(true, ApiResponse::CODE_SUCCESS, 'Operación exitosa', $data, $statusCode);
+        $success = isset($data['success']) ? $data['success'] : ($statusCode >= 200 && $statusCode < 300);
+        $message = isset($data['error']) ? $data['error'] : 'Operación exitosa';
+        ApiResponse::send($success, $success ? ApiResponse::CODE_SUCCESS : 'ERROR', $message, $data, $statusCode);
     } else {
         http_response_code($statusCode);
         header('Content-Type: application/json');

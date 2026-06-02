@@ -1,3 +1,4 @@
+// Usar la configuración global
 var BASE_URL = window.CONFIG ? window.CONFIG.BASE_URL : '';
 function getUrl(endpoint) {
     if (window.CONFIG) {
@@ -165,7 +166,7 @@ function listar_recetas() {
     });
 }
 
-// USAR EVENTOS DELEGADOS 
+// USAR EVENTOS DELEGADOS - Esta es la solución para evitar duplicación
 $(document).on('click', '.btn-editar', function() {
     let id = $(this).data('id');
     console.log('Click editar - ID:', id);
@@ -646,7 +647,8 @@ $(document).on('click', '#btnGenerarRecetaDiag', function() {
     let hoy = new Date();
     let fecha = hoy.toISOString().split('T')[0];
     $('#fecha_receta').val(fecha);
-    $('#id_receta').val('');    
+    $('#id_receta').val('');
+    
     $('#modalDiagnostico').modal('hide');
     $('#modalTitle').text('Nueva Receta - Diagnóstico');
     $('#modalReceta').modal('show');
