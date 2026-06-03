@@ -214,13 +214,44 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
                             </a>
                         </li>
                         
-                        <li class="nav-header">PACIENTES</li>
-                        <li class="nav-item">
-                            <a href="<?php echo APP_URL; ?>/medico/pacientes" class="nav-link <?php echo ($active_page ?? '') === 'pacientes' ? 'active' : ''; ?>">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>Mis Pacientes</p>
-                            </a>
-                        </li>
+                        <?php elseif ($current_role === 'medico'): ?>
+    <li class="nav-header">USUARIO</li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/perfil" class="nav-link <?php echo ($active_page ?? '') === 'perfil' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-user-cog"></i>
+            <p>Datos personales</p>
+        </a>
+    </li>
+    
+    <li class="nav-header">CLÍNICA</li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/recetas" class="nav-link <?php echo ($active_page ?? '') === 'recetas' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-prescription-bottle-alt"></i>
+            <p>Recetas</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="#" class="nav-link <?php echo ($active_page ?? '') === 'agenda' ? 'active' : ''; ?>" data-toggle="modal" data-target="#modal_agenda">
+            <i class="nav-icon fas fa-calendar-alt"></i>
+            <p>Agenda</p>
+        </a>
+    </li>
+    
+    <li class="nav-header">PACIENTES</li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/medico/pacientes" class="nav-link <?php echo ($active_page ?? '') === 'pacientes' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-users"></i>
+            <p>Mis Pacientes</p>
+        </a>
+    </li>
+
+    <li class="nav-header">EPIDEMIOLOGÍA</li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/medico/alertas" class="nav-link <?php echo ($active_page ?? '') === 'alertas' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-exclamation-triangle"></i>
+            <p>Gestión de Alertas</p>
+        </a>
+    </li>
                         
                     <?php elseif ($current_role === 'asistente'): ?>
                         <!-- Menú de Asistente -->
@@ -288,6 +319,8 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
 <!-- Scripts globales -->
 <script src="<?php echo APP_URL; ?>/js/adminlte.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<?php include_once dirname(__DIR__) . '/medico/med_agenda.php'; ?>
 
 <?php if (isset($scripts_extra)) echo $scripts_extra; ?>
 
