@@ -1,4 +1,3 @@
-<!-- Modal Agenda Médica (med_agenda) -->
 <div class="modal fade" id="modal_agenda" tabindex="-1" role="dialog" aria-labelledby="modal_agendaLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
@@ -10,60 +9,73 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            
+            <div class="px-3 pt-3">
+                <ul class="nav nav-tabs" id="agendaTabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="lista-tab" data-toggle="tab" href="#tab_lista_citas" role="tab" aria-controls="lista" aria-selected="true">
+                            <i class="fas fa-list mr-1"></i> Lista de Citas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="config-tab" data-toggle="tab" href="#tab_config_calendario" role="tab" aria-controls="config" aria-selected="false">
+                            <i class="fas fa-cog mr-1"></i> Configuración y Calendario
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
             <div class="modal-body">
-                <!-- Resumen Rápido -->
-                <div class="row mb-4">
-                    <div class="col-md-4">
-                        <div class="small-box bg-info">
-                            <div class="inner">
-                                <h3 id="citas_hoy_count">0</h3>
-                                <p>Citas Programadas para Hoy</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fas fa-user-clock"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card card-outline card-primary mb-0">
-                            <div class="card-body py-3">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                <div class="tab-content" id="agendaTabsContent">
+                    
+                    <div class="tab-pane fade show active" id="tab_lista_citas" role="tabpanel" aria-labelledby="lista-tab">
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <div class="small-box bg-info">
+                                    <div class="inner">
+                                        <h3 id="citas_hoy_count">0</h3>
+                                        <p>Citas Programadas para Hoy</p>
                                     </div>
-                                    <input type="text" id="filtro_agenda" class="form-control" placeholder="Filtrar por paciente, motivo o estado...">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-outline-primary" type="button" id="btn_ver_todas_citas">
-                                            <i class="fas fa-globe mr-1"></i> Ver Todas
-                                        </button>
+                                    <div class="icon">
+                                        <i class="fas fa-user-clock"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card card-outline card-primary mb-0">
+                                    <div class="card-body py-3">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                            </div>
+                                            <input type="text" id="filtro_agenda" class="form-control" placeholder="Filtrar por paciente, motivo o estado...">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-primary" type="button" id="btn_ver_todas_citas">
+                                                    <i class="fas fa-globe mr-1"></i> Ver Todas
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- Tabla de Citas -->
-                <div class="table-responsive" style="max-height: 400px;">
-                    <table class="table table-bordered table-hover">
-                        <thead class="bg-gray-dark">
-                            <tr>
-                                <th>Hora</th>
-                                <th>Paciente</th>
-                                <th>Tipo / Especialidad</th>
-                                <th>Motivo</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="lista_agenda_medico">
-                            <!-- Se carga dinámicamente con JS -->
-                        </tbody>
-                    </table>
-                </div>
-                    </div>
-
-                    <!-- Pestaña 2: Configuración -->
-                    <div class="tab-pane fade" id="tab_config_calendario" role="tabpanel" aria-labelledby="config-tab">
+                        <div class="table-responsive" style="max-height: 400px;">
+                            <table class="table table-bordered table-hover">
+                                <thead class="bg-gray-dark">
+                                    <tr>
+                                        <th>Hora</th>
+                                        <th>Paciente</th>
+                                        <th>Tipo / Especialidad</th>
+                                        <th>Motivo</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="lista_agenda_medico">
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div> <div class="tab-pane fade" id="tab_config_calendario" role="tabpanel" aria-labelledby="config-tab">
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="card card-info card-outline">
@@ -126,11 +138,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="modal-footer">
+                    </div> </div> </div> <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-success" id="btn_actualizar_agenda">
                     <i class="fas fa-sync"></i> Actualizar Lista
