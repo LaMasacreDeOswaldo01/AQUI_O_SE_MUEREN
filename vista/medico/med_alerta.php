@@ -60,9 +60,10 @@ if (file_exists($securityPath)) {
 <script>
 $(document).ready(function() {
     function cargarAlertas() {
-        $.get(APP_URL + '/api/alertas/listar', function(res) {
+        $.post(APP_URL + '/api/alertas/listar', function(res) {
+            let data = res.data || res;
             let html = '';
-            res.forEach(a => {
+            data.forEach(a => {
                 html += `<tr>
                     <td>${a.tipo_amenaza}</td>
                     <td>${a.nombre_paciente}</td>
@@ -77,7 +78,7 @@ $(document).ready(function() {
 
     $('#form-alerta').submit(function(e) {
         e.preventDefault();
-        $.post(APP_URL + '/api/alertas/guardar', {
+        $.post(APP_URL + '/api/alertas/registrar', {
             tipo_amenaza: $('#tipo_amenaza').val(),
             nombre_paciente: $('#nombre_paciente').val(),
             cedula_paciente: $('#cedula_paciente').val(),
