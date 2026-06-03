@@ -29,9 +29,16 @@ $(document).ready(function() {
     // Evento para el botón de actualizar manualmente
     $('#btn_actualizar_agenda').click(function() {
         let $btn = $(this);
+        
+        // 1. Deshabilitar el botón y meter el spinner de carga animado
         $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Actualizando...');
         
-        cargarAgendaMedico(() => {
+        // 2. NUEVO: Limpiar el campo de búsqueda de la agenda por si tiene filtros viejos
+        $('#filtro_agenda').val('');
+        
+        // 3. Disparar tu función nativa pasándole el callback de restauración
+        cargarAgendaMedico(function() {
+            // Este bloque se ejecuta ÚNICAMENTE cuando el $.ajax termina
             $btn.prop('disabled', false).html('<i class="fas fa-sync"></i> Actualizar');
         });
     });
