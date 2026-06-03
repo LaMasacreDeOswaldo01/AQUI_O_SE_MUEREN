@@ -347,6 +347,28 @@ class MedicoController {
         ];
         
         ViewHelper::renderDashboard('medico/med_pacientes', $data, $options);
+    } public function mostrarAlertas() {
+        // Forzar y validar el rol mediante tu Helper de Autenticación
+        AuthHelper::checkRole('medico', true);
+        
+        $options = [
+            'title' => 'Gestión de Alertas Médicas - BioVital',
+            'breadcrumbs' => [
+                ['label' => 'Inicio', 'url' => APP_URL . '/panel/medico'],
+                ['label' => 'Alertas Epidemiológicas']
+            ],
+            'active_page' => 'alertas',
+            'css' => '<link rel="stylesheet" href="' . APP_URL . '/css/dashboard-utils.css">',
+            'scripts' => '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>'
+        ];
+        
+        $data = [
+            'nombre_usuario' => $_SESSION['nombre_us'] ?? 'Usuario',
+            'id_medico' => $_SESSION['usuario'] ?? 0
+        ];
+        
+        // Renderizar usando la ruta de la vista limpia que organizamos
+        ViewHelper::renderDashboard('medico/med_alerta', $data, $options);
     }
 }
 ?>
