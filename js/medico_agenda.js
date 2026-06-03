@@ -43,6 +43,59 @@ $(document).ready(function() {
         });
     });
 
+    // Evento para guardar el horario base
+$('#btn_guardar_horario_base').click(function() {
+    let $btn = $(this);
+    const id_medico = $('#id_usuario').val(); // Tu ID de médico actual
+    const hora_inicio = $('#hora_inicio').val();
+    const hora_fin = $('#hora_fin').val();
+    
+    // Mapeamos qué días seleccionó el médico (Lun=1, Mar=2, etc.)
+    let dias_seleccionados = [];
+    if ($('#chk_lun').is(':checked')) dias_seleccionados.push(1);
+    if ($('#chk_mar').is(':checked')) dias_seleccionados.push(2);
+    if ($('#chk_mie').is(':checked')) dias_seleccionados.push(3);
+    if ($('#chk_jue').is(':checked')) dias_seleccionados.push(4);
+    if ($('#chk_vie').is(':checked')) dias_seleccionados.push(5);
+
+    if (dias_seleccionados.length === 0) {
+        Swal.fire('¡Atención!', 'Debes seleccionar al menos un día laborable.', 'warning');
+        return;
+    }
+
+    $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Guardando...');
+
+    $.ajax({
+        url: APP_URL + '/api/medicos/guardar-horario',
+        type: 'POST',
+        data: {
+            id_medico: id_medico,
+            hora_inicio: hora_inicio,
+            hora_fin: hora_fin,
+            dias: dias_seleccionados // Se envía como un array [1, 2, 3, 4, 5]
+        },
+        dataType: 'json',
+        success: function(response) {
+            $btn.prop('disabled', false).html('<i class="fas fa-save mr-1"></i> Guardar Horario Base');
+            
+            if (response.success) {
+                Swal.fire('¡Guardado!', 'Tu horario base se ha actualizado con éxito.', 'success');
+                // Opcional: recargar FullCalendar aquí para que refresque visualmente las horas válidas
+                if (typeof calendar !== 'undefined' && calendar !== null) {
+                    calendar.refetchEvents();
+                }
+            } else {
+                Swal.fire('Error', response.message || 'No se pudo guardar el horario.', 'error');
+            }
+        },
+        error: function(xhr) {
+            $btn.prop('disabled', false).html('<i class="fas fa-save mr-1"></i> Guardar Horario Base');
+            console.error(xhr.responseText);
+            Swal.fire('Error', 'Error de conexión con el servidor.', 'error');
+        }
+    });
+});
+
     // Filtrado en tiempo real en la tabla
     $('#filtro_agenda').on('keyup', function() {
         let valor = $(this).val().toLowerCase();

@@ -370,5 +370,42 @@ class MedicoController {
         // Renderizar usando la ruta de la vista limpia que organizamos
         ViewHelper::renderDashboard('medico/med_alerta', $data, $options);
     }
+    public function guardarHorario() {
+        $id_medico = $_POST['id_medico'] ?? 0;
+        $id_sesion = $_SESSION['usuario'];
+        
+        // 1. Validación de seguridad igual a tus otros métodos
+        if ($id_medico != $id_sesion) {
+            jsonResponse(['success' => false, 'error' => 'No autorizado para modificar esta configuración']);
+            return;
+        }
+        
+        $hora_inicio = $_POST['hora_inicio'] ?? null;
+        $hora_fin = $_POST['hora_fin'] ?? null;
+        $dias = $_POST['dias'] ?? []; // Array enviado por el AJAX
+        
+        if (!$hora_inicio || !$hora_fin || empty($dias)) {
+            jsonResponse(['success' => false, 'error' => 'Faltan parámetros obligatorios (horas o días)']);
+            return;
+        }
+        
+        try {
+            // Instanciamos el modelo Médico para delegar la persistencia pesada
+            $medico = new Medico();
+            
+            // Llamamos a un método en el Modelo que se encargue del SQL transaccional
+            $resultado = $medico->guardarHorarioBase($id_medico, $hora_inicio, $hora_fin, $dias);
+            
+            if ($resultado) {
+                jsonResponse(['success' => true, 'message' => 'Horario guardado correctamente']);
+            } else {
+                jsonResponse(['success' => false, 'error' => 'No se pudo almacenar el horario en la base de datos']);
+            }
+            
+        } catch (Exception $e) {
+            error_log("Error en MedicoController::guardarHorario: " . $e->getMessage());
+            jsonResponse(['success' => false, 'error' => 'Error interno en el servidor']);
+        }
+    }
 }
 ?>
