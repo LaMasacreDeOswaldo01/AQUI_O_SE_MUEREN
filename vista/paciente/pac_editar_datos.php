@@ -1,14 +1,20 @@
 <?php
+<<<<<<< HEAD
 // vista/paciente/pac_editar_datos.php
 // Contenido principal para la edición de perfil del paciente
 // Este archivo se renderiza dentro del layout base dashboard.php
 
 // Los datos vienen del controlador a través de $data
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 $nombre_usuario = $nombre_usuario ?? 'Usuario';
 $id_paciente = $id_paciente ?? $_SESSION['usuario'] ?? 0;
 $avatar_actual = $avatar_actual ?? (!empty($_SESSION['avatar']) ? $_SESSION['avatar'] : APP_URL . '/img/avatarDES.jpg');
 ?>
+<<<<<<< HEAD
 
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- CSS Adicional para esta vista -->
 <style>
     .profile-header {
@@ -205,12 +211,16 @@ $avatar_actual = $avatar_actual ?? (!empty($_SESSION['avatar']) ? $_SESSION['ava
 </style>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- Content Header -->
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1><i class="fas fa-user-circle"></i> Mi Perfil</h1>
+<<<<<<< HEAD
 =======
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?php echo APP_URL; ?>/js/config.js"></script>
@@ -409,6 +419,8 @@ $avatar_actual = $avatar_actual ?? (!empty($_SESSION['avatar']) ? $_SESSION['ava
             <div class="info">
                 <a href="#" class="d-block"><?php echo htmlspecialchars($nombre_usuario); ?></a>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             </div>
         </div>
     </div>
@@ -728,6 +740,7 @@ $avatar_actual = $avatar_actual ?? (!empty($_SESSION['avatar']) ? $_SESSION['ava
 </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <!-- Content Wrapper -->
 <div class="content-wrapper">
@@ -999,6 +1012,8 @@ $avatar_actual = $avatar_actual ?? (!empty($_SESSION['avatar']) ? $_SESSION['ava
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="<?php echo APP_URL; ?>/js/paciente.js"></script>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <script src="<?php echo APP_URL; ?>/js/ubicacion.js"></script>
 
 <script>

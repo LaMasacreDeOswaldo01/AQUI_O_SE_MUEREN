@@ -12,19 +12,26 @@ class LoginMedico {
     
     function Loguearse($cedula, $pass) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         $cedula = preg_replace('/[^0-9]/', '', trim($cedula));
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         $sql = "SELECT lm.*, rm.nombre_medico, rm.apellido_medico, rm.medico_tipo, tp.nombre_tipo
                 FROM login_medico lm
                 INNER JOIN registro_medico rm ON lm.id_medico = rm.id_medico
                 INNER JOIN tipo_paciente tp ON rm.medico_tipo = tp.id_tipo_us
+<<<<<<< HEAD
 <<<<<<< HEAD
                 WHERE rm.cedula_medico = :cedula AND lm.status = 'activo'";
 =======
                 WHERE REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(rm.cedula_medico, '.', ''), '-', ''), ' ', ''), 'V', ''), 'v', '') = :cedula
                 AND lm.status = 'activo'";
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
+=======
+                WHERE rm.cedula_medico = :cedula AND lm.status = 'activo'";
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         $query = $this->acceso->prepare($sql);
         $query->execute(array(':cedula' => $cedula));
         $usuario = $query->fetch(PDO::FETCH_OBJ);

@@ -1,5 +1,6 @@
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 // vista/paciente/pac_recetas.php
 // Contenido principal para la visualización de recetas del paciente
 // Este archivo se renderiza dentro del layout base dashboard.php
@@ -37,6 +38,11 @@ $id_paciente = $_SESSION['usuario'];
 ?>
 
 <<<<<<< HEAD
+=======
+$nombre_usuario = $nombre_usuario ?? 'Usuario';
+$id_paciente = $id_paciente ?? $_SESSION['usuario'] ?? 0;
+?>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- CSS Adicional para esta vista -->
 <style>
     .stats-card {
@@ -257,6 +263,7 @@ $id_paciente = $_SESSION['usuario'];
                 <h1><i class="fas fa-prescription-bottle-alt"></i> Mis Recetas</h1>
             </div>
         </div>
+<<<<<<< HEAD
 =======
     <script>
         var APP_URL = '<?php echo APP_URL; ?>';
@@ -437,6 +444,11 @@ $id_paciente = $_SESSION['usuario'];
 </div>
 
 <<<<<<< HEAD
+=======
+    </div>
+</div>
+
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <section class="content">
     <div class="container-fluid">
         <input type="hidden" id="id_paciente" value="<?php echo $id_paciente; ?>">
@@ -453,6 +465,7 @@ $id_paciente = $_SESSION['usuario'];
                 </div>
                 <div class="d-none d-md-block">
                     <i class="fas fa-chart-line fa-3x" style="opacity: 0.3;"></i>
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 <!-- Content Wrapper -->
@@ -480,6 +493,12 @@ $id_paciente = $_SESSION['usuario'];
         </div>
 
 <<<<<<< HEAD
+=======
+                </div>
+            </div>
+        </div>
+
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         <!-- Stats Cards -->
         <div class="row">
             <div class="col-md-4 col-sm-6 col-12">
@@ -586,6 +605,7 @@ $id_paciente = $_SESSION['usuario'];
                                     </ul>
                                 </nav>
                             </div>
+<<<<<<< HEAD
 =======
     <section class="content">
         <div class="container-fluid">
@@ -697,6 +717,8 @@ $id_paciente = $_SESSION['usuario'];
                                 </tbody>
                             </table>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                         </div>
                     </div>
                 </div>
@@ -753,6 +775,7 @@ $id_paciente = $_SESSION['usuario'];
     </div>
 </div>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
@@ -876,6 +899,8 @@ $(document).ready(function() {
     function listar_recetas() {
         $('#tabla_recetas').html('<tr><td colspan="8" class="text-center"><div class="spinner-border text-primary"></div><p>Cargando recetas...</p></td></tr>');
 =======
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <script>
 $(document).ready(function() {
     console.log('=== MIS RECETAS - PACIENTE ===');
@@ -921,10 +946,14 @@ $(document).ready(function() {
             }
         });
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     }
     
     function cargarRecetas() {
         $('#loadingRecetas').show();
+<<<<<<< HEAD
 =======
     });
 
@@ -932,10 +961,13 @@ $(document).ready(function() {
         $('#tabla_recetas').html('<tr><td colspan="7" class="text-center">Cargando recetas...<div class="spinner-border spinner-border-sm ml-2"></div></td></tr>');
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         
         $.ajax({
             url: APP_URL + '/api/recetas/mis-recetas',
             type: 'POST',
+<<<<<<< HEAD
 <<<<<<< HEAD
             data: { id_paciente: <?php echo $id_paciente; ?> },
 =======
@@ -1092,6 +1124,9 @@ $(document).ready(function() {
 =======
             data: { id_paciente: <?php echo $_SESSION['usuario']; ?> },
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+            data: { id_paciente: <?php echo $id_paciente; ?> },
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             dataType: 'json',
             timeout: 15000,
             success: function(response) {
@@ -1123,6 +1158,9 @@ $(document).ready(function() {
     }
     
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     function aplicarFiltros() {
         let filtrados = [...recetasData];
         
@@ -1465,9 +1503,12 @@ $(document).ready(function() {
         setTimeout(function() { toast.fadeOut(300, function() { $(this).remove(); }); }, 3000);
     }
     
+<<<<<<< HEAD
 =======
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     function escapeHtml(str) {
         if (!str) return '';
         return str
@@ -1483,6 +1524,7 @@ $(document).ready(function() {
     cargarRecetas();
 });
 <<<<<<< HEAD
+<<<<<<< HEAD
 </script>
 =======
 </script>
@@ -1495,3 +1537,6 @@ include_once dirname(__DIR__) . '/layouts/footer.php';
 ?>
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+</script>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0

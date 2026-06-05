@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 // NO iniciar sesión aquí - el Front Controller ya lo hace
 if($_SESSION['us_tipo'] != 2 || $_SESSION['rol'] != 'medico'){
     header('Location: ' . APP_URL . '/login/medico');
@@ -271,11 +272,344 @@ $id_medico = $_SESSION['usuario'];
                                     </td></tr>
                                 </tbody>
                             </table>
+=======
+// vista/medico/adm_recetas.php
+// Vista de recetas para el rol de médico - VERSIÓN CORREGIDA
+// Incluye búsqueda de pacientes funcional
+
+$nombre_usuario = $nombre_usuario ?? 'Usuario';
+$id_medico = $id_medico ?? $_SESSION['usuario'] ?? 0;
+?>
+
+<!-- CSS Adicional para esta vista -->
+<style>
+    .stats-card {
+        background: white;
+        border-radius: 16px;
+        padding: 1rem;
+        text-align: center;
+        transition: all 0.3s;
+        border: 1px solid #eef2f6;
+    }
+    .stats-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .stats-card .stats-number {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #0d9488;
+    }
+    .stats-card .stats-label {
+        font-size: 0.7rem;
+        color: var(--bv-text-light);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .table-actions {
+        white-space: nowrap;
+        width: 120px;
+    }
+    .btn-action {
+        padding: 5px 10px;
+        margin: 0 2px;
+    }
+    .modal-lg-custom {
+        max-width: 800px;
+    }
+    .search-box {
+        position: relative;
+    }
+    .search-box i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+    }
+    .search-box input {
+        padding-left: 35px;
+        border-radius: 10px;
+        border: 1.5px solid #e2e8f0;
+    }
+    .filter-card {
+        border-radius: 16px;
+        border: 1px solid #eef2f6;
+        background: white;
+    }
+    .btn-ver-detalle {
+        background: none;
+        border: none;
+        color: #007bff;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .btn-ver-detalle:hover {
+        color: #0056b3;
+        transform: scale(1.05);
+    }
+    .receta-detalle {
+        font-size: 0.9rem;
+    }
+    .receta-detalle h3 {
+        font-size: 1.2rem;
+    }
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        background: #fafbfc;
+        border-radius: 16px;
+    }
+    .empty-state i {
+        font-size: 3rem;
+        color: #cbd5e1;
+        margin-bottom: 1rem;
+    }
+    .prescription-icon {
+        font-size: 2rem;
+        color: #0d9488;
+        margin-right: 0.5rem;
+    }
+    .badge-receta-tipo {
+        font-size: 0.65rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+    }
+    .pagination-custom {
+        margin-bottom: 0;
+    }
+    .pagination-custom .page-item.active .page-link {
+        background-color: #0d9488;
+        border-color: #0d9488;
+    }
+    .pagination-custom .page-link {
+        color: #0d9488;
+        border-radius: 8px;
+        margin: 0 2px;
+    }
+    .loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255,255,255,0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        border-radius: 16px;
+    }
+    .required-field::after {
+        content: " *";
+        color: #dc3545;
+    }
+    
+    /* Estilos para el buscador de pacientes */
+    .resultados-pacientes {
+        position: absolute;
+        z-index: 1000;
+        width: 100%;
+        max-height: 250px;
+        overflow-y: auto;
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-top: 2px;
+    }
+    .resultados-pacientes .list-group-item {
+        cursor: pointer;
+        transition: background 0.2s;
+        border: none;
+        border-bottom: 1px solid #eef2f6;
+        padding: 10px 12px;
+    }
+    .resultados-pacientes .list-group-item:hover {
+        background-color: #f0fdf4;
+    }
+    .resultados-pacientes .list-group-item.disabled {
+        cursor: default;
+        color: #94a3b8;
+        text-align: center;
+    }
+    .resultados-pacientes .list-group-item.disabled:hover {
+        background-color: transparent;
+    }
+    .position-relative {
+        position: relative;
+    }
+</style>
+
+<!-- Content Header -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1><i class="fas fa-prescription-bottle-alt"></i> Mis Recetas</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="<?php echo APP_URL; ?>/panel/medico">Inicio</a></li>
+                    <li class="breadcrumb-item active">Recetas</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <input type="hidden" id="id_medico" value="<?php echo $id_medico; ?>">
+        
+        <!-- Welcome Banner -->
+        <div class="welcome-stats text-white" style="background: linear-gradient(135deg, #0d9488, #0f766e); border-radius: 20px; padding: 1.5rem; margin-bottom: 1.5rem;">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1">
+                        <i class="fas fa-prescription me-2"></i> 
+                        Recetario Electrónico
+                    </h2>
+                    <p class="mb-0 opacity-75">Gestiona las recetas médicas de tus pacientes de forma digital.</p>
+                    <div class="mt-2">
+                        <span class="badge bg-white text-dark px-3 py-1 rounded-pill">
+                            <i class="fas fa-user-md me-1"></i> Dr(a). <?php echo htmlspecialchars($nombre_usuario); ?>
+                        </span>
+                    </div>
+                </div>
+                <div class="d-none d-md-block">
+                    <i class="fas fa-chart-line fa-3x" style="opacity: 0.3;"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row">
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="stats-card bv-animate bv-animate-delay-1">
+                    <div class="stats-number" id="total_recetas">0</div>
+                    <div class="stats-label">Mis Recetas</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="stats-card bv-animate bv-animate-delay-2">
+                    <div class="stats-number" id="total_pacientes">0</div>
+                    <div class="stats-label">Pacientes Atendidos</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-12">
+                <div class="stats-card bv-animate bv-animate-delay-3">
+                    <div class="stats-number" id="recetas_mes">0</div>
+                    <div class="stats-label">Recetas este Mes</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="row mt-3">
+            <div class="col-md-8">
+                <div class="filter-card p-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="buscar_receta" class="form-control" 
+                                       placeholder="Buscar por medicamento, paciente o fecha...">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" id="filtro_tipo">
+                                <option value="todas">Todas las recetas</option>
+                                <option value="medicamento">Medicamentos</option>
+                                <option value="estudio">Estudios</option>
+                                <option value="diagnostico">Diagnósticos</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-control" id="filtro_orden">
+                                <option value="fecha_desc">Más recientes</option>
+                                <option value="fecha_asc">Más antiguas</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="filter-card p-3 text-right">
+                    <button class="btn btn-primary btn-sm" id="btnNuevaReceta">
+                        <i class="fas fa-plus"></i> Nueva Receta
+                    </button>
+                    <button class="btn btn-secondary btn-sm ml-2" id="btnRefresh">
+                        <i class="fas fa-sync-alt"></i> Actualizar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de Recetas -->
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-list"></i> Listado de Recetas
+                        </h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body table-responsive p-0">
+                        <div id="loadingRecetas" class="loading-overlay" style="display: none;">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Cargando...</span>
+                            </div>
+                        </div>
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Medicamento</th>
+                                    <th>Marca</th>
+                                    <th>Cantidad</th>
+                                    <th>Dosis</th>
+                                    <th>Paciente</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla_recetas">
+                                <tr><td colspan="8" class="text-center py-4">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="sr-only">Cargando...</span>
+                                    </div>
+                                    <p class="mt-2">Cargando recetas...</p>
+                                 </td
+                                <tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer clearfix">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="dataTables_info" id="info_recetas">
+                                    Mostrando <span id="desde">0</span> a <span id="hasta">0</span> de <span id="total_registros">0</span> recetas
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-end pagination-custom" id="paginacion">
+                                    </ul>
+                                </nav>
+                            </div>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
     </section>
 </div>
 
@@ -294,6 +628,19 @@ $id_medico = $_SESSION['usuario'];
         <div class="modal-content" style="border-radius: 16px;">
             <div class="modal-header" style="background: linear-gradient(135deg, var(--bv-primary), var(--bv-accent)); color: white; border-radius: 16px 16px 0 0;">
                 <h5 class="modal-title" id="modalTitle"><i class="fas fa-prescription"></i> Nueva Receta</h5>
+=======
+    </div>
+</section>
+
+<!-- Modal para Crear/Editar Receta -->
+<div class="modal fade modal-bv" id="modalReceta" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg-custom" role="document">
+        <div class="modal-content" style="border-radius: 16px;">
+            <div class="modal-header" style="background: linear-gradient(135deg, #0d9488, #0f766e); color: white; border-radius: 16px 16px 0 0;">
+                <h5 class="modal-title" id="modalTitle">
+                    <i class="fas fa-prescription"></i> Nueva Receta
+                </h5>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 <button type="button" class="close text-white" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
@@ -332,9 +679,19 @@ $id_medico = $_SESSION['usuario'];
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="required-field">Paciente</label>
+<<<<<<< HEAD
                             <input type="text" class="form-control" id="buscar_paciente" placeholder="Buscar por cédula o nombre">
                             <input type="hidden" id="id_paciente">
                             <div id="resultados_pacientes" class="list-group mt-1" style="display:none; position:absolute; z-index:1000; width:95%;"></div>
+=======
+                            <div class="position-relative">
+                                <input type="text" class="form-control" id="buscar_paciente" 
+                                       placeholder="Buscar por cédula o nombre..." autocomplete="off">
+                                <input type="hidden" id="id_paciente">
+                                <div id="resultados_pacientes" class="list-group resultados-pacientes" style="display:none;"></div>
+                            </div>
+                            <small class="form-text text-muted">Ingrese al menos 2 caracteres para buscar</small>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -346,31 +703,58 @@ $id_medico = $_SESSION['usuario'];
                 </div>
                 <div class="form-group">
                     <label>Instrucciones</label>
+<<<<<<< HEAD
                     <textarea class="form-control" id="instrucciones" rows="3" placeholder="Instrucciones adicionales para el paciente..."></textarea>
+=======
+                    <textarea class="form-control" id="instrucciones" rows="3" 
+                              placeholder="Instrucciones adicionales para el paciente..."></textarea>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+<<<<<<< HEAD
                 <button type="button" class="btn btn-success" id="btnGuardar">Guardar Receta</button>
+=======
+                <button type="button" class="btn btn-success" id="btnGuardar">
+                    <i class="fas fa-save"></i> Guardar Receta
+                </button>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             </div>
         </div>
     </div>
 </div>
 
 <!-- Modal Ver Detalle Receta -->
+<<<<<<< HEAD
 <div class="modal fade" id="modalDetalleReceta" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg-custom" role="document">
         <div class="modal-content" style="border-radius: 16px;">
             <div class="modal-header bg-info text-white" style="border-radius: 16px 16px 0 0;">
                 <h5 class="modal-title"><i class="fas fa-file-prescription"></i> Detalle de Receta</h5>
+=======
+<div class="modal fade modal-bv" id="modalDetalleReceta" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg-custom" role="document">
+        <div class="modal-content" style="border-radius: 16px;">
+            <div class="modal-header bg-info text-white" style="border-radius: 16px 16px 0 0;">
+                <h5 class="modal-title">
+                    <i class="fas fa-file-prescription"></i> Detalle de Receta
+                </h5>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 <button type="button" class="close text-white" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
             </div>
             <div class="modal-body" id="detalle_receta_content">
+<<<<<<< HEAD
                 <div class="text-center">
                     <div class="spinner-border text-primary"></div>
                     <p>Cargando detalles...</p>
+=======
+                <div class="text-center py-4">
+                    <div class="spinner-border text-primary"></div>
+                    <p class="mt-2">Cargando detalles...</p>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 </div>
             </div>
             <div class="modal-footer">
@@ -383,6 +767,7 @@ $id_medico = $_SESSION['usuario'];
     </div>
 </div>
 
+<<<<<<< HEAD
 <script src="<?php echo APP_URL; ?>/js/adminlte.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -517,10 +902,29 @@ $(document).ready(function() {
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
 
+=======
+<script>
+$(document).ready(function() {
+    console.log('=== RECETAS DEL MÉDICO ===');
+    console.log('ID Médico:', $('#id_medico').val());
+    console.log('APP_URL:', APP_URL);
+    
+    // Variables
+    let recetasData = [];
+    let paginaActual = 1;
+    let registrosPorPagina = 10;
+    let filtroBusqueda = '';
+    let filtroTipo = 'todas';
+    let filtroOrden = 'fecha_desc';
+    
+    // ==================== CARGAR DATOS ====================
+    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     function cargarEstadisticas() {
         $.ajax({
             url: APP_URL + '/api/medicos/mis-estadisticas',
             type: 'POST',
+<<<<<<< HEAD
 <<<<<<< HEAD
             data: { id_medico: <?php echo $_SESSION['usuario'] ?? 0; ?> },
 =======
@@ -566,11 +970,45 @@ $(document).ready(function() {
 
     function listar_recetas() {
         $('#tabla_recetas').html('<tr><td colspan="8" class="text-center"><div class="spinner-border text-primary"></div><p>Cargando recetas...</p></td></tr>');
+=======
+            data: { id_medico: <?php echo $id_medico; ?> },
+            dataType: 'json',
+            success: function(response) {
+                console.log('Estadísticas recibidas:', response);
+                var data = response;
+                if (response.success && response.data) {
+                    data = response.data;
+                }
+                $('#total_recetas').text(data.total_recetas || 0);
+                $('#total_pacientes').text(data.total_pacientes || 0);
+                $('#recetas_mes').text(data.recetas_mes || 0);
+            },
+            error: function() {
+                $('#total_recetas').text('0');
+                $('#total_pacientes').text('0');
+                $('#recetas_mes').text('0');
+            }
+        });
+    }
+    
+    function cargarRecetas() {
+        $('#loadingRecetas').show();
+        $('#tabla_recetas').html(`
+            <tr><td colspan="8" class="text-center py-4">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Cargando...</span>
+                </div>
+                <p class="mt-2">Cargando recetas...</p>
+             </td
+            </tr>
+        `);
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         
         $.ajax({
             url: APP_URL + '/api/recetas/listar',
             type: 'POST',
             dataType: 'json',
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
@@ -579,11 +1017,17 @@ $(document).ready(function() {
                 console.log('Respuesta recetas:', response);
                 
                 // Manejar formato ApiResponse
+=======
+            timeout: 15000,
+            success: function(response) {
+                console.log('Recetas recibidas:', response);
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 var recetas = [];
                 if (response.success && response.data) {
                     recetas = response.data;
                 } else if (Array.isArray(response)) {
                     recetas = response;
+<<<<<<< HEAD
                 } else if (response.recetas && Array.isArray(response.recetas)) {
                     recetas = response.recetas;
                 }
@@ -830,10 +1274,193 @@ $(document).ready(function() {
 =======
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                }
+                recetasData = recetas;
+                aplicarFiltros();
+                $('#loadingRecetas').hide();
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al cargar recetas:', error);
+                $('#tabla_recetas').html(`
+                    <tr><td colspan="8" class="text-center py-4">
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle"></i> Error al cargar las recetas: ${error}
+                        </div>
+                     </td
+                    </tr>
+                `);
+                $('#loadingRecetas').hide();
+            }
+        });
+    }
+    
+    function aplicarFiltros() {
+        let filtrados = [...recetasData];
+        
+        if (filtroBusqueda) {
+            let busquedaLower = filtroBusqueda.toLowerCase();
+            filtrados = filtrados.filter(receta => {
+                return (receta.nombre_medicamento && receta.nombre_medicamento.toLowerCase().includes(busquedaLower)) ||
+                       (receta.marca && receta.marca.toLowerCase().includes(busquedaLower)) ||
+                       (receta.paciente && receta.paciente.toLowerCase().includes(busquedaLower));
+            });
+        }
+        
+        if (filtroTipo !== 'todas') {
+            if (filtroTipo === 'medicamento') {
+                filtrados = filtrados.filter(receta => 
+                    receta.nombre_medicamento && !receta.nombre_medicamento.includes('ESTUDIOS') && !receta.nombre_medicamento.includes('DIAGNÓSTICO')
+                );
+            } else if (filtroTipo === 'estudio') {
+                filtrados = filtrados.filter(receta => 
+                    receta.nombre_medicamento && receta.nombre_medicamento.includes('ESTUDIOS')
+                );
+            } else if (filtroTipo === 'diagnostico') {
+                filtrados = filtrados.filter(receta => 
+                    receta.nombre_medicamento && receta.nombre_medicamento.includes('DIAGNÓSTICO')
+                );
+            }
+        }
+        
+        if (filtroOrden === 'fecha_desc') {
+            filtrados.sort((a, b) => new Date(b.fecha_receta || 0) - new Date(a.fecha_receta || 0));
+        } else {
+            filtrados.sort((a, b) => new Date(a.fecha_receta || 0) - new Date(b.fecha_receta || 0));
+        }
+        
+        let total = filtrados.length;
+        let desde = (paginaActual - 1) * registrosPorPagina + 1;
+        let hasta = Math.min(paginaActual * registrosPorPagina, total);
+        
+        $('#total_registros').text(total);
+        $('#desde').text(total > 0 ? desde : 0);
+        $('#hasta').text(hasta);
+        
+        let inicio = (paginaActual - 1) * registrosPorPagina;
+        let fin = inicio + registrosPorPagina;
+        let recetasPagina = filtrados.slice(inicio, fin);
+        
+        renderizarTabla(recetasPagina);
+        renderizarPaginacion(total);
+    }
+    
+    function renderizarTabla(recetas) {
+        let html = '';
+        
+        if (recetas.length === 0) {
+            html = `
+                <tr><td colspan="8" class="text-center py-4">
+                    <div class="empty-state">
+                        <i class="fas fa-prescription-bottle-alt"></i>
+                        <p>No se encontraron recetas</p>
+                        <p class="text-muted small">Intente con otros criterios de búsqueda</p>
+                    </div>
+                 </td
+                </tr>
+            `;
+        } else {
+            for (let i = 0; i < recetas.length; i++) {
+                let receta = recetas[i];
+                let tipoBadge = '';
+                if (receta.nombre_medicamento && receta.nombre_medicamento.includes('ESTUDIOS')) {
+                    tipoBadge = '<span class="badge badge-info"><i class="fas fa-flask"></i> Estudio</span>';
+                } else if (receta.nombre_medicamento && receta.nombre_medicamento.includes('DIAGNÓSTICO')) {
+                    tipoBadge = '<span class="badge badge-primary"><i class="fas fa-stethoscope"></i> Diagnóstico</span>';
+                } else {
+                    tipoBadge = '<span class="badge badge-success"><i class="fas fa-capsules"></i> Medicamento</span>';
+                }
+                
+                let fecha = new Date(receta.fecha_receta);
+                let fechaFormateada = fecha.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+                
+                html += `
+                    <tr>
+                        <td><span class="badge badge-secondary">${receta.id_receta || ''}</span></td>
+                        <td><strong>${escapeHtml(receta.nombre_medicamento || '')}</strong><br>${tipoBadge}</td>
+                        <td>${escapeHtml(receta.marca || '')}</td>
+                        <td>${escapeHtml(receta.cantidad || '')}</td>
+                        <td>${escapeHtml(receta.dosis || '-')}</td>
+                        <td><i class="fas fa-user-injured text-info"></i> ${escapeHtml(receta.paciente || 'N/A')}</td>
+                        <td><i class="fas fa-calendar-alt"></i> ${fechaFormateada}</td>
+                        <td class="table-actions">
+                            <button class="btn btn-info btn-sm btn-ver-detalle" data-id="${receta.id_receta}" title="Ver detalle">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-warning btn-sm btn-editar" data-id="${receta.id_receta}" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm btn-borrar" data-id="${receta.id_receta}" title="Eliminar">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                         </td
+                    </tr>
+                `;
+            }
+        }
+        
+        $('#tabla_recetas').html(html);
+    }
+    
+    function renderizarPaginacion(total) {
+        let totalPaginas = Math.ceil(total / registrosPorPagina);
+        let html = '';
+        
+        if (totalPaginas <= 1) {
+            html = '';
+        } else {
+            html += `<li class="page-item ${paginaActual === 1 ? 'disabled' : ''}">
+                        <a class="page-link" href="#" data-pagina="${paginaActual - 1}">«</a>
+                    </li>`;
+            
+            let inicioPagina = Math.max(1, paginaActual - 2);
+            let finPagina = Math.min(totalPaginas, paginaActual + 2);
+            
+            if (inicioPagina > 1) {
+                html += `<li class="page-item"><a class="page-link" href="#" data-pagina="1">1</a></li>`;
+                if (inicioPagina > 2) html += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+            }
+            
+            for (let i = inicioPagina; i <= finPagina; i++) {
+                html += `<li class="page-item ${paginaActual === i ? 'active' : ''}">
+                            <a class="page-link" href="#" data-pagina="${i}">${i}</a>
+                        </li>`;
+            }
+            
+            if (finPagina < totalPaginas) {
+                if (finPagina < totalPaginas - 1) html += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                html += `<li class="page-item"><a class="page-link" href="#" data-pagina="${totalPaginas}">${totalPaginas}</a></li>`;
+            }
+            
+            html += `<li class="page-item ${paginaActual === totalPaginas ? 'disabled' : ''}">
+                        <a class="page-link" href="#" data-pagina="${paginaActual + 1}">»</a>
+                    </li>`;
+        }
+        
+        $('#paginacion').html(html);
+    }
+    
+    // ==================== CRUD DE RECETAS ====================
+    
+    $('#btnNuevaReceta').click(function() {
+        resetFormulario();
+        $('#modalTitle').text('Nueva Receta');
+        $('#modalReceta').modal('show');
+    });
+    
+    $(document).on('click', '.btn-editar', function() {
+        let id = $(this).data('id');
+        editarReceta(id);
+    });
+    
+    $(document).on('click', '.btn-borrar', function() {
+        let id = $(this).data('id');
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         if (confirm('¿Está seguro de que desea eliminar esta receta?')) {
             borrarReceta(id);
         }
     });
+<<<<<<< HEAD
 
     // Guardar receta
     $('#btnGuardar').click(function() {
@@ -862,6 +1489,18 @@ $(document).ready(function() {
         }
     });
 
+=======
+    
+    $(document).on('click', '.btn-ver-detalle', function() {
+        let id = $(this).data('id');
+        verDetalleReceta(id);
+    });
+    
+    $('#btnGuardar').click(function() {
+        guardarReceta();
+    });
+    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     function resetFormulario() {
         $('#id_receta').val('');
         $('#nombre_medicamento').val('');
@@ -871,10 +1510,15 @@ $(document).ready(function() {
         $('#instrucciones').val('');
         $('#buscar_paciente').val('');
         $('#id_paciente').val('');
+<<<<<<< HEAD
+=======
+        $('#resultados_pacientes').hide();
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         let hoy = new Date();
         let fecha = hoy.toISOString().split('T')[0];
         $('#fecha_receta').val(fecha);
     }
+<<<<<<< HEAD
 
     function buscarPacientes(dato) {
         $.ajax({
@@ -959,6 +1603,46 @@ $(document).ready(function() {
         });
     }
 
+=======
+    
+    function editarReceta(id) {
+        $.ajax({
+            url: APP_URL + '/api/recetas/obtener',
+            type: 'POST',
+            data: { id_receta: id },
+            dataType: 'json',
+            success: function(response) {
+                var receta = response;
+                if (response.success && response.data) {
+                    receta = response.data;
+                }
+                
+                if (receta && receta.id_receta) {
+                    $('#id_receta').val(receta.id_receta);
+                    $('#nombre_medicamento').val(receta.nombre_medicamento);
+                    $('#marca').val(receta.marca);
+                    $('#cantidad').val(receta.cantidad);
+                    $('#dosis').val(receta.dosis || '');
+                    $('#instrucciones').val(receta.instrucciones || '');
+                    $('#fecha_receta').val(receta.fecha_receta);
+                    
+                    if (receta.id_paciente) {
+                        cargarDatosPaciente(receta.id_paciente);
+                    }
+                    
+                    $('#modalTitle').text('Editar Receta');
+                    $('#modalReceta').modal('show');
+                } else {
+                    mostrarAlerta('Error al cargar los datos de la receta', 'error');
+                }
+            },
+            error: function() {
+                mostrarAlerta('Error al cargar los datos de la receta', 'error');
+            }
+        });
+    }
+    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     function guardarReceta() {
         let id_receta = $('#id_receta').val();
         let nombre_medicamento = $('#nombre_medicamento').val().trim();
@@ -1003,7 +1687,12 @@ $(document).ready(function() {
             dosis: dosis,
             instrucciones: instrucciones,
             id_paciente: id_paciente,
+<<<<<<< HEAD
             fecha_receta: fecha_receta
+=======
+            fecha_receta: fecha_receta,
+            csrf_token: $('input[name="csrf_token"]').val()
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         };
         
         if (id_receta) {
@@ -1023,12 +1712,17 @@ $(document).ready(function() {
                 if (response.success) {
                     mostrarAlerta(response.message, 'success');
                     $('#modalReceta').modal('hide');
+<<<<<<< HEAD
                     listar_recetas();
+=======
+                    cargarRecetas();
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     cargarEstadisticas();
                     resetFormulario();
                 } else {
                     mostrarAlerta(response.message || 'Error al guardar la receta', 'error');
                 }
+<<<<<<< HEAD
             },
 <<<<<<< HEAD
             error: function(xhr, status, error) {
@@ -1045,10 +1739,18 @@ $(document).ready(function() {
                 mostrarAlerta('Error de conexión al guardar la receta', 'error');
             },
             complete: function() {
+=======
+                $btn.prop('disabled', false).html(originalText);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                mostrarAlerta('Error de conexión al guardar la receta', 'error');
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 $btn.prop('disabled', false).html(originalText);
             }
         });
     }
+<<<<<<< HEAD
 
     function editarReceta(id) {
         $.ajax({
@@ -1104,21 +1806,33 @@ $(document).ready(function() {
         });
     }
 
+=======
+    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     function borrarReceta(id) {
         $.ajax({
             url: APP_URL + '/api/recetas/borrar',
             type: 'POST',
+<<<<<<< HEAD
             data: { id_receta: id },
+=======
+            data: { id_receta: id, csrf_token: $('input[name="csrf_token"]').val() },
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
                     mostrarAlerta(response.message, 'success');
+<<<<<<< HEAD
                     listar_recetas();
+=======
+                    cargarRecetas();
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     cargarEstadisticas();
                 } else {
                     mostrarAlerta(response.message || 'Error al borrar la receta', 'error');
                 }
             },
+<<<<<<< HEAD
 <<<<<<< HEAD
             error: function(xhr, status, error) {
                 console.error('Error al borrar:', error);
@@ -1130,17 +1844,225 @@ $(document).ready(function() {
             error: function() {
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+            error: function() {
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 mostrarAlerta('Error de conexión al borrar la receta', 'error');
             }
         });
     }
+<<<<<<< HEAD
 
     function cargarDatosPaciente(id_paciente) {
+=======
+    
+    function verDetalleReceta(id) {
+        $('#detalle_receta_content').html(`
+            <div class="text-center py-4">
+                <div class="spinner-border text-primary"></div>
+                <p class="mt-2">Cargando detalles...</p>
+            </div>
+        `);
+        $('#modalDetalleReceta').modal('show');
+        
+        $.ajax({
+            url: APP_URL + '/api/recetas/obtener',
+            type: 'POST',
+            data: { id_receta: id },
+            dataType: 'json',
+            success: function(response) {
+                var receta = response;
+                if (response.success && response.data) {
+                    receta = response.data;
+                }
+                
+                if (receta && receta.id_receta) {
+                    let tipo = '';
+                    if (receta.nombre_medicamento && receta.nombre_medicamento.includes('ESTUDIOS')) {
+                        tipo = '<span class="badge badge-info"><i class="fas fa-flask"></i> Estudio de Laboratorio</span>';
+                    } else if (receta.nombre_medicamento && receta.nombre_medicamento.includes('DIAGNÓSTICO')) {
+                        tipo = '<span class="badge badge-primary"><i class="fas fa-stethoscope"></i> Diagnóstico Médico</span>';
+                    } else {
+                        tipo = '<span class="badge badge-success"><i class="fas fa-capsules"></i> Medicamento</span>';
+                    }
+                    
+                    let fecha = new Date(receta.fecha_receta);
+                    let fechaFormateada = fecha.toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' });
+                    
+                    let html = `
+                        <div class="receta-detalle p-3">
+                            <div class="row mb-3">
+                                <div class="col-md-12 text-center">
+                                    <h3 class="text-primary">RECETA MÉDICA</h3>
+                                    <p>${tipo}</p>
+                                    <hr>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong><i class="fas fa-id-badge"></i> ID Receta:</strong> ${receta.id_receta}</p>
+                                    <p><strong><i class="fas fa-capsules"></i> Medicamento:</strong> ${escapeHtml(receta.nombre_medicamento)}</p>
+                                    <p><strong><i class="fas fa-trademark"></i> Marca:</strong> ${escapeHtml(receta.marca)}</p>
+                                    <p><strong><i class="fas fa-cubes"></i> Cantidad:</strong> ${escapeHtml(receta.cantidad)}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong><i class="fas fa-clock"></i> Dosis:</strong> ${escapeHtml(receta.dosis || 'No especificada')}</p>
+                                    <p><strong><i class="fas fa-calendar-day"></i> Fecha:</strong> ${fechaFormateada}</p>
+                                    <p><strong><i class="fas fa-user-injured"></i> Paciente:</strong> ${escapeHtml(receta.paciente || 'N/A')}</p>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header bg-info text-white">
+                                            <strong><i class="fas fa-stethoscope"></i> Instrucciones</strong>
+                                        </div>
+                                        <div class="card-body">
+                                            ${escapeHtml(receta.instrucciones) || '<em class="text-muted">Sin instrucciones adicionales</em>'}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12 text-muted text-center">
+                                    <small>Documento generado electrónicamente por BioVital - Sistema de Gestión Médica</small>
+                                    <br>
+                                    <small>Fecha de emisión: ${new Date().toLocaleString()}</small>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    $('#detalle_receta_content').html(html);
+                } else {
+                    $('#detalle_receta_content').html('<div class="alert alert-danger">Error al cargar los detalles de la receta</div>');
+                }
+            },
+            error: function() {
+                $('#detalle_receta_content').html('<div class="alert alert-danger">Error al cargar los detalles de la receta</div>');
+            }
+        });
+    }
+    
+    // ==================== BÚSQUEDA DE PACIENTES CORREGIDA ====================
+    
+    let timeoutId;
+    
+    // Evento de búsqueda con debounce
+    $('#buscar_paciente').on('input', function() {
+        let dato = $(this).val().trim();
+        console.log('Buscando paciente con dato:', dato);
+        
+        clearTimeout(timeoutId);
+        
+        if (dato.length >= 2) {
+            timeoutId = setTimeout(function() {
+                buscarPacientes(dato);
+            }, 500);
+        } else {
+            $('#resultados_pacientes').hide();
+            $('#resultados_pacientes').html('');
+        }
+    });
+    
+    // Función para buscar pacientes
+    function buscarPacientes(dato) {
+        console.log('Enviando petición a:', APP_URL + '/api/recetas/buscar-pacientes');
+        console.log('Dato de búsqueda:', dato);
+        
+        // Mostrar indicador de carga
+        $('#resultados_pacientes').html('<div class="list-group-item list-group-item-action text-center">Buscando...</div>').show();
+        
+        $.ajax({
+            url: APP_URL + '/api/recetas/buscar-pacientes',
+            type: 'POST',
+            data: { dato: dato },
+            dataType: 'json',
+            timeout: 10000,
+            success: function(response) {
+                console.log('Respuesta del servidor:', response);
+                
+                // Manejar formato ApiResponse
+                var pacientes = [];
+                if (response.success && response.data) {
+                    pacientes = response.data;
+                    console.log('Pacientes desde ApiResponse.data:', pacientes);
+                } else if (Array.isArray(response)) {
+                    pacientes = response;
+                    console.log('Pacientes desde array directo:', pacientes);
+                }
+                
+                console.log('Pacientes encontrados:', pacientes.length);
+                
+                let html = '';
+                
+                if (!pacientes || pacientes.length === 0) {
+                    html = '<a href="#" class="list-group-item list-group-item-action disabled">No se encontraron pacientes</a>';
+                } else {
+                    for (let i = 0; i < pacientes.length; i++) {
+                        let paciente = pacientes[i];
+                        let nombreCompleto = paciente.nombre_completo || paciente.nombre_us || '';
+                        let cedula = paciente.cedula || paciente.cedula_us || '';
+                        let id = paciente.id_usuario || paciente.id_paciente;
+                        
+                        html += `
+                            <a href="#" class="list-group-item list-group-item-action paciente-item" 
+                               data-id="${id}" 
+                               data-nombre="${escapeHtml(nombreCompleto)}" 
+                               data-cedula="${escapeHtml(cedula)}">
+                                <strong>${escapeHtml(nombreCompleto)}</strong><br>
+                                <small><i class="fas fa-id-card"></i> Cédula: ${escapeHtml(cedula)}</small>
+                            </a>
+                        `;
+                    }
+                }
+                
+                $('#resultados_pacientes').html(html);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error en búsqueda de pacientes:', error);
+                console.error('Respuesta del servidor:', xhr.responseText);
+                $('#resultados_pacientes').html('<a href="#" class="list-group-item list-group-item-action disabled">Error al buscar pacientes</a>');
+            }
+        });
+    }
+    
+    // Evento para seleccionar un paciente de la lista
+    $(document).on('click', '.paciente-item', function(e) {
+        e.preventDefault();
+        
+        let id_paciente = $(this).data('id');
+        let nombre_completo = $(this).data('nombre');
+        let cedula = $(this).data('cedula');
+        
+        console.log('Paciente seleccionado:', { id_paciente, nombre_completo, cedula });
+        
+        $('#buscar_paciente').val(nombre_completo);
+        $('#id_paciente').val(id_paciente);
+        $('#resultados_pacientes').hide();
+        $('#resultados_pacientes').html('');
+        
+        // Opcional: Mostrar un mensaje de confirmación
+        mostrarAlerta('Paciente seleccionado: ' + nombre_completo, 'success');
+    });
+    
+    // Ocultar resultados al hacer clic fuera
+    $(document).click(function(e) {
+        if (!$(e.target).closest('#buscar_paciente, #resultados_pacientes').length) {
+            $('#resultados_pacientes').hide();
+        }
+    });
+    
+    // Función para cargar datos de un paciente existente (para edición)
+    function cargarDatosPaciente(id_paciente) {
+        console.log('Cargando datos del paciente ID:', id_paciente);
+        
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         $.ajax({
             url: APP_URL + '/api/recetas/buscar-pacientes',
             type: 'POST',
             data: { dato: '' },
             dataType: 'json',
+<<<<<<< HEAD
 <<<<<<< HEAD
             success: function(response) {
                 var pacientes = response.success && response.data ? response.data : (Array.isArray(response) ? response : []);
@@ -1183,6 +2105,106 @@ $(document).ready(function() {
         }
     }
 
+=======
+            timeout: 10000,
+            success: function(response) {
+                var pacientes = [];
+                if (response.success && response.data) {
+                    pacientes = response.data;
+                } else if (Array.isArray(response)) {
+                    pacientes = response;
+                }
+                
+                if (pacientes && Array.isArray(pacientes)) {
+                    let paciente = pacientes.find(p => (p.id_usuario || p.id_paciente) == id_paciente);
+                    if (paciente) {
+                        let nombreCompleto = paciente.nombre_completo || paciente.nombre_us || '';
+                        $('#buscar_paciente').val(nombreCompleto);
+                        $('#id_paciente').val(paciente.id_usuario || paciente.id_paciente);
+                        console.log('Paciente cargado:', nombreCompleto);
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al cargar datos del paciente:', error);
+            }
+        });
+    }
+    
+    // ==================== FILTROS Y EVENTOS ====================
+    
+    $('#buscar_receta').on('keyup', function() {
+        filtroBusqueda = $(this).val();
+        paginaActual = 1;
+        aplicarFiltros();
+    });
+    
+    $('#filtro_tipo').change(function() {
+        filtroTipo = $(this).val();
+        paginaActual = 1;
+        aplicarFiltros();
+    });
+    
+    $('#filtro_orden').change(function() {
+        filtroOrden = $(this).val();
+        paginaActual = 1;
+        aplicarFiltros();
+    });
+    
+    $('#btnRefresh').click(function() {
+        filtroBusqueda = '';
+        filtroTipo = 'todas';
+        filtroOrden = 'fecha_desc';
+        paginaActual = 1;
+        $('#buscar_receta').val('');
+        $('#filtro_tipo').val('todas');
+        $('#filtro_orden').val('fecha_desc');
+        cargarRecetas();
+        cargarEstadisticas();
+        mostrarAlerta('Datos actualizados', 'success');
+    });
+    
+    $(document).on('click', '#paginacion .page-link', function(e) {
+        e.preventDefault();
+        let nuevaPagina = $(this).data('pagina');
+        if (nuevaPagina && !$(this).parent().hasClass('disabled')) {
+            paginaActual = nuevaPagina;
+            aplicarFiltros();
+        }
+    });
+    
+    // Establecer fecha actual por defecto
+    let hoy = new Date();
+    let fecha = hoy.toISOString().split('T')[0];
+    $('#fecha_receta').val(fecha);
+    
+    // ==================== FUNCIONES UTILITARIAS ====================
+    
+    function mostrarAlerta(mensaje, tipo) {
+        var alertDiv = $('<div>', {
+            class: 'alert alert-' + (tipo === 'success' ? 'success' : 'danger') + ' alert-dismissible fade show position-fixed',
+            style: 'top: 70px; right: 20px; z-index: 9999; min-width: 300px; border-radius: 12px;',
+            role: 'alert'
+        });
+        
+        var icon = tipo === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+        
+        alertDiv.html(`
+            <i class="fas ${icon}"></i>
+            ${mensaje}
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        `);
+        
+        $('body').append(alertDiv);
+        
+        setTimeout(function() {
+            alertDiv.fadeOut(300, function() { $(this).remove(); });
+        }, 4000);
+    }
+    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     function escapeHtml(str) {
         if (!str) return '';
         return str
@@ -1193,6 +2215,7 @@ $(document).ready(function() {
             .replace(/'/g, '&#39;');
     }
     
+<<<<<<< HEAD
     // Establecer fecha actual por defecto
     let hoy = new Date();
     let fecha = hoy.toISOString().split('T')[0];
@@ -1202,3 +2225,10 @@ $(document).ready(function() {
 
 </body>
 </html>
+=======
+    // ==================== INICIALIZAR ====================
+    cargarEstadisticas();
+    cargarRecetas();
+});
+</script>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0

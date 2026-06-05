@@ -86,6 +86,7 @@ function obtenerRecetasPorPaciente($id_paciente) {
         return array();
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 }    
 =======
 <<<<<<< HEAD
@@ -96,11 +97,15 @@ function obtenerRecetasPorPaciente($id_paciente) {
     
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+}    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     // Crear nueva receta
    function crear_receta($nombre_medicamento, $marca, $cantidad, $dosis, $instrucciones, $id_paciente, $id_medico, $fecha_receta) {
         if($this->acceso === null) {
             echo 'error_conexion';
             return;
+<<<<<<< HEAD
 <<<<<<< HEAD
         }        
 =======
@@ -111,6 +116,9 @@ function obtenerRecetasPorPaciente($id_paciente) {
         
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+        }        
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         try {
             $sql = "INSERT INTO recetas(nombre_medicamento, marca, cantidad, dosis, instrucciones, id_paciente, id_medico, fecha_receta, estado) 
                     VALUES (:nombre_medicamento, :marca, :cantidad, :dosis, :instrucciones, :id_paciente, :id_medico, :fecha_receta, 1)";
@@ -199,7 +207,12 @@ function buscar_pacientes($dato) {
                        fecha_nacimiento_pac as fecha_nacimiento,
                        sexo_paciente as sexo_us
                 FROM registro_paciente 
+<<<<<<< HEAD
                 WHERE (cedula_paciente LIKE :dato OR nombre_paciente LIKE :dato) 
+=======
+                WHERE (cedula_paciente LIKE :dato OR nombre_paciente LIKE :dato OR apellido_paciente LIKE :dato) 
+                AND paciente_tipo = 1
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 LIMIT 10";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(':dato' => "%$dato%"));

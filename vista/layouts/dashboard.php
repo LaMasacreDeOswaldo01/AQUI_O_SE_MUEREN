@@ -1,9 +1,15 @@
 <?php
+<<<<<<< HEAD
 
 if (!function_exists('AuthHelper')) {
     require_once dirname(__DIR__, 2) . '/helpers/AuthHelper.php';
 }
 
+=======
+if (!function_exists('AuthHelper')) {
+    require_once dirname(__DIR__, 2) . '/helpers/AuthHelper.php';
+}
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 // Obtener el rol actual
 $current_role = AuthHelper::getCurrentRole();
 $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Usuario');
@@ -16,16 +22,24 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="<?php echo Security::getTokenCSRF(); ?>">
+<<<<<<< HEAD
     <title><?php echo $titulo_pagina; ?></title>
     
+=======
+    <title><?php echo $titulo_pagina; ?></title>    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     <!-- Variables globales JavaScript -->
     <script>
         var APP_URL = '<?php echo APP_URL; ?>';
         var CURRENT_ROLE = '<?php echo $current_role; ?>';
         var USER_NAME = '<?php echo $nombre_usuario; ?>';
         var AVATAR_URL = '<?php echo !empty($_SESSION['avatar']) ? $_SESSION['avatar'] : APP_URL . "/img/avatarDES.jpg"; ?>';
+<<<<<<< HEAD
     </script>
     
+=======
+    </script>    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     <!-- CSS Globales -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/css/all.min.css">
@@ -34,6 +48,7 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
     <!-- CSS del Sistema -->
     <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/adminlte.min.css">
     <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/dashboard.css">
+<<<<<<< HEAD
     <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/dashboard-utils.css">
     
     <!-- jQuery (siempre primero) -->
@@ -43,6 +58,14 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
     <script src="<?php echo APP_URL; ?>/js/config.js"></script>
     <script src="<?php echo APP_URL; ?>/js/csrf.js"></script>
     
+=======
+    <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/dashboard-utils.css">    
+    <!-- jQuery (siempre primero) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>    
+    <!-- Configuración y CSRF -->
+    <script src="<?php echo APP_URL; ?>/js/config.js"></script>
+    <script src="<?php echo APP_URL; ?>/js/csrf.js"></script>    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     <?php if (isset($css_extra)) echo $css_extra; ?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -116,7 +139,10 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
             </li>
         </ul>
     </nav>
+<<<<<<< HEAD
 
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     <!-- Sidebar -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
@@ -124,7 +150,10 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
             <img src="<?php echo APP_URL; ?>/img/logo_azul.png" alt="BioVital Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
             <span class="brand-text font-weight-bold">BIOVITAL</span>
         </a>
+<<<<<<< HEAD
 
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         <!-- Sidebar -->
         <div class="sidebar">
             <!-- User Panel -->
@@ -179,10 +208,19 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
                                 <p>Recetas</p>
                             </a>
                         </li>
+<<<<<<< HEAD
                         <li class="nav-item">
                             <a href="<?php echo APP_URL; ?>/facturacion" class="nav-link <?php echo ($active_page ?? '') === 'facturacion' ? 'active' : ''; ?>">
                                 <i class="nav-icon fas fa-file-invoice-dollar"></i>
                                 <p>Facturación</p>
+=======
+                        
+                        <li class="nav-header">FACTURACIÓN</li>
+                        <li class="nav-item">
+                            <a href="<?php echo APP_URL; ?>/factura_demo.html" class="nav-link" target="_blank">
+                                <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                                <p>Ver Factura (Demo)</p>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                             </a>
                         </li>
                         
@@ -194,6 +232,7 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
                             </a>
                         </li>
                         
+<<<<<<< HEAD
                     <?php elseif ($current_role === 'medico'): ?>
                         <!-- Menú de Médico -->
                         <li class="nav-header">USUARIO</li>
@@ -276,6 +315,102 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
                             </a>
                         </li>
                     <?php endif; ?>
+=======
+                  <?php elseif ($current_role === 'medico'): ?>
+    <!-- Menú de Médico CORREGIDO -->
+    <li class="nav-header">USUARIO</li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/perfil" class="nav-link <?php echo ($active_page ?? '') === 'perfil' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-user-cog"></i>
+            <p>Datos personales</p>
+        </a>
+    </li>
+    
+    <li class="nav-header">CLÍNICA</li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/recetas" class="nav-link <?php echo ($active_page ?? '') === 'recetas' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-prescription-bottle-alt"></i>
+            <p>Recetas</p>
+        </a>
+    </li>
+    
+    <li class="nav-header">FACTURACIÓN</li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/configurar_tarifa_demo.html" class="nav-link" target="_blank">
+            <i class="nav-icon fas fa-dollar-sign"></i>
+            <p>Configurar Tarifa</p>
+        </a>
+    </li>
+    
+    <li class="nav-header">PACIENTES</li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/medico/pacientes" class="nav-link <?php echo ($active_page ?? '') === 'pacientes' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-users"></i>
+            <p>Mis Pacientes</p>
+        </a>
+    </li>
+    
+<?php elseif ($current_role === 'asistente'): ?>
+    <!-- Menú de Asistente -->
+    <li class="nav-header">USUARIO</li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/perfil" class="nav-link <?php echo ($active_page ?? '') === 'perfil' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-user-cog"></i>
+            <p>Datos personales</p>
+        </a>
+    </li>
+    
+    <li class="nav-header">CLÍNICA</li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/recetas" class="nav-link <?php echo ($active_page ?? '') === 'recetas' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-prescription-bottle-alt"></i>
+            <p>Recetas</p>
+        </a>
+    </li>
+    
+    <li class="nav-header">FACTURACIÓN</li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/factura_demo.html" class="nav-link" target="_blank">
+            <i class="nav-icon fas fa-file-invoice-dollar"></i>
+            <p>Ver Factura (Demo)</p>
+        </a>
+    </li>
+    
+<?php elseif ($current_role === 'paciente'): ?>
+    <!-- Menú de Paciente -->
+    <li class="nav-header">USUARIO</li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/perfil" class="nav-link <?php echo ($active_page ?? '') === 'perfil' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-user-cog"></i>
+            <p>Datos personales</p>
+        </a>
+    </li>
+    
+    <li class="nav-header">CLÍNICA</li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/paciente/recetas" class="nav-link <?php echo ($active_page ?? '') === 'recetas' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-prescription-bottle-alt"></i>
+            <p>Mis Recetas</p>
+        </a>
+    </li>
+    
+    <li class="nav-header">FACTURACIÓN</li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/factura_demo.html" class="nav-link" target="_blank">
+            <i class="nav-icon fas fa-file-invoice-dollar"></i>
+            <p>Mis Facturas (Demo)</p>
+        </a>
+    </li>
+    
+    <li class="nav-header">CITAS</li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/paciente/citas" class="nav-link <?php echo ($active_page ?? '') === 'citas' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-calendar-alt"></i>
+            <p>Mis Citas</p>
+        </a>
+    </li>
+<?php endif; ?>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 </ul>
             </nav>
         </div>
@@ -328,6 +463,9 @@ $(function() {
     $('[data-toggle="popover"]').popover();
 });
 </script>
+<<<<<<< HEAD
 
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 </body>
 </html>

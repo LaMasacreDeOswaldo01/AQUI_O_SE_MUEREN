@@ -1,5 +1,6 @@
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 // vista/administrador/adm_consultorio_crear.php
 // Contenido principal para la creación de consultorios
 // Este archivo se renderiza dentro del layout base dashboard.php
@@ -15,6 +16,8 @@ if($_SESSION['us_tipo'] != 4 || $_SESSION['rol'] != 'administrador'){
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
 
 // Los datos vienen del controlador a través de $data
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 $nombre_usuario = $nombre_usuario ?? 'Administrador';
 ?>
 
@@ -190,6 +193,9 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
 </style>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- Content Header -->
 <div class="content-header">
     <div class="container-fluid">
@@ -198,6 +204,7 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
                 <h1><i class="fas fa-plus-circle"></i> Nuevo Consultorio</h1>
             </div>
         </div>
+<<<<<<< HEAD
 =======
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?php echo APP_URL; ?>/js/config.js"></script>
@@ -443,6 +450,8 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
             </ul>
         </nav>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     </div>
 </div>
 
@@ -466,6 +475,9 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
         </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         <div class="row">
             <div class="col-md-8">
                 <!-- Formulario Principal -->
@@ -477,6 +489,7 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
                         <!-- Alertas -->
                         <div class="alert alert-success alert-custom" id="alertExito" style="display:none;">
                             <i class="fas fa-check-circle"></i> <span id="exitoMensaje"></span>
+<<<<<<< HEAD
 =======
     <section class="content">
         <div class="container-fluid">
@@ -498,6 +511,8 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
                         <div class="card-header">
                             <h3><i class="fas fa-clipboard-list"></i> Información Básica</h3>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                         </div>
                         <div class="alert alert-danger alert-custom" id="alertError" style="display:none;">
                             <i class="fas fa-exclamation-circle"></i> <span id="errorMensaje"></span>
@@ -704,8 +719,12 @@ $(document).ready(function() {
             dataType: 'json',
             timeout: 10000,
             success: function(response) {
+<<<<<<< HEAD
                 console.log('Estados cargados:', response);
                 
+=======
+                console.log('Estados cargados:', response);                
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 var estados = [];
                 if (response.success && response.data) {
                     estados = response.data;
@@ -715,12 +734,19 @@ $(document).ready(function() {
                     estados = response.estados;
                 } else {
                     estados = response;
+<<<<<<< HEAD
                 }
                 
                 if (!Array.isArray(estados)) {
                     estados = [];
                 }
                 
+=======
+                }                
+                if (!Array.isArray(estados)) {
+                    estados = [];
+                }                
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 let options = '<option value="">Seleccione un estado...</option>';
                 for (let i = 0; i < estados.length; i++) {
                     let estado = estados[i];
@@ -963,9 +989,14 @@ $(document).ready(function() {
         $('#preview_horario').text($('#apertura').val() + ' - ' + $('#cierre').val());
     }
     
+<<<<<<< HEAD
     // ==================== EVENTOS ====================
     
     // Eventos de ubicación
+=======
+    // ==================== EVENTOS DE UBICACION====================
+    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     $(document).on('change', '#estado', function() {
         let id_estado = $(this).val();
         if (id_estado) {

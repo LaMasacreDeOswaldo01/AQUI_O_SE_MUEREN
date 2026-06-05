@@ -30,14 +30,20 @@ class Security {
      * @return bool True si es válido
      */
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
    public static function verificarTokenCSRF($token) {
     if (!isset($_SESSION['csrf_token']) || !isset($_SESSION['csrf_token_expiry'])) {
         error_log("[CSRF] Verificación fallida: Token no existe en sesión");
         return false;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     }
     
     if (time() > $_SESSION['csrf_token_expiry']) {
@@ -55,6 +61,7 @@ class Security {
     return $valid;
 }
     
+<<<<<<< HEAD
 =======
     }
     
@@ -88,6 +95,8 @@ class Security {
     
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     /**
      * Obtiene el token CSRF actual (para usar en formularios)
      * @return string Token CSRF

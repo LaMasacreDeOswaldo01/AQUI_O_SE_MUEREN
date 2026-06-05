@@ -1,10 +1,13 @@
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 =======
 // controlador/EspecialidadController.php
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 class EspecialidadController {
     
    public function __construct() {
@@ -25,10 +28,14 @@ class EspecialidadController {
     
     // ==================== VISTAS ====================
     
+<<<<<<< HEAD
     /**
      * Vista: Listado de especialidades
      */
 <<<<<<< HEAD
+=======
+    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
    public function index() {
         AuthHelper::checkRole('administrador', true);
         
@@ -48,12 +55,17 @@ class EspecialidadController {
         ];
         
         ViewHelper::renderDashboard('especialidades/esp_listado', $data, $options);
+<<<<<<< HEAD
     }
     
     
     /**
      * Vista: Detalle de especialidad
      */
+=======
+    }   
+    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
    public function detalle() {
     AuthHelper::checkRole('administrador', true);
     
@@ -80,11 +92,16 @@ class EspecialidadController {
     ];
     
     ViewHelper::renderDashboard('especialidades/esp_detalle', $data, $options);
+<<<<<<< HEAD
 }
     
     /**
      * Vista: Crear especialidad
      */
+=======
+}    
+    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
    public function crear() {
     AuthHelper::checkRole('administrador', true);
     
@@ -104,6 +121,7 @@ class EspecialidadController {
     ];
     
     ViewHelper::renderDashboard('especialidades/esp_crear', $data, $options);
+<<<<<<< HEAD
 }
 =======
     public function index() {
@@ -156,6 +174,14 @@ class EspecialidadController {
 <<<<<<< HEAD
     AuthHelper::checkRole('administrador', true);
     
+=======
+}    
+    
+    public function editar() {
+    AuthHelper::checkRole('administrador', true);
+    
+    // Obtener ID de GET - MISMO PATRÓN QUE detalle()
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
     
     if ($id <= 0) {
@@ -180,11 +206,16 @@ class EspecialidadController {
     ];
     
     ViewHelper::renderDashboard('especialidades/esp_editar', $data, $options);
+<<<<<<< HEAD
 }
     
     /**
      * Vista: Asignar médico a especialidad
      */
+=======
+}    
+   
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
    public function asignarMedico() {
     AuthHelper::checkRole('administrador', true);
     
@@ -214,6 +245,7 @@ class EspecialidadController {
     ViewHelper::renderDashboard('especialidades/esp_asignar_medico', $data, $options);
 }
     
+<<<<<<< HEAD
 =======
         $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
         
@@ -255,6 +287,9 @@ class EspecialidadController {
     /**
      * API: Listar especialidades
      */
+=======
+    // ==================== API - LISTAR ====================   
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function listar() {
         $busqueda = isset($_POST['busqueda']) ? $_POST['busqueda'] : '';
         $estado = isset($_POST['estado']) ? $_POST['estado'] : 'todas';
@@ -280,11 +315,16 @@ class EspecialidadController {
         }
         
         jsonResponse($resultado);
+<<<<<<< HEAD
     }
     
     /**
      * API: Obtener estadísticas para el dashboard
      */
+=======
+    }    
+  
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function obtenerEstadisticas() {
         $especialidad = new Especialidad();
         $total_especialidades = $especialidad->totalActivos();
@@ -299,11 +339,15 @@ class EspecialidadController {
         ]);
     }
     
+<<<<<<< HEAD
     // ==================== API - CRUD ====================
     
     /**
      * API: Obtener detalle de especialidad
      */
+=======
+    // ==================== API - CRUD ====================    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function obtenerDetalle() {
         $id_especialidad = isset($_POST['id_especialidad']) ? intval($_POST['id_especialidad']) : 0;
         
@@ -350,11 +394,16 @@ class EspecialidadController {
             'duracion' => $esp_data->duracion_defecto,
             'medicos' => $lista_medicos
         ]);
+<<<<<<< HEAD
     }
     
     /**
      * API: Crear especialidad
      */
+=======
+    }    
+   
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function crearEspecialidad() {
         $csrf_token = $_POST['csrf_token'] ?? '';
         if (!Security::verificarTokenCSRF($csrf_token)) {
@@ -383,11 +432,16 @@ class EspecialidadController {
         $resultado = ob_get_clean();
         
         jsonResponse(['resultado' => trim($resultado)]);
+<<<<<<< HEAD
     }
     
     /**
      * API: Editar especialidad
      */
+=======
+    }    
+   
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function editarEspecialidad() {
         $csrf_token = $_POST['csrf_token'] ?? '';
         if (!Security::verificarTokenCSRF($csrf_token)) {
@@ -418,11 +472,16 @@ class EspecialidadController {
         $resultado = ob_get_clean();
         
         jsonResponse(['resultado' => trim($resultado)]);
+<<<<<<< HEAD
     }
     
     /**
      * API: Eliminar especialidad (borrado lógico)
      */
+=======
+    }    
+   
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function eliminarEspecialidad() {
         $id_especialidad = intval($_POST['id_especialidad'] ?? 0);
         
@@ -439,11 +498,15 @@ class EspecialidadController {
         jsonResponse(['resultado' => trim($resultado)]);
     }
     
+<<<<<<< HEAD
     // ==================== API - MÉDICOS ====================
     
     /**
      * API: Asignar médico a especialidad
      */
+=======
+    // ==================== API - MÉDICOS ====================    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function asignarMedicoEspecialidad() {
         $id_especialidad = intval($_POST['id_especialidad'] ?? 0);
         $id_medico = intval($_POST['id_medico'] ?? 0);
@@ -463,11 +526,16 @@ class EspecialidadController {
         $resultado = ob_get_clean();
         
         jsonResponse(['resultado' => trim($resultado)]);
+<<<<<<< HEAD
     }
     
     /**
      * API: Remover médico de especialidad
      */
+=======
+    }    
+   
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function removerMedicoEspecialidad() {
         $id_asignacion = intval($_POST['id_asignacion'] ?? 0);
         
@@ -484,6 +552,7 @@ class EspecialidadController {
         jsonResponse(['resultado' => trim($resultado)]);
     }
     
+<<<<<<< HEAD
     /**
      * API: Listar médicos disponibles para asignar
      */
@@ -505,5 +574,26 @@ class EspecialidadController {
         
         jsonResponse($resultado);
     }
+=======
+    
+    public function listarMedicosDisponibles() {
+    $id_especialidad = intval($_POST['id_especialidad'] ?? 0);
+    
+    $especialidad = new Especialidad();
+    $medicos = $especialidad->listarMedicosDisponibles($id_especialidad);
+    
+    $resultado = array();
+    foreach ($medicos as $med) {
+        $resultado[] = array(
+            'id_medico' => $med->id_medico,
+            'nombre' => $med->nombre_medico . ' ' . $med->apellido_medico,
+            'cedula' => $med->cedula_medico,
+            'mpps' => $med->mpps_registro ?? ''
+        );
+    }
+    
+    jsonResponse($resultado);
+}
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 }
 ?>

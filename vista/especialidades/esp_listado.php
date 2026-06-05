@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 // vista/especialidades/esp_listado.php
 <<<<<<< HEAD
 // Contenido principal para la gestión de especialidades
@@ -9,6 +10,11 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
 $api_url = $api_url ?? APP_URL . '/api/especialidades';
 ?>
 
+=======
+$nombre_usuario = $nombre_usuario ?? 'Administrador';
+$api_url = $api_url ?? APP_URL . '/api/especialidades';
+?>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <style>
     .especialidad-card {
         transition: transform 0.3s, box-shadow 0.3s;
@@ -249,6 +255,7 @@ $api_url = $api_url ?? APP_URL . '/api/especialidades';
         </div>
         <p class="mt-2">Cargando especialidades...</p>
     </div>
+<<<<<<< HEAD
 =======
 if($_SESSION['us_tipo'] != 4 || $_SESSION['rol'] != 'administrador'){
     header('Location: ' . APP_URL . '/login/administrador');
@@ -554,32 +561,44 @@ $nombre_usuario = $_SESSION['nombre_us'] ?? 'Administrador';
 </footer>
 
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 </div>
 
 <!-- Modal de confirmación para eliminar -->
 <div class="modal fade" id="modalEliminar" tabindex="-1">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius: 16px;">
             <div class="modal-header bg-danger text-white" style="border-radius: 16px 16px 0 0;">
                 <h5 class="modal-title">
                     <i class="fas fa-exclamation-triangle"></i> Confirmar Eliminación
                 </h5>
+<<<<<<< HEAD
 =======
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-danger text-white">
                 <h5 class="modal-title"><i class="fas fa-exclamation-triangle"></i> Confirmar Eliminación</h5>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <p>¿Está seguro que desea eliminar esta especialidad?</p>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <p class="text-muted">Esta acción no se puede deshacer. La especialidad se marcará como inactiva.</p>
 =======
                 <p class="text-muted">Esta acción no se puede deshacer.</p>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                <p class="text-muted">Esta acción no se puede deshacer. La especialidad se marcará como inactiva.</p>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 <input type="hidden" id="eliminar_id">
             </div>
             <div class="modal-footer">
@@ -591,6 +610,9 @@ $nombre_usuario = $_SESSION['nombre_us'] ?? 'Administrador';
 </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <script>
 $(document).ready(function() {
     console.log('=== CARGANDO MÓDULO DE ESPECIALIDADES ===');
@@ -791,9 +813,15 @@ $(document).ready(function() {
                                             <a href="${APP_URL}/especialidades/detalle/${esp.id_especialidad}" class="btn btn-info btn-sm btn-accion">
                                                 <i class="fas fa-eye"></i> Ver
                                             </a>
+<<<<<<< HEAD
                                             <button class="btn btn-warning btn-sm btn-accion btn-editar" data-id="${esp.id_especialidad}">
                                                 <i class="fas fa-edit"></i> Editar
                                             </button>
+=======
+                                           <a href="${APP_URL}/especialidades/editar/${esp.id_especialidad}" class="btn btn-warning btn-sm btn-accion">
+                                              <i class="fas fa-edit"></i> Editar
+                                              </a>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                                             ${esp.activo == 1 ? `
                                             <button class="btn btn-danger btn-sm btn-accion btn-eliminar" data-id="${esp.id_especialidad}">
                                                 <i class="fas fa-trash"></i> Eliminar
@@ -930,6 +958,7 @@ $(document).ready(function() {
         }, 4000);
     }
 });
+<<<<<<< HEAD
 </script>
 =======
 <script src="<?php echo APP_URL; ?>/js/adminlte.min.js"></script>
@@ -947,3 +976,6 @@ $(document).ready(function() {
 </body>
 </html>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+</script>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0

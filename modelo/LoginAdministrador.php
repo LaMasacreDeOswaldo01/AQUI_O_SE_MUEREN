@@ -22,6 +22,7 @@ class LoginAdministrador {
         
         if($usuario) {
 <<<<<<< HEAD
+<<<<<<< HEAD
            
 =======
 <<<<<<< HEAD
@@ -30,6 +31,9 @@ class LoginAdministrador {
             // 🔐 VERIFICAR CONTRASEÑA CON password_verify
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+           
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             if(password_verify($pass, $usuario->password_hash)) {
                 $this->objetos = array($usuario);
                 return $this->objetos;

@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 // vista/especialidades/esp_asignar_medico.php
 <<<<<<< HEAD
 // Contenido principal para asignar médicos a especialidades
@@ -9,6 +10,11 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
 $id_especialidad = $id_especialidad ?? $_GET['id'] ?? 0;
 ?>
 
+=======
+$nombre_usuario = $nombre_usuario ?? 'Administrador';
+$id_especialidad = $id_especialidad ?? $_GET['id'] ?? 0;
+?>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- CSS Adicional para esta vista -->
 <style>
     .form-section {
@@ -281,6 +287,7 @@ $id_especialidad = $id_especialidad ?? $_GET['id'] ?? 0;
                                                 <label class="custom-control-label" for="domicilio">
                                                     <i class="fas fa-home"></i> ¿Realiza consulta a domicilio?
                                                 </label>
+<<<<<<< HEAD
 =======
 if($_SESSION['us_tipo'] != 4 || $_SESSION['rol'] != 'administrador'){
     header('Location: ' . APP_URL . '/login/administrador');
@@ -515,11 +522,16 @@ $id_especialidad = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                 <input type="checkbox" class="form-check-input" id="domicilio" name="domicilio">
                                                 <label class="form-check-label" for="domicilio">¿Realiza consulta a domicilio?</label>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                             </div>
                             
                             <div class="text-center mt-4">
@@ -536,6 +548,7 @@ $id_especialidad = isset($_GET['id']) ? intval($_GET['id']) : 0;
                             <i class="fas fa-info-circle"></i>
                             <strong>Información adicional:</strong>
                             <p class="mt-1">Los datos profesionales ayudan a calcular tarifas y disponibilidad del médico para esta especialidad. Puede editarlos más tarde desde el detalle de la especialidad.</p>
+<<<<<<< HEAD
 =======
                                 
                                 <button type="submit" class="btn btn-primary btn-lg btn-block">
@@ -546,12 +559,17 @@ $id_especialidad = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                 </a>
                             </form>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     </div>
 </section>
 
@@ -609,6 +627,7 @@ $(document).ready(function() {
                 console.error('Error al cargar especialidad:', error);
                 $('#especialidad_nombre').text('Error al cargar datos');
                 mostrarError('No se pudo cargar la información de la especialidad');
+<<<<<<< HEAD
 =======
     </section>
 </div>
@@ -645,11 +664,16 @@ $(document).ready(function() {
             error: function() {
                 $('#especialidad_nombre').text('Error al cargar especialidad');
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             }
         });
     }
     
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     // ==================== CARGAR MÉDICOS DISPONIBLES ====================
     
     function cargarMedicosDisponibles() {
@@ -657,15 +681,21 @@ $(document).ready(function() {
         
         $('#medico_seleccionado').html('<option value="">Cargando médicos...</option>');
         
+<<<<<<< HEAD
 =======
     function cargarMedicosDisponibles() {
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         $.ajax({
             url: APP_URL + '/api/especialidades/listar-medicos',
             type: 'POST',
             data: { id_especialidad: id_especialidad },
             dataType: 'json',
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             timeout: 10000,
             success: function(response) {
                 console.log('Médicos disponibles:', response);
@@ -703,6 +733,7 @@ $(document).ready(function() {
                 console.error('Error al cargar médicos:', error);
                 $('#medico_seleccionado').html('<option value="">Error al cargar médicos</option>');
                 mostrarError('Error al cargar la lista de médicos disponibles');
+<<<<<<< HEAD
 =======
             success: function(medicos) {
                 var options = '<option value="">Seleccione un médico...</option>';
@@ -717,11 +748,16 @@ $(document).ready(function() {
             error: function() {
                 $('#medico_seleccionado').html('<option value="">Error al cargar médicos</option>');
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             }
         });
     }
     
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     // ==================== ENVÍO DEL FORMULARIO ====================
     
     $('#formAsignarMedico').submit(function(e) {
@@ -779,6 +815,7 @@ $(document).ready(function() {
         
         let $btn = $('#btnAsignar');
         let originalText = $btn.html();
+<<<<<<< HEAD
 =======
     // Enviar formulario
     $('#formAsignarMedico').submit(function(e) {
@@ -802,6 +839,8 @@ $(document).ready(function() {
         var $btn = $(this).find('button[type="submit"]');
         var originalText = $btn.html();
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Asignando...');
         
         $.ajax({
@@ -810,22 +849,31 @@ $(document).ready(function() {
             data: datos,
             dataType: 'json',
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             timeout: 15000,
             success: function(response) {
                 console.log('Respuesta del servidor:', response);
                 
                 if (response.resultado === 'asignado') {
                     mostrarExito('Médico asignado correctamente a la especialidad');
+<<<<<<< HEAD
 =======
             success: function(response) {
                 if (response.resultado === 'asignado') {
                     $('#alertExito').show();
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     setTimeout(function() {
                         window.location.href = APP_URL + '/especialidades/detalle/' + id_especialidad;
                     }, 2000);
                 } else if (response.resultado === 'ya_asignado') {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     mostrarWarning('El médico ya está asignado a esta especialidad');
                     $btn.prop('disabled', false).html(originalText);
                 } else if (response.resultado === 'error_csrf') {
@@ -846,6 +894,7 @@ $(document).ready(function() {
                     errorMsg = xhr.responseJSON.message;
                 }
                 mostrarError(errorMsg);
+<<<<<<< HEAD
 =======
                     mostrarError('El médico ya está asignado a esta especialidad');
                 } else {
@@ -857,12 +906,17 @@ $(document).ready(function() {
             },
             complete: function() {
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 $btn.prop('disabled', false).html(originalText);
             }
         });
     });
     
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     // ==================== BOTÓN CANCELAR ====================
     
     $('#btnCancelar').click(function() {
@@ -917,6 +971,7 @@ $(document).ready(function() {
     cargarEspecialidad();
     cargarMedicosDisponibles();
 });
+<<<<<<< HEAD
 </script>
 =======
     function mostrarError(mensaje) {
@@ -930,3 +985,6 @@ $(document).ready(function() {
 </body>
 </html>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+</script>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0

@@ -1,13 +1,17 @@
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 // controlador/PageController.php
 class PageController {
     
     public function home() {
         // Si el usuario ya está logueado, redirigir a su panel
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 =======
@@ -16,6 +20,8 @@ class PageController {
     public function home() {
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         if (isset($_SESSION['usuario']) && isset($_SESSION['rol'])) {
             $redirects = [
                 'paciente' => 'panel/paciente',
@@ -29,8 +35,11 @@ class PageController {
             }
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         
         // Si hay una solicitud de login pendiente (después de registro o clic directo)
         if (isset($_SESSION['open_login'])) {
@@ -61,6 +70,7 @@ class PageController {
         // Esta es la forma más confiable, no depende de sesiones
         header('Location: ' . APP_URL . '/?openLogin=' . $rol);
         exit();
+<<<<<<< HEAD
 =======
         renderView('home');
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
@@ -104,6 +114,8 @@ class PageController {
         $this->home();
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     }
 }
 ?>

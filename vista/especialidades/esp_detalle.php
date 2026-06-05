@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 // vista/especialidades/esp_detalle.php
 <<<<<<< HEAD
 // Contenido principal para el detalle de especialidad
@@ -9,6 +10,11 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
 $id_especialidad = $id_especialidad ?? $_GET['id'] ?? 0;
 ?>
 
+=======
+$nombre_usuario = $nombre_usuario ?? 'Administrador';
+$id_especialidad = $id_especialidad ?? $_GET['id'] ?? 0;
+?>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- CSS Adicional para esta vista -->
 <style>
     .info-box-icon-custom {
@@ -282,6 +288,7 @@ $id_especialidad = $id_especialidad ?? $_GET['id'] ?? 0;
         </div>
     </div>
 </section>
+<<<<<<< HEAD
 =======
 if($_SESSION['us_tipo'] != 4 || $_SESSION['rol'] != 'administrador'){
     header('Location: ' . APP_URL . '/login/administrador');
@@ -631,11 +638,16 @@ $id_especialidad = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 </div>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 
 <!-- Modal Asignar Médico -->
 <div class="modal fade" id="modalAsignarMedico" tabindex="-1">
     <div class="modal-dialog modal-lg">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         <div class="modal-content" style="border-radius: 16px;">
             <div class="modal-header bg-primary text-white" style="border-radius: 16px 16px 0 0;">
                 <h5 class="modal-title">
@@ -652,6 +664,7 @@ $id_especialidad = isset($_GET['id']) ? intval($_GET['id']) : 0;
                     <div class="col-md-12">
                         <div class="form-group">
                             <label class="required-field">Seleccionar Médico</label>
+<<<<<<< HEAD
 =======
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
@@ -664,6 +677,8 @@ $id_especialidad = isset($_GET['id']) ? intval($_GET['id']) : 0;
                         <div class="form-group">
                             <label>Seleccionar Médico</label>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                             <select class="form-control" id="medico_seleccionado">
                                 <option value="">Seleccione un médico...</option>
                             </select>
@@ -695,12 +710,18 @@ $id_especialidad = isset($_GET['id']) ? intval($_GET['id']) : 0;
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="domicilio">
 <<<<<<< HEAD
+<<<<<<< HEAD
                             <label class="form-check-label" for="domicilio">
                                 <i class="fas fa-home"></i> ¿Realiza consulta a domicilio?
                             </label>
 =======
                             <label class="form-check-label" for="domicilio">¿Realiza consulta a domicilio?</label>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                            <label class="form-check-label" for="domicilio">
+                                <i class="fas fa-home"></i> ¿Realiza consulta a domicilio?
+                            </label>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                         </div>
                     </div>
                 </div>
@@ -709,6 +730,9 @@ $id_especialidad = isset($_GET['id']) ? intval($_GET['id']) : 0;
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 <button type="button" class="btn btn-primary" id="btnGuardarAsignacion">
                     <i class="fas fa-save"></i> Asignar Médico
                 </button>
@@ -738,24 +762,33 @@ $id_especialidad = isset($_GET['id']) ? intval($_GET['id']) : 0;
                 <button type="button" class="btn btn-danger" id="confirmarRemover">
                     <i class="fas fa-trash"></i> Remover
                 </button>
+<<<<<<< HEAD
 =======
                 <button type="button" class="btn btn-primary" id="btnGuardarAsignacion">Asignar</button>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             </div>
         </div>
     </div>
 </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <script src="<?php echo APP_URL; ?>/js/adminlte.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <script src="<?php echo APP_URL; ?>/js/especialidades.js"></script>
 
 <script>
 $(document).ready(function() {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     console.log('=== CARGANDO DETALLE DE ESPECIALIDAD ===');
     console.log('ID Especialidad:', $('#id_especialidad').val());
     
@@ -770,14 +803,20 @@ $(document).ready(function() {
     });
     
     // Botón editar
+<<<<<<< HEAD
 =======
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     $('#btnEditar').click(function() {
         var id = $('#id_especialidad').val();
         window.location.href = APP_URL + '/especialidades/editar?id=' + id;
     });
     
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     // Botones asignar médico (varios)
     $('#btnAsignarMedico, #btnAsignarMedicoHeader, #btnAsignarMedicoFooter').click(function() {
         cargarListaMedicosDisponibles();
@@ -1159,6 +1198,7 @@ $(document).ready(function() {
             .replace(/'/g, '&#39;');
     }
 });
+<<<<<<< HEAD
 </script>
 =======
     $('#btnVerReportes').click(function() {
@@ -1176,3 +1216,6 @@ $(document).ready(function() {
 </body>
 </html>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+</script>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0

@@ -1,5 +1,6 @@
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 <<<<<<< HEAD
@@ -9,6 +10,9 @@
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
 include_once 'Conexion.php';
 
+=======
+include_once 'Conexion.php';
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 class Administrador {
     var $objetos;
     var $acceso;
@@ -17,6 +21,7 @@ class Administrador {
         $db = new Conexion();
         $this->acceso = $db->pdo;
 <<<<<<< HEAD
+<<<<<<< HEAD
     }    
     // ==================== MÉTODOS PRINCIPALES ====================
 =======
@@ -24,6 +29,10 @@ class Administrador {
     }    
     // ==================== MÉTODOS PRINCIPALES ====================
     
+=======
+    }    
+    // ==================== MÉTODOS PRINCIPALES ====================    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     function obtener_datos($id) {
         try {
             $sql = "SELECT ra.*, tp.nombre_tipo 
@@ -38,8 +47,12 @@ class Administrador {
             error_log("Error en obtener_datos: " . $e->getMessage());
             return array();
         }
+<<<<<<< HEAD
     }
     
+=======
+    }    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
    
     function editar($id_administrador, $telefono, $direccion, $correo, $sexo, $adicional) {
         try {
@@ -69,8 +82,12 @@ class Administrador {
             error_log("Error en editar administrador: " . $e->getMessage());
             return ['success' => false, 'message' => 'error_bd'];
         }
+<<<<<<< HEAD
     }
     
+=======
+    }    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
  
     function cambiar_photo($id_administrador, $nombre) {
         try {
@@ -93,8 +110,12 @@ class Administrador {
             error_log("Error en cambiar_photo: " . $e->getMessage());
             return 'avatarDES.jpg';
         }
+<<<<<<< HEAD
     }
     
+=======
+    }    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
   
     function crear($datos) {
         try {
@@ -124,6 +145,7 @@ class Administrador {
             }
             
             // Insertar el nuevo administrador
+<<<<<<< HEAD
 =======
     }
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
@@ -232,6 +254,8 @@ class Administrador {
 =======
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             $sql = "INSERT INTO registro_administrador(
                 nombre_administrador, apellido_administrador, fecha_nacimiento_administrador, 
                 cedula_administrador, telefono_administrador, direccion_administrador, 
@@ -261,9 +285,12 @@ class Administrador {
             if($resultado) {
                 $id_administrador = $this->acceso->lastInsertId();
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 $loginResult = $this->crearLogin($id_administrador, $password_hash);
                 
                 if ($loginResult['success']) {
@@ -274,7 +301,10 @@ class Administrador {
                     return ['success' => false, 'message' => 'error_login'];
                 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             } else {
                 return ['success' => false, 'message' => 'error_bd'];
             }
@@ -282,8 +312,12 @@ class Administrador {
             error_log("Error en crear administrador: " . $e->getMessage());
             return ['success' => false, 'message' => 'error_exception'];
         }
+<<<<<<< HEAD
     }
     
+=======
+    }    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
  
     function crearLogin($id_administrador, $password_hash) {
         try {
@@ -307,8 +341,11 @@ class Administrador {
     }
     
     // ==================== MÉTODOS PARA ESTADÍSTICAS ====================
+<<<<<<< HEAD
     
 
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     function obtenerEstadisticasGenerales() {
         try {
             $stats = [];
@@ -382,8 +419,12 @@ class Administrador {
                 'total_especialidades' => 0
             ];
         }
+<<<<<<< HEAD
     }
     
+=======
+    }    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
    
     function totalUsuarios() {
         try {
@@ -406,6 +447,7 @@ class Administrador {
         }
     }
     
+<<<<<<< HEAD
     // ==================== MÉTODOS DE GESTIÓN DE USUARIOS ====================
     
     function listarUsuarios($rol = null, $busqueda = null) {
@@ -746,6 +788,9 @@ class Administrador {
     
     // ==================== MÉTODOS DE GESTIÓN DE USUARIOS ====================
     
+=======
+    // ==================== MÉTODOS DE GESTIÓN DE USUARIOS ====================    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
    function listarUsuarios($busqueda = '', $rol = '', $estado = '') {
     try {
         $usuarios = [];
@@ -853,9 +898,13 @@ class Administrador {
         error_log("Error en listarUsuarios: " . $e->getMessage());
         return array();
     }
+<<<<<<< HEAD
 }
 <<<<<<< HEAD
     
+=======
+}    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
  
     function cambiarEstadoUsuario($tabla, $id_field, $id, $estado) {
         try {
@@ -965,9 +1014,13 @@ function editarUsuario($id, $rol, $correo, $telefono, $estado) {
     }
 }
     
+<<<<<<< HEAD
     // ==================== MÉTODOS DE BÚSQUEDA ====================
     
  
+=======
+    // ==================== MÉTODOS DE BÚSQUEDA ==================== 
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     function buscar($termino, $limit = 10) {
         try {
             $sql = "SELECT id_administrador, nombre_administrador, apellido_administrador, 
@@ -987,8 +1040,12 @@ function editarUsuario($id, $rol, $correo, $telefono, $estado) {
             error_log("Error en buscar: " . $e->getMessage());
             return array();
         }
+<<<<<<< HEAD
     }
     
+=======
+    }   
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
  
     function obtenerPorCedula($cedula) {
         try {
@@ -1004,8 +1061,12 @@ function editarUsuario($id, $rol, $correo, $telefono, $estado) {
             error_log("Error en obtenerPorCedula: " . $e->getMessage());
             return null;
         }
+<<<<<<< HEAD
     }
     
+=======
+    }    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 
     function existe($cedula, $correo) {
         try {
@@ -1020,9 +1081,13 @@ function editarUsuario($id, $rol, $correo, $telefono, $estado) {
         }
     }
     
+<<<<<<< HEAD
     // ==================== MÉTODOS PARA ACTIVIDAD RECIENTE ====================
     
   
+=======
+    // ==================== MÉTODOS PARA ACTIVIDAD RECIENTE ====================  
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     function obtenerActividadReciente($limit = 10) {
         try {
             $actividades = [];
@@ -1049,8 +1114,12 @@ function editarUsuario($id, $rol, $correo, $telefono, $estado) {
         }
     }
 }
+<<<<<<< HEAD
 ?>
 =======
 ?>
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+?>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0

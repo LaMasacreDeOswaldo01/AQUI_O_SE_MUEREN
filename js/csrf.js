@@ -1,5 +1,6 @@
 /**
 <<<<<<< HEAD
+<<<<<<< HEAD
  * CSRF Protection - Versión corregida
  * NO genera tokens falsos. Si falla el servidor, muestra error y bloquea formularios.
 =======
@@ -11,6 +12,10 @@
  * Versión simplificada que no depende de funciones externas
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+ * CSRF Protection - Versión corregida
+ * NO genera tokens falsos. Si falla el servidor, muestra error y bloquea formularios.
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
  */
 
 var CSRF = (function() {
@@ -18,18 +23,24 @@ var CSRF = (function() {
     var currentToken = null;
     var tokenExpiry = null;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     var isInitialized = false;
     var initError = null;
     var retryCount = 0;
     var maxRetries = 3;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     
     // Verificar que APP_URL esté definida
     if (typeof APP_URL === 'undefined') {
@@ -38,9 +49,12 @@ var CSRF = (function() {
     }
     
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     // Mostrar error al usuario
     function showError(mensaje) {
         console.error('[CSRF] ' + mensaje);
@@ -64,13 +78,17 @@ var CSRF = (function() {
             $(this).find('input, select, textarea').prop('disabled', true);
         });
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     }
     
     // Obtener token del servidor (sin fallback falso)
     function fetchTokenFromServer(callback) {
         var tokenUrl = APP_URL + '/api/csrf/token';
         console.log('[CSRF] Obteniendo token desde:', tokenUrl);
+<<<<<<< HEAD
 =======
     // Función para generar un token aleatorio (fallback)
     function generateToken() {
@@ -89,11 +107,14 @@ var CSRF = (function() {
         console.log('Obteniendo token CSRF desde:', tokenUrl);
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         
         $.ajax({
             url: tokenUrl,
             type: 'POST',
             dataType: 'json',
+<<<<<<< HEAD
 <<<<<<< HEAD
             timeout: 8000, // 8 segundos de timeout
 =======
@@ -103,15 +124,21 @@ var CSRF = (function() {
             async: false,
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+            timeout: 8000, // 8 segundos de timeout
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             success: function(response) {
                 if (response && response.status === 'success' && response.csrf_token) {
                     currentToken = response.csrf_token;
                     tokenExpiry = Date.now() + 3600000;
 <<<<<<< HEAD
+<<<<<<< HEAD
                     console.log('[CSRF] Token obtenido correctamente');
                     if (callback) callback(true, currentToken);
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     console.log('[CSRF] Token obtenido correctamente');
                     if (callback) callback(true, currentToken);
                 } else {
@@ -123,6 +150,7 @@ var CSRF = (function() {
                 console.error('[CSRF] Error al obtener token - Status:', status, 'Error:', error);
                 console.error('[CSRF] Respuesta del servidor:', xhr.responseText);
                 if (callback) callback(false, null);
+<<<<<<< HEAD
 =======
                     console.log('Token CSRF obtenido correctamente');
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
@@ -142,14 +170,19 @@ var CSRF = (function() {
                 tokenExpiry = Date.now() + 3600000;
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             }
         });
     }
     
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     // Intentar obtener token con reintentos
     function fetchTokenWithRetry(callback, attempt) {
         attempt = attempt || 0;
@@ -173,7 +206,10 @@ var CSRF = (function() {
             }
         });
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     }
     
     // Habilitar formularios después de obtener token
@@ -242,6 +278,7 @@ var CSRF = (function() {
         
         if (typeof data === 'object' && data !== null) {
             data.csrf_token = token;
+<<<<<<< HEAD
 =======
     // Inicializar token
     function init() {
@@ -324,6 +361,8 @@ var CSRF = (function() {
             data.csrf_token = getToken();
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         }
         return data;
     }
@@ -333,9 +372,12 @@ var CSRF = (function() {
         $(document).ajaxSend(function(event, xhr, settings) {
             if (settings.type === 'POST' && settings.data) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 var token = getToken();
                 if (!token) {
                     console.error('[CSRF] Petición POST bloqueada: token CSRF no disponible');
@@ -345,6 +387,7 @@ var CSRF = (function() {
                     return false;
                 }
                 
+<<<<<<< HEAD
 <<<<<<< HEAD
                 if (typeof settings.data === 'string') {
                     if (settings.data.indexOf('csrf_token=') === -1) {
@@ -359,10 +402,16 @@ var CSRF = (function() {
                         settings.data += '&csrf_token=' + encodeURIComponent(getToken());
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                if (typeof settings.data === 'string') {
+                    if (settings.data.indexOf('csrf_token=') === -1) {
+                        settings.data += '&csrf_token=' + encodeURIComponent(token);
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     }
                 } 
                 else if (settings.data instanceof FormData) {
                     if (!settings.data.has('csrf_token')) {
+<<<<<<< HEAD
 <<<<<<< HEAD
                         settings.data.append('csrf_token', token);
 =======
@@ -372,10 +421,14 @@ var CSRF = (function() {
                         settings.data.append('csrf_token', getToken());
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                        settings.data.append('csrf_token', token);
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     }
                 }
                 else if (typeof settings.data === 'object') {
                     if (!settings.data.csrf_token) {
+<<<<<<< HEAD
 <<<<<<< HEAD
                         settings.data.csrf_token = token;
 =======
@@ -385,6 +438,9 @@ var CSRF = (function() {
                         settings.data.csrf_token = getToken();
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                        settings.data.csrf_token = token;
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     }
                 }
             }
@@ -394,10 +450,13 @@ var CSRF = (function() {
     // Agregar token a formularios HTML
     function addTokenToForms() {
 <<<<<<< HEAD
+<<<<<<< HEAD
         if (!currentToken) return;
         
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         if (!currentToken) return;
         
         $('form').each(function() {
@@ -409,6 +468,7 @@ var CSRF = (function() {
                 $(this).append('<input type="hidden" name="csrf_token" value="' + currentToken + '">');
             } else {
                 $(this).find('input[name="csrf_token"]').val(currentToken);
+<<<<<<< HEAD
 =======
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
         $('form').each(function() {
@@ -425,14 +485,19 @@ var CSRF = (function() {
                 $(this).find('input[name="csrf_token"]').val(getToken());
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             }
         });
     }
     
 <<<<<<< HEAD
+<<<<<<< HEAD
     // Actualizar tokens periódicamente (cada 30 minutos)
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     // Actualizar tokens periódicamente (cada 30 minutos)
     function setupFormUpdater() {
         setInterval(function() {
@@ -453,6 +518,7 @@ var CSRF = (function() {
         return isInitialized && currentToken !== null;
     }
     
+<<<<<<< HEAD
 =======
     // Actualizar tokens periódicamente
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
@@ -479,6 +545,8 @@ var CSRF = (function() {
 =======
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     // API pública
     return {
         init: init,
@@ -486,6 +554,7 @@ var CSRF = (function() {
         addTokenToData: addTokenToData,
         setupAjaxInterceptor: setupAjaxInterceptor,
         addTokenToForms: addTokenToForms,
+<<<<<<< HEAD
 <<<<<<< HEAD
         setupFormUpdater: setupFormUpdater,
         isReady: isReady
@@ -497,15 +566,22 @@ var CSRF = (function() {
         setupFormUpdater: setupFormUpdater
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+        setupFormUpdater: setupFormUpdater,
+        isReady: isReady
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     };
 })();
 
 // Inicializar cuando el documento esté listo
 $(document).ready(function() {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     console.log('[CSRF] Inicializando protección CSRF...');
     CSRF.init(function(success) {
         if (success) {
@@ -514,6 +590,7 @@ $(document).ready(function() {
             console.error('[CSRF] No se pudo activar la protección CSRF');
         }
     });
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 =======
@@ -524,4 +601,6 @@ $(document).ready(function() {
     CSRF.setupFormUpdater();
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 });

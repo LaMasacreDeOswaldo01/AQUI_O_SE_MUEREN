@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
 <<<<<<< HEAD
  * js/paciente.js 
@@ -7,6 +8,8 @@
  * js/paciente.js 
  * Maneja correctamente el formato ApiResponse de la API de ubicación
  */
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 
 $(document).ready(function() {
     var id_usuario = $('#id_usuario').val();
@@ -25,6 +28,7 @@ $(document).ready(function() {
     // ==================== FUNCIÓN PRINCIPAL: BUSCAR PACIENTE ====================
     function buscar_paciente(dato) {
         console.log('Buscando paciente con dato:', dato);
+<<<<<<< HEAD
 =======
  * js/paciente.js
  * Funcionalidades para el panel del paciente
@@ -58,14 +62,19 @@ $(document).ready(function() {
         $('#nombre_us').html('Cargando...');
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         
         $.ajax({
             url: APP_URL + '/api/pacientes/buscar',
             type: 'POST',
 <<<<<<< HEAD
+<<<<<<< HEAD
             data: { dato: dato, id_paciente: dato },
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             data: { dato: dato, id_paciente: dato },
             dataType: 'json',
             timeout: 10000,
@@ -80,6 +89,7 @@ $(document).ready(function() {
                 
                 if (paciente.error) {
                     console.error('Error:', paciente.error);
+<<<<<<< HEAD
 =======
             data: { 
                 dato: id, 
@@ -104,14 +114,19 @@ $(document).ready(function() {
                     console.error('Error del servidor:', paciente.error);
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     $('#nombre_us').html('Error: ' + paciente.error);
                     return;
                 }
                 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 // Actualizar UI con los datos
                 $('#nombre_us').html(paciente.nombre || '');
                 $('#apellidos_us').html(paciente.apellidos || '');
@@ -147,7 +162,10 @@ $(document).ready(function() {
                 
                 console.log('Datos actualizados correctamente');
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             },
             error: function(xhr, status, error) {
                 console.error('Error en la petición AJAX:', error);
@@ -157,8 +175,12 @@ $(document).ready(function() {
         });
     }
 
+<<<<<<< HEAD
     // ==================== FUNCIONES DE UBICACIÓN ====================
     
+=======
+    // ==================== FUNCIONES DE UBICACIÓN ====================    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     function cargarDireccionEnCampos(direccion_completa) {
         console.log('Parseando dirección:', direccion_completa);
         
@@ -663,6 +685,7 @@ $(document).ready(function() {
 
     // ==================== BOTÓN EDITAR ====================
     $(document).on('click', '.edit, .btn-editor', function(e) {
+<<<<<<< HEAD
 =======
                 actualizarUI(paciente);
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
@@ -1186,11 +1209,14 @@ $(document).ready(function() {
     $(document).on('click', '.edit', function(e) {
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         e.preventDefault();
         edit = true;
         
         console.log('Editando paciente ID:', id_usuario);
         
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
@@ -1198,6 +1224,8 @@ $(document).ready(function() {
         // Mostrar indicador de carga
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         var $btn = $(this);
         var originalText = $btn.html();
         $btn.html('<i class="fas fa-spinner fa-spin"></i> Cargando...');
@@ -1208,11 +1236,14 @@ $(document).ready(function() {
             data: { id_paciente: id_usuario },
             dataType: 'json',
 <<<<<<< HEAD
+<<<<<<< HEAD
             success: function(response) {
                 var paciente = response.success && response.data ? response.data : response;
                 console.log('Datos a editar:', paciente);
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             success: function(response) {
                 var paciente = response.success && response.data ? response.data : response;
                 console.log('Datos a editar:', paciente);
@@ -1230,6 +1261,7 @@ $(document).ready(function() {
                 
                 // Habilitar campos de edición
                 $('#telefono, #correo, #sexo, #adicional, #estado, #ciudad, #municipio, #parroquia, #direccion_detallada').prop('disabled', false);
+<<<<<<< HEAD
 =======
             success: function(paciente) {
                 console.log('Datos para edición:', paciente);
@@ -1258,6 +1290,8 @@ $(document).ready(function() {
                 $('#direccion_detallada').prop('disabled', false);
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 
                 // Cambiar estilo del botón guardar
                 $('.btn-outline-success')
@@ -1266,9 +1300,12 @@ $(document).ready(function() {
                     .prop('disabled', false);
                 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 // Cargar dirección existente en los selects
                 if (paciente.direccion && paciente.direccion !== '-') {
                     cargarDireccionEnCampos(paciente.direccion);
@@ -1279,10 +1316,14 @@ $(document).ready(function() {
                 $('#editado').show(1000);
                 setTimeout(function() { $('#editado').hide(2000); }, 2000);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             },
             error: function(xhr, status, error) {
                 console.error('Error al capturar datos:', error);
                 alert('Error al cargar datos para edición: ' + status);
+<<<<<<< HEAD
 =======
             },
             error: function(xhr, status, error) {
@@ -1296,6 +1337,8 @@ $(document).ready(function() {
                 mostrarMensaje('Error al cargar datos para edición: ' + status, 'error');
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             },
             complete: function() {
                 $btn.html(originalText);
@@ -1303,11 +1346,14 @@ $(document).ready(function() {
         });
     });
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     // ==================== FORMULARIO DE EDICIÓN - GUARDAR CAMBIOS ====================
     $('#form-usuario').off('submit').on('submit', function(e) {
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 
     // ==================== FORMULARIO DE EDICIÓN - GUARDAR CAMBIOS ====================
     $('#form-usuario').off('submit').on('submit', function(e) {
@@ -1319,6 +1365,7 @@ $(document).ready(function() {
         }
         
         // Construir dirección completa
+<<<<<<< HEAD
 =======
     
     // ==================== GUARDAR CAMBIOS ====================
@@ -1337,6 +1384,8 @@ $(document).ready(function() {
         // Construir dirección completa desde los selects
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         var estado_nombre = $('#estado option:selected').text();
         var ciudad_nombre = $('#ciudad option:selected').text();
         var municipio_nombre = $('#municipio option:selected').text();
@@ -1344,9 +1393,12 @@ $(document).ready(function() {
         var direccion_detallada = $('#direccion_detallada').val();
         
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         console.log('Estado seleccionado:', estado_nombre);
         console.log('Ciudad seleccionada:', ciudad_nombre);
         console.log('Municipio seleccionado:', municipio_nombre);
@@ -1354,7 +1406,10 @@ $(document).ready(function() {
         console.log('Dirección detallada:', direccion_detallada);
         
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         var direccion_completa = '';
         
         if (estado_nombre && estado_nombre !== 'Seleccione un estado...' && estado_nombre !== '') {
@@ -1367,6 +1422,7 @@ $(document).ready(function() {
             direccion_completa += (direccion_completa ? ', ' : '') + municipio_nombre;
         }
         if (parroquia_nombre && parroquia_nombre !== 'Seleccione una parroquia...' && parroquia_nombre !== '' && parroquia_nombre !== 'Cargando parroquias...') {
+<<<<<<< HEAD
 =======
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
         var direccion_completa = '';
@@ -1386,6 +1442,8 @@ $(document).ready(function() {
         if (parroquia_nombre && parroquia_nombre !== 'Seleccione una parroquia...' && parroquia_nombre !== 'Seleccione un municipio primero...') {
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             direccion_completa += (direccion_completa ? ', ' : '') + parroquia_nombre;
         }
         if (direccion_detallada && direccion_detallada !== '') {
@@ -1393,15 +1451,21 @@ $(document).ready(function() {
         }
         
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         var telefono = $('#telefono').val();
         var correo = $('#correo').val();
         var sexo = $('#sexo').val();
         var adicional = $('#adicional').val();
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         
         console.log('=== ENVIANDO DATOS ===');
         console.log('ID:', id_usuario);
@@ -1410,6 +1474,7 @@ $(document).ready(function() {
         console.log('Correo:', correo);
         console.log('Sexo:', sexo);
         console.log('Adicional:', adicional);
+<<<<<<< HEAD
 =======
         var datos = {
             id_paciente: id_usuario,
@@ -1432,6 +1497,8 @@ $(document).ready(function() {
 =======
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         
         var $btn = $(this).find('button[type="submit"]');
         var originalText = $btn.html();
@@ -1441,9 +1508,12 @@ $(document).ready(function() {
             url: APP_URL + '/api/pacientes/editar',
             type: 'POST',
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             data: {
                 id_paciente: id_usuario,
                 telefono: telefono,
@@ -1453,26 +1523,33 @@ $(document).ready(function() {
                 adicional: adicional
             },
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
             data: datos,
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             dataType: 'json',
             success: function(response) {
                 console.log('Respuesta del servidor:', response);
                 
                 if (response.success) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     $('#editado').show(1000);
                     setTimeout(function() { 
                         $('#editado').hide(2000); 
                     }, 3000);
                     
                     edit = false;
+<<<<<<< HEAD
 <<<<<<< HEAD
                     
                     // Deshabilitar campos después de guardar
@@ -1490,6 +1567,11 @@ $(document).ready(function() {
                     edit = false;
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                    
+                    // Deshabilitar campos después de guardar
+                    $('#telefono, #correo, #sexo, #adicional, #estado, #ciudad, #municipio, #parroquia, #direccion_detallada').prop('disabled', true);
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     
                     // Restaurar estilo del botón guardar
                     $('.btn-success')
@@ -1498,15 +1580,19 @@ $(document).ready(function() {
                         .prop('disabled', true);
                     
 <<<<<<< HEAD
+<<<<<<< HEAD
                     // Recargar datos del paciente
                     buscar_paciente(id_usuario);
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     // Recargar datos del paciente
                     buscar_paciente(id_usuario);
                     
                     alert('¡Datos actualizados correctamente!');
                 } else {
+<<<<<<< HEAD
 =======
                     // Recargar datos actualizados
                     cargarDatosPaciente(id_usuario);
@@ -1519,16 +1605,22 @@ $(document).ready(function() {
                     mostrarMensaje(response.error || 'Error al guardar', 'error');
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     $('#noeditado').show(1000);
                     setTimeout(function() { 
                         $('#noeditado').hide(2000); 
                     }, 3000);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     alert(response.error || 'Error al guardar los cambios');
                 }
             },
             error: function(xhr, status, error) {
                 console.error('Error en AJAX:', error);
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
                     alert(response.error || 'Error al guardar los cambios');
@@ -1544,10 +1636,13 @@ $(document).ready(function() {
                 mostrarMensaje('Error de conexión: ' + status, 'error');
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 $('#noeditado').show(1000);
                 setTimeout(function() { 
                     $('#noeditado').hide(2000); 
                 }, 3000);
+<<<<<<< HEAD
 <<<<<<< HEAD
                 alert('Error de conexión: ' + status);
 =======
@@ -1556,16 +1651,23 @@ $(document).ready(function() {
 =======
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                alert('Error de conexión: ' + status);
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             },
             complete: function() {
                 $btn.prop('disabled', false).html(originalText);
             }
         });
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         
         return false;
     });
 
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
         
@@ -1577,6 +1679,8 @@ $(document).ready(function() {
     
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     // ==================== CAMBIAR CONTRASEÑA ====================
     $('#form-pass').submit(function(e) {
         e.preventDefault();
@@ -1585,6 +1689,7 @@ $(document).ready(function() {
         var newpass = $('#newpass').val();
         
         if (newpass.length < 6) {
+<<<<<<< HEAD
 <<<<<<< HEAD
             alert('La nueva contraseña debe tener al menos 6 caracteres');
             return false;
@@ -1597,6 +1702,10 @@ $(document).ready(function() {
             return;
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+            alert('La nueva contraseña debe tener al menos 6 caracteres');
+            return false;
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         }
         
         var $btn = $(this).find('button[type="submit"]');
@@ -1617,8 +1726,11 @@ $(document).ready(function() {
                 
                 if (response.resultado === 'update') {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     $('#update').show(1000);
                     setTimeout(function() { 
                         $('#update').hide(2000); 
@@ -1630,6 +1742,7 @@ $(document).ready(function() {
                     setTimeout(function() { 
                         $('#noupdate').hide(2000); 
                     }, 2000);
+<<<<<<< HEAD
 =======
                     mostrarMensaje('Contraseña actualizada correctamente', 'success');
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
@@ -1649,10 +1762,13 @@ $(document).ready(function() {
                     }, 3000);
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 }
             },
             error: function(xhr, status, error) {
                 console.error('Error al cambiar contraseña:', error);
+<<<<<<< HEAD
 <<<<<<< HEAD
                 alert('Error de conexión: ' + status);
 =======
@@ -1666,6 +1782,9 @@ $(document).ready(function() {
                 }, 3000);
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                alert('Error de conexión: ' + status);
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             },
             complete: function() {
                 $btn.prop('disabled', false).html(originalText);
@@ -1673,6 +1792,9 @@ $(document).ready(function() {
         });
     });
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 
     // ==================== CAMBIAR FOTO ====================
     $('#form-photo').submit(function(e) {
@@ -1684,6 +1806,7 @@ $(document).ready(function() {
             return;
         }
         
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 
@@ -1705,11 +1828,14 @@ $(document).ready(function() {
         
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         var formData = new FormData(this);
         formData.append('id_paciente', id_usuario);
         
         var $btn = $(this).find('button[type="submit"]');
         var originalText = $btn.html();
+<<<<<<< HEAD
 <<<<<<< HEAD
         $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Subiendo...');
 =======
@@ -1719,6 +1845,9 @@ $(document).ready(function() {
         $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Subiendo...');
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         
         $.ajax({
             url: APP_URL + '/api/pacientes/cambiar-foto',
@@ -1733,14 +1862,18 @@ $(document).ready(function() {
                 
                 if (response.alert === 'edit') {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     var timestamp = new Date().getTime();
                     var nuevaRuta = response.ruta + '?t=' + timestamp;
                     
                     $('#avatar1, #avatar2, #avatar3, #avatar4, #avatar_nav').attr('src', nuevaRuta);
                     
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 =======
@@ -1751,14 +1884,19 @@ $(document).ready(function() {
                     mostrarMensaje('Avatar actualizado correctamente', 'success');
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     $('#edit').show(1000);
                     setTimeout(function() { 
                         $('#edit').hide(2000); 
                     }, 3000);
 <<<<<<< HEAD
+<<<<<<< HEAD
                     
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     
                     $('#form-photo').trigger('reset');
                     
@@ -1767,6 +1905,7 @@ $(document).ready(function() {
                     }, 1500);
                     
                 } else {
+<<<<<<< HEAD
 =======
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
                     $('#form-photo').trigger('reset');
@@ -1781,10 +1920,13 @@ $(document).ready(function() {
                     mostrarMensaje(response.error || 'Formato no admitido', 'error');
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     $('#noedit').show(1000);
                     setTimeout(function() { 
                         $('#noedit').hide(2000); 
                     }, 3000);
+<<<<<<< HEAD
 <<<<<<< HEAD
                     alert(response.error || 'Error al cambiar la foto');
 =======
@@ -1793,10 +1935,14 @@ $(document).ready(function() {
 =======
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                    alert(response.error || 'Error al cambiar la foto');
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 }
             },
             error: function(xhr, status, error) {
                 console.error('Error al cambiar foto:', error);
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
@@ -1804,10 +1950,13 @@ $(document).ready(function() {
                 mostrarMensaje('Error de conexión: ' + status, 'error');
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 $('#noedit').show(1000);
                 setTimeout(function() { 
                     $('#noedit').hide(2000); 
                 }, 3000);
+<<<<<<< HEAD
 <<<<<<< HEAD
                 alert('Error al cambiar la foto. Verifique el tipo de archivo (JPG, PNG, GIF)');
 =======
@@ -1816,12 +1965,16 @@ $(document).ready(function() {
 =======
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                alert('Error al cambiar la foto. Verifique el tipo de archivo (JPG, PNG, GIF)');
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             },
             complete: function() {
                 $btn.prop('disabled', false).html(originalText);
             }
         });
     });
+<<<<<<< HEAD
 <<<<<<< HEAD
 
     // ==================== INICIALIZAR ====================
@@ -1869,4 +2022,9 @@ $(document).ready(function() {
     });
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+
+    // ==================== INICIALIZAR ====================
+    buscar_paciente(id_usuario);
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 });

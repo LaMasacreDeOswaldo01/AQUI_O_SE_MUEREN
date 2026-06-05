@@ -1,9 +1,15 @@
 <?php
 // vista/medico/med_editar_datos.php
+<<<<<<< HEAD
 // Contenido principal para la edición de perfil del médico
 // Este archivo se renderiza dentro del layout base dashboard.php
 
 // Los datos vienen del controlador a través de $data
+=======
+// Perfil del Médico - Edición de datos personales
+// Incluye sistema de ubicación, cambio de foto, cambio de contraseña y MPPS Registro
+
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 $nombre_usuario = $nombre_usuario ?? 'Usuario';
 $id_medico = $id_medico ?? $_SESSION['usuario'] ?? 0;
 $avatar_actual = $avatar_actual ?? (!empty($_SESSION['avatar']) ? $_SESSION['avatar'] : APP_URL . '/img/avatarDES.jpg');
@@ -205,15 +211,41 @@ $avatar_actual = $avatar_actual ?? (!empty($_SESSION['avatar']) ? $_SESSION['ava
         width: 20px;
         color: #0d9488;
     }
+<<<<<<< HEAD
 </style>
 
 <<<<<<< HEAD
+=======
+    .mpps-badge {
+        background: #fef3c7;
+        color: #92400e;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        display: inline-block;
+    }
+    .section-title {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #0d9488;
+        margin: 1.5rem 0 1rem 0;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #eef2f6;
+    }
+    .section-title i {
+        margin-right: 0.5rem;
+    }
+</style>
+
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- Content Header -->
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1><i class="fas fa-user-md"></i> Mi Perfil Profesional</h1>
+<<<<<<< HEAD
 =======
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?php echo APP_URL; ?>/js/config.js"></script>
@@ -412,6 +444,14 @@ $avatar_actual = $avatar_actual ?? (!empty($_SESSION['avatar']) ? $_SESSION['ava
             <div class="info">
                 <a href="#" class="d-block"><?php echo htmlspecialchars($nombre_usuario); ?></a>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="<?php echo APP_URL; ?>/panel/medico">Inicio</a></li>
+                    <li class="breadcrumb-item active">Mi Perfil</li>
+                </ol>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             </div>
         </div>
     </div>
@@ -460,8 +500,15 @@ $avatar_actual = $avatar_actual ?? (!empty($_SESSION['avatar']) ? $_SESSION['ava
                             <div class="info-value" id="sexo_us">-</div>
                         </div>
                         <div class="info-item">
+<<<<<<< HEAD
                             <div class="info-label"><i class="fas fa-stethoscope me-1"></i> Especialidad</div>
                             <div class="info-value" id="especialidad_us">-</div>
+=======
+                            <div class="info-label"><i class="fas fa-stethoscope me-1"></i> Registro MPPS</div>
+                            <div class="info-value">
+                                <span class="mpps-badge" id="mpps_registro_us">-</span>
+                            </div>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                         </div>
                     </div>
                 </div>
@@ -535,8 +582,14 @@ $avatar_actual = $avatar_actual ?? (!empty($_SESSION['avatar']) ? $_SESSION['ava
                             </div>
                             
                             <!-- Sistema de Ubicación -->
+<<<<<<< HEAD
                             <h5 class="mt-3 mb-2"><i class="fas fa-map-marker-alt text-primary"></i> Ubicación</h5>
                             <hr class="mt-0">
+=======
+                            <h5 class="section-title">
+                                <i class="fas fa-map-marker-alt"></i> Ubicación
+                            </h5>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 
                             <div class="row">
                                 <div class="col-md-6">
@@ -601,6 +654,20 @@ $avatar_actual = $avatar_actual ?? (!empty($_SESSION['avatar']) ? $_SESSION['ava
                                 </select>
                             </div>
                             
+<<<<<<< HEAD
+=======
+                            <!-- MPPS Registro - Campo específico para médicos -->
+                            <div class="form-group">
+                                <label for="mpps_registro">Registro MPPS</label>
+                                <input type="text" id="mpps_registro" class="form-control" 
+                                       placeholder="Ej: MPPS-12345" disabled>
+                                <small class="form-text text-muted">
+                                    <i class="fas fa-info-circle"></i> 
+                                    Número de registro en el Ministerio del Poder Popular para la Salud
+                                </small>
+                            </div>
+                            
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                             <div class="form-group">
                                 <label for="adicional">Información adicional</label>
                                 <textarea class="form-control" id="adicional" rows="3" 
@@ -701,6 +768,7 @@ $avatar_actual = $avatar_actual ?? (!empty($_SESSION['avatar']) ? $_SESSION['ava
     </div>
 </div>
 
+<<<<<<< HEAD
 <script src="<?php echo APP_URL; ?>/js/ubicacion.js"></script>
 
 <script>
@@ -1506,3 +1574,61 @@ $(document).ready(function() {
     cargarDatosMedico();
 });
 </script>
+=======
+<!-- Scripts -->
+<script src="<?php echo APP_URL; ?>/js/ubicacion.js"></script>
+<script src="<?php echo APP_URL; ?>/js/medico.js"></script>
+
+<script>
+$(document).ready(function() {
+    console.log('=== PERFIL MÉDICO - INICIALIZANDO ===');
+    console.log('ID Usuario:', $('#id_usuario').val());
+    console.log('APP_URL:', APP_URL);
+    
+    // Verificar que el ID de usuario existe
+    var id_usuario = $('#id_usuario').val();
+    if (!id_usuario || id_usuario === '0' || id_usuario === '') {
+        console.error('ERROR: ID de médico no encontrado');
+        $('#nombre_us').html('Error: Sesión no válida');
+        mostrarToast('Error de sesión. Por favor inicie sesión nuevamente.', 'error');
+        return;
+    }
+    
+    // Función para mostrar toasts de notificación
+    window.mostrarToast = function(mensaje, tipo) {
+        var icono = tipo === 'success' ? 'fa-check-circle' : (tipo === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle');
+        var color = tipo === 'success' ? '#10b981' : (tipo === 'error' ? '#ef4444' : '#3b82f6');
+        
+        var toastHtml = `
+            <div class="toast align-items-center text-white border-0 position-fixed" 
+                 style="top: 70px; right: 20px; z-index: 9999; min-width: 280px; background: ${color}; border-radius: 12px;" 
+                 role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true" data-delay="4000">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <i class="fas ${icono} me-2"></i>
+                        ${mensaje}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast">×</button>
+                </div>
+            </div>
+        `;
+        
+        $('body').append(toastHtml);
+        var toast = $('.toast').last();
+        
+        setTimeout(function() {
+            toast.fadeOut(300, function() { $(this).remove(); });
+        }, 4000);
+    };
+    
+    // Exportar función al scope global
+    window.mostrarAlerta = window.mostrarToast;
+    
+    // Inicializar tooltips
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
+
+</body>
+</html>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0

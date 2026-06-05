@@ -1,5 +1,6 @@
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 // vista/medico/med_catalogo.php
 // Contenido principal para el dashboard del médico
 // Este archivo se renderiza dentro del layout base dashboard.php
@@ -22,6 +23,11 @@ $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Usuario');
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
 ?>
 
+=======
+$nombre_usuario = $nombre_usuario ?? 'Usuario';
+$id_medico = $id_medico ?? $_SESSION['usuario'] ?? 0;
+?>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- CSS Adicional para esta vista -->
 <style>
     .welcome-stats {
@@ -247,12 +253,16 @@ $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Usuario');
 </style>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- Content Header -->
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1><i class="fas fa-user-md"></i> Panel del Médico</h1>
+<<<<<<< HEAD
 =======
     <!-- Main Sidebar -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -273,6 +283,8 @@ $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Usuario');
                     <a href="#" class="d-block"><?php echo $nombre_usuario; ?></a>
                 </div>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             </div>
         </div>
     </div>

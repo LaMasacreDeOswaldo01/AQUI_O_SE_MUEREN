@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 /**
@@ -10,6 +11,9 @@
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
  */
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 
 (function() {
     // Detectar la URL base del proyecto
@@ -19,6 +23,7 @@
     // Patrones comunes de instalación
     var patterns = [
         { pattern: '/biovital/', base: '/biovital' },
+<<<<<<< HEAD
 <<<<<<< HEAD
         { pattern: '/biovital', base: '/biovital' },
         { pattern: '/public/', base: '/public' },
@@ -32,6 +37,11 @@
         { pattern: '/public/', base: '/public' },
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+        { pattern: '/biovital', base: '/biovital' },
+        { pattern: '/public/', base: '/public' },
+        { pattern: '/public', base: '/public' },
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         { pattern: '/medico/', base: '' },
         { pattern: '/paciente/', base: '' },
         { pattern: '/administrador/', base: '' },
@@ -53,6 +63,7 @@
         parts = parts.filter(function(p) { return p !== ''; });
         
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
@@ -60,16 +71,21 @@
         // Por defecto, la primera parte suele ser el proyecto
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         if (parts.length > 0 && !parts[0].includes('.php') && !parts[0].includes('.')) {
             baseUrl = '/' + parts[0];
         }
     }
     
 <<<<<<< HEAD
+<<<<<<< HEAD
     // ==================== NUEVA CONFIGURACIÓN ====================
     // API_URL ahora apunta a /api (router MVC), NO a /controlador directamente
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     // ==================== NUEVA CONFIGURACIÓN ====================
     // API_URL ahora apunta a /api (router MVC), NO a /controlador directamente
     window.CONFIG = {
@@ -102,6 +118,7 @@
         API_URL: window.CONFIG.API_URL,
         UPLOADS_URL: window.CONFIG.UPLOADS_URL
     });
+<<<<<<< HEAD
 })();
 =======
     // Variables globales de configuración
@@ -143,3 +160,6 @@
 })();
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+})();
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0

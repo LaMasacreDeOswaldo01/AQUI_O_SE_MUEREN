@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 // vista/especialidades/esp_editar.php
 <<<<<<< HEAD
 // Contenido principal para la edición de especialidades
@@ -9,6 +10,11 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
 $id_especialidad = $id_especialidad ?? $_GET['id'] ?? 0;
 ?>
 
+=======
+$nombre_usuario = $nombre_usuario ?? 'Administrador';
+$id_especialidad = $id_especialidad ?? $_GET['id'] ?? 0;
+?>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- CSS Adicional para esta vista -->
 <style>
     .preview-card {
@@ -234,6 +240,7 @@ $id_especialidad = $id_especialidad ?? $_GET['id'] ?? 0;
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="duracion_defecto" class="required-field">Duración por Defecto</label>
+<<<<<<< HEAD
 =======
 if($_SESSION['us_tipo'] != 4 || $_SESSION['rol'] != 'administrador'){
     header('Location: ' . APP_URL . '/login/administrador');
@@ -477,6 +484,8 @@ $id_especialidad = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                         <div class="form-group">
                                             <label>Duración por Defecto (min)</label>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                                             <select class="form-control" id="duracion_defecto" name="duracion_defecto">
                                                 <option value="15">15 minutos</option>
                                                 <option value="20">20 minutos</option>
@@ -485,18 +494,26 @@ $id_especialidad = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                                 <option value="60">60 minutos</option>
                                             </select>
 <<<<<<< HEAD
+<<<<<<< HEAD
                                             <small class="form-text text-muted">Tiempo estándar para cada cita</small>
 =======
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                                            <small class="form-text text-muted">Tiempo estándar para cada cita</small>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
 <<<<<<< HEAD
+<<<<<<< HEAD
                                             <label for="color">Color Identificador</label>
 =======
                                             <label>Color Identificador</label>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                                            <label for="color">Color Identificador</label>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                                             <div class="input-group">
                                                 <select class="form-control" id="color" name="color">
                                                     <option value="Azul Médico">Azul Médico</option>
@@ -516,10 +533,14 @@ $id_especialidad = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                     <div class="col-md-6">
                                         <div class="form-group">
 <<<<<<< HEAD
+<<<<<<< HEAD
                                             <label for="prioridad">Prioridad</label>
 =======
                                             <label>Prioridad</label>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                                            <label for="prioridad">Prioridad</label>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                                             <select class="form-control" id="prioridad" name="prioridad">
                                                 <option value="Baja">Baja</option>
                                                 <option value="Media">Media</option>
@@ -531,6 +552,9 @@ $id_especialidad = isset($_GET['id']) ? intval($_GET['id']) : 0;
                                     <div class="col-md-6">
                                         <div class="form-group">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                                             <label for="orden_visualizacion">Orden de Visualización</label>
                                             <input type="number" class="form-control" id="orden_visualizacion" 
                                                    name="orden_visualizacion" value="0">
@@ -663,6 +687,7 @@ $(document).ready(function() {
         }
         
         $('#loadingDatos').show();
+<<<<<<< HEAD
 =======
                                             <label>Orden de visualización</label>
                                             <input type="number" class="form-control" id="orden_visualizacion" name="orden_visualizacion">
@@ -781,6 +806,8 @@ $(document).ready(function() {
     function cargarDatosEspecialidad() {
         var id = $('#id_especialidad').val();
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         
         $.ajax({
             url: APP_URL + '/api/especialidades/obtener-detalle',
@@ -788,6 +815,9 @@ $(document).ready(function() {
             data: { id_especialidad: id },
             dataType: 'json',
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             timeout: 10000,
             success: function(response) {
                 console.log('Datos de especialidad:', response);
@@ -820,6 +850,7 @@ $(document).ready(function() {
                 
                 // Actualizar color preview
                 let colorMap = {
+<<<<<<< HEAD
 =======
             success: function(data) {
                 $('#nombre').val(data.nombre);
@@ -844,6 +875,8 @@ $(document).ready(function() {
                 
                 var colorMap = {
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     'Azul Médico': '#007bff',
                     'Verde Salud': '#28a745',
                     'Rojo Urgencias': '#dc3545',
@@ -853,6 +886,9 @@ $(document).ready(function() {
                 };
                 $('#color_preview').css('background-color', colorMap[data.color] || '#007bff');
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 
                 // Actualizar texto del estado
                 $('#estado_texto').text(data.activo == 1 ? 'Activo' : 'Inactivo');
@@ -863,17 +899,23 @@ $(document).ready(function() {
                 console.error('Error al cargar datos:', error);
                 $('#loadingDatos').hide();
                 mostrarError('Error al cargar los datos de la especialidad: ' + status);
+<<<<<<< HEAD
 =======
                 $('#estado_texto').text(data.activo == 1 ? 'Activo' : 'Inactivo');
             },
             error: function() {
                 mostrarError('Error al cargar los datos de la especialidad');
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             }
         });
     }
     
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     // ==================== VISTA PREVIA EN TIEMPO REAL ====================
     
     function actualizarPreview() {
@@ -991,6 +1033,7 @@ $(document).ready(function() {
             nombre: nombre,
             descripcion: $('#descripcion').val().trim(),
             codigo: $('#codigo').val().trim(),
+<<<<<<< HEAD
 =======
     // Enviar formulario
     $('#formEditarEspecialidad').submit(function(e) {
@@ -1002,11 +1045,16 @@ $(document).ready(function() {
             descripcion: $('#descripcion').val(),
             codigo: $('#codigo').val(),
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             duracion_defecto: $('#duracion_defecto').val(),
             color: $('#color').val(),
             prioridad: $('#prioridad').val(),
             orden_visualizacion: $('#orden_visualizacion').val(),
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             requisitos: $('#requisitos').val().trim(),
             observaciones: $('#observaciones').val().trim(),
             activo: $('#activo').is(':checked') ? 1 : 0,
@@ -1018,6 +1066,7 @@ $(document).ready(function() {
         let $btn = $('#btnGuardar');
         let originalText = $btn.html();
         $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Actualizando...');
+<<<<<<< HEAD
 =======
             requisitos: $('#requisitos').val(),
             observaciones: $('#observaciones').val(),
@@ -1034,6 +1083,8 @@ $(document).ready(function() {
         var originalText = $btn.html();
         $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Guardando...');
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         
         $.ajax({
             url: APP_URL + '/api/especialidades/editar',
@@ -1041,6 +1092,9 @@ $(document).ready(function() {
             data: datos,
             dataType: 'json',
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             timeout: 15000,
             success: function(response) {
                 console.log('Respuesta del servidor:', response);
@@ -1068,6 +1122,7 @@ $(document).ready(function() {
                     errorMsg = xhr.responseJSON.message;
                 }
                 mostrarError(errorMsg);
+<<<<<<< HEAD
 =======
             success: function(response) {
                 if (response.resultado === 'editado') {
@@ -1084,12 +1139,17 @@ $(document).ready(function() {
             },
             complete: function() {
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 $btn.prop('disabled', false).html(originalText);
             }
         });
     });
     
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     // ==================== FUNCIONES DE NOTIFICACIÓN ====================
     
     function mostrarError(mensaje) {
@@ -1117,6 +1177,7 @@ $(document).ready(function() {
     cargarDatosEspecialidad();
 });
 
+<<<<<<< HEAD
 </script>
 =======
     function mostrarError(mensaje) {
@@ -1130,3 +1191,6 @@ $(document).ready(function() {
 </body>
 </html>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+</script>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0

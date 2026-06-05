@@ -1,5 +1,6 @@
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 // vista/administrador/adm_recetas.php
 // Contenido principal para la gestión de recetas médicas (Administrador)
 // Este archivo se renderiza dentro del layout base dashboard.php
@@ -18,6 +19,10 @@ if($_SESSION['us_tipo'] != 4 || $_SESSION['rol'] != 'administrador'){
 $nombre_usuario = $nombre_usuario ?? 'Administrador';
 ?>
 
+=======
+$nombre_usuario = $nombre_usuario ?? 'Administrador';
+?>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- CSS Adicional para esta vista -->
 <style>
     .stats-card {
@@ -132,6 +137,9 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
 </style>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- Content Header -->
 <div class="content-header">
     <div class="container-fluid">
@@ -140,6 +148,7 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
                 <h1><i class="fas fa-prescription-bottle-alt"></i> Recetas Médicas</h1>
             </div>
         </div>
+<<<<<<< HEAD
 =======
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?php echo APP_URL; ?>/js/config.js"></script>
@@ -303,6 +312,8 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
             </ul>
         </nav>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     </div>
 </div>
 
@@ -500,10 +511,14 @@ $(document).ready(function() {
             type: 'POST',
             dataType: 'json',
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             timeout: 10000,
             success: function(response) {
                 console.log('Estadísticas recibidas:', response);
                 
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
             success: function(response) {
@@ -511,26 +526,34 @@ $(document).ready(function() {
                 
                 // Manejar formato ApiResponse
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 var data = response;
                 if (response.success && response.data) {
                     data = response.data;
                 }
                 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
             success: function(data) {
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 $('#total_recetas').text(data.total_recetas || 0);
                 $('#total_medicos').text(data.total_medicos || 0);
                 $('#total_pacientes').text(data.total_pacientes || 0);
                 $('#recetas_mes').text(data.recetas_mes || 0);
             },
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             error: function(xhr, status, error) {
                 console.error('Error al cargar estadísticas:', error);
                 $('#total_recetas').text('0');
@@ -538,6 +561,9 @@ $(document).ready(function() {
                 $('#total_pacientes').text('0');
                 $('#recetas_mes').text('0');
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             }
         });
     }
@@ -551,6 +577,7 @@ $(document).ready(function() {
                 <p class="mt-2">Cargando recetas...</p>
             </td></tr>
         `);
+<<<<<<< HEAD
 =======
 =======
             error: function() {
@@ -567,12 +594,17 @@ $(document).ready(function() {
         $('#tabla_recetas').html('<td><td colspan="9" class="text-center"><div class="spinner-border text-primary"></div><p>Cargando recetas...</p></td></tr>');
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         
         $.ajax({
             url: APP_URL + '/api/recetas/listar',
             type: 'POST',
             dataType: 'json',
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             timeout: 15000,
             success: function(response) {
                 console.log('Respuesta recetas:', response);
@@ -584,6 +616,7 @@ $(document).ready(function() {
                     recetas = response;
                 } else if (response.recetas && Array.isArray(response.recetas)) {
                     recetas = response.recetas;
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
             success: function(response) {
@@ -647,6 +680,8 @@ $(document).ready(function() {
                         `;
                     }
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 }
                 
                 if (!Array.isArray(recetas)) {
@@ -832,10 +867,14 @@ $(document).ready(function() {
             data: { id_receta: id },
             dataType: 'json',
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             timeout: 10000,
             success: function(response) {
                 console.log('Detalle receta:', response);
                 
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
             success: function(response) {
@@ -843,6 +882,8 @@ $(document).ready(function() {
                 
                 // Manejar formato ApiResponse
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 var receta = response;
                 if (response.success && response.data) {
                     receta = response.data;
@@ -850,6 +891,9 @@ $(document).ready(function() {
                 
                 if (receta && receta.id_receta) {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     let tipo = '';
                     if (receta.nombre_medicamento && receta.nombre_medicamento.includes('ESTUDIOS')) {
                         tipo = '<span class="badge badge-info"><i class="fas fa-flask"></i> Estudio de Laboratorio</span>';
@@ -859,13 +903,17 @@ $(document).ready(function() {
                         tipo = '<span class="badge badge-success"><i class="fas fa-capsules"></i> Medicamento</span>';
                     }
                     
+<<<<<<< HEAD
 =======
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     let html = `
                         <div class="receta-detalle">
                             <div class="row mb-3">
                                 <div class="col-md-12 text-center">
                                     <h3 class="text-primary">RECETA MÉDICA</h3>
+<<<<<<< HEAD
 <<<<<<< HEAD
                                     <p>${tipo}</p>
                                     <hr>
@@ -919,6 +967,11 @@ $(document).ready(function() {
                                 <h3 class="text-primary">RECETA MÉDICA</h3>
                                 <hr>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                                    <p>${tipo}</p>
+                                    <hr>
+                                </div>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -955,17 +1008,23 @@ $(document).ready(function() {
                             </div>
                         </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     `;
                     $('#detalle_receta_content').html(html);
                 } else {
                     $('#detalle_receta_content').html('<div class="alert alert-danger">Error al cargar los detalles de la receta</div>');
                 }
+<<<<<<< HEAD
 =======
                     </div>
                 `;
                 $('#detalle_receta_content').html(html);
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             },
             error: function(xhr, status, error) {
                 console.error('Error al obtener detalle:', error);
@@ -1115,6 +1174,7 @@ $(document).ready(function() {
     cargarRecetas();
 });
 <<<<<<< HEAD
+<<<<<<< HEAD
 </script>
 =======
 </script>
@@ -1125,3 +1185,6 @@ $(document).ready(function() {
 </body>
 </html>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+</script>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0

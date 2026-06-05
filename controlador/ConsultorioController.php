@@ -1,8 +1,11 @@
 <?php
+<<<<<<< HEAD
 /**
  * ConsultorioController.php
  * Controlador para la gestión de consultorios
  */
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 
 class ConsultorioController {
     
@@ -22,6 +25,7 @@ class ConsultorioController {
         return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
                strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
     }
+<<<<<<< HEAD
     
     // ==================== VISTAS ====================
     
@@ -108,6 +112,33 @@ class ConsultorioController {
     public function editar() {
     AuthHelper::checkRole('administrador', true);
     
+=======
+      
+    public function index() {
+        AuthHelper::checkRole('administrador', true);
+        
+        $options = [
+            'title' => 'Consultorios Médicos - BioVital',
+            'breadcrumbs' => [
+                ['label' => 'Inicio', 'url' => APP_URL . '/panel/administrador'],
+                ['label' => 'Consultorios']
+            ],
+            'active_page' => 'consultorios',
+            'css' => '<link rel="stylesheet" href="' . APP_URL . '/css/dashboard-utils.css">'
+        ];
+        
+        $data = [
+            'nombre_usuario' => $_SESSION['nombre_us'] ?? 'Administrador'
+        ];
+        
+        ViewHelper::renderDashboard('administrador/adm_consultorios', $data, $options);
+    }
+       
+    public function detalle() {
+    AuthHelper::checkRole('administrador', true);
+    
+    // Obtener ID de GET (funciona correctamente)
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
     
     if ($id <= 0) {
@@ -115,12 +146,20 @@ class ConsultorioController {
     }
     
     $options = [
+<<<<<<< HEAD
         'title' => 'Editar Consultorio - BioVital',
         'breadcrumbs' => [
             ['label' => 'Inicio', 'url' => APP_URL . '/panel/administrador'],
             ['label' => 'Consultorios', 'url' => APP_URL . '/consultorios'],
             ['label' => 'Detalle', 'url' => APP_URL . '/consultorios/detalle?id=' . $id],
             ['label' => 'Editar']
+=======
+        'title' => 'Detalle de Consultorio - BioVital',
+        'breadcrumbs' => [
+            ['label' => 'Inicio', 'url' => APP_URL . '/panel/administrador'],
+            ['label' => 'Consultorios', 'url' => APP_URL . '/consultorios'],
+            ['label' => 'Detalle']
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         ],
         'active_page' => 'consultorios',
         'css' => '<link rel="stylesheet" href="' . APP_URL . '/css/dashboard-utils.css">'
@@ -131,6 +170,7 @@ class ConsultorioController {
         'id_consultorio' => $id
     ];
     
+<<<<<<< HEAD
     ViewHelper::renderDashboard('administrador/adm_consultorio_editar', $data, $options);
 }
     
@@ -141,6 +181,66 @@ class ConsultorioController {
    public function horarios() {
     AuthHelper::checkRole('administrador', true);
     
+=======
+    ViewHelper::renderDashboard('administrador/adm_consultorio_detalle', $data, $options);
+}
+    
+    public function crear() {
+        AuthHelper::checkRole('administrador', true);
+        
+        $options = [
+            'title' => 'Crear Consultorio - BioVital',
+            'breadcrumbs' => [
+                ['label' => 'Inicio', 'url' => APP_URL . '/panel/administrador'],
+                ['label' => 'Consultorios', 'url' => APP_URL . '/consultorios'],
+                ['label' => 'Crear']
+            ],
+            'active_page' => 'consultorios',
+            'css' => '<link rel="stylesheet" href="' . APP_URL . '/css/dashboard-utils.css">'
+        ];
+        
+        $data = [
+            'nombre_usuario' => $_SESSION['nombre_us'] ?? 'Administrador'
+        ];
+        
+        ViewHelper::renderDashboard('administrador/adm_consultorio_crear', $data, $options);
+    }
+    
+    public function editar() {
+        AuthHelper::checkRole('administrador', true);
+        
+        $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        
+        if ($id <= 0) {
+            redirect('consultorios');
+        }
+        
+        $options = [
+            'title' => 'Editar Consultorio - BioVital',
+            'breadcrumbs' => [
+                ['label' => 'Inicio', 'url' => APP_URL . '/panel/administrador'],
+                ['label' => 'Consultorios', 'url' => APP_URL . '/consultorios'],
+                ['label' => 'Detalle', 'url' => APP_URL . '/consultorios/detalle?id=' . $id],
+                ['label' => 'Editar']
+            ],
+            'active_page' => 'consultorios',
+            'css' => '<link rel="stylesheet" href="' . APP_URL . '/css/dashboard-utils.css">'
+        ];
+        
+        $data = [
+            'nombre_usuario' => $_SESSION['nombre_us'] ?? 'Administrador',
+            'id_consultorio' => $id
+        ];
+        
+        ViewHelper::renderDashboard('administrador/adm_consultorio_editar', $data, $options);
+    }
+    
+    // ==================== MÉTODO HORARIOS CORREGIDO ====================
+public function horarios() {
+    AuthHelper::checkRole('administrador', true);
+    
+    // Obtener ID de GET - EXACTAMENTE IGUAL QUE EN detalle()
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
     
     if ($id <= 0) {
@@ -167,12 +267,15 @@ class ConsultorioController {
     ViewHelper::renderDashboard('administrador/adm_consultorio_horarios', $data, $options);
 }
     
+<<<<<<< HEAD
     // ==================== API - LISTAR ====================
     
     /**
      * API: Listar consultorios
      * POST /api/consultorios/listar
      */
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function listar() {
         $busqueda = isset($_POST['busqueda']) ? $_POST['busqueda'] : '';
         
@@ -197,10 +300,13 @@ class ConsultorioController {
         jsonResponse($resultado);
     }
     
+<<<<<<< HEAD
     /**
      * API: Obtener estadísticas
      * POST /api/consultorios/estadisticas
      */
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function obtenerEstadisticas() {
         $consultorio = new Consultorio();
         $total_activos = $consultorio->totalActivos();
@@ -213,10 +319,13 @@ class ConsultorioController {
     
     // ==================== API - CRUD ====================
     
+<<<<<<< HEAD
     /**
      * API: Obtener detalle de consultorio
      * POST /api/consultorios/obtener-detalle
      */
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function obtenerDetalle() {
         $id_consultorio = isset($_POST['id_consultorio']) ? intval($_POST['id_consultorio']) : 0;
         
@@ -273,10 +382,13 @@ class ConsultorioController {
         ]);
     }
     
+<<<<<<< HEAD
     /**
      * API: Crear consultorio
      * POST /api/consultorios/crear
      */
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function crearConsultorio() {
         // Verificar token CSRF
         $csrf_token = $_POST['csrf_token'] ?? '';
@@ -312,10 +424,13 @@ class ConsultorioController {
         jsonResponse(['resultado' => trim($resultado)]);
     }
     
+<<<<<<< HEAD
     /**
      * API: Editar consultorio
      * POST /api/consultorios/editar
      */
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function editarConsultorio() {
         $csrf_token = $_POST['csrf_token'] ?? '';
         if (!Security::verificarTokenCSRF($csrf_token)) {
@@ -352,10 +467,13 @@ class ConsultorioController {
         jsonResponse(['resultado' => trim($resultado)]);
     }
     
+<<<<<<< HEAD
     /**
      * API: Eliminar consultorio
      * POST /api/consultorios/eliminar
      */
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function eliminarConsultorio() {
         $id_consultorio = intval($_POST['id_consultorio'] ?? 0);
         
@@ -374,10 +492,13 @@ class ConsultorioController {
     
     // ==================== API - MÉDICOS ====================
     
+<<<<<<< HEAD
     /**
      * API: Asignar médico a consultorio
      * POST /api/consultorios/asignar-medico
      */
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function asignarMedico() {
         $id_consultorio = intval($_POST['id_consultorio'] ?? 0);
         $id_medico = intval($_POST['id_medico'] ?? 0);
@@ -395,10 +516,13 @@ class ConsultorioController {
         jsonResponse(['resultado' => trim($resultado)]);
     }
     
+<<<<<<< HEAD
     /**
      * API: Remover médico de consultorio
      * POST /api/consultorios/remover-medico
      */
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function removerMedico() {
         $id_asignacion = intval($_POST['id_asignacion'] ?? 0);
         
@@ -415,10 +539,13 @@ class ConsultorioController {
         jsonResponse(['resultado' => trim($resultado)]);
     }
     
+<<<<<<< HEAD
     /**
      * API: Listar médicos disponibles
      * POST /api/consultorios/listar-medicos
      */
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function listarMedicosDisponibles() {
         $consultorio = new Consultorio();
         $medicos = $consultorio->listarMedicos();
@@ -438,10 +565,13 @@ class ConsultorioController {
     
     // ==================== API - HORARIOS ====================
     
+<<<<<<< HEAD
     /**
      * API: Obtener horarios del consultorio
      * POST /api/consultorios/obtener-horarios
      */
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function obtenerHorarios() {
         $id_consultorio = intval($_POST['id_consultorio'] ?? 0);
         
@@ -490,10 +620,13 @@ class ConsultorioController {
         ]);
     }
     
+<<<<<<< HEAD
     /**
      * API: Guardar horario
      * POST /api/consultorios/guardar-horario
      */
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function guardarHorario() {
         $id_consultorio = intval($_POST['id_consultorio'] ?? 0);
         $dia = $_POST['dia'] ?? '';
@@ -539,20 +672,26 @@ class ConsultorioController {
     
     // ==================== API - UBICACIÓN ====================
     
+<<<<<<< HEAD
     /**
      * API: Listar estados
      * POST /api/ubicacion/estados
      */
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function listarEstados() {
         $consultorio = new Consultorio();
         $estados = $consultorio->listarEstados();
         jsonResponse($estados);
     }
     
+<<<<<<< HEAD
     /**
      * API: Listar ciudades por estado
      * POST /api/ubicacion/ciudades
      */
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function listarCiudades() {
         $id_estado = intval($_POST['id_estado'] ?? 0);
         
@@ -566,10 +705,13 @@ class ConsultorioController {
         jsonResponse($ciudades);
     }
     
+<<<<<<< HEAD
     /**
      * API: Listar municipios por estado
      * POST /api/ubicacion/municipios
      */
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function listarMunicipios(){
         $id_estado = intval($_POST['id_estado'] ?? 0);
         
@@ -583,10 +725,13 @@ class ConsultorioController {
         jsonResponse($municipios);
     }
     
+<<<<<<< HEAD
     /**
      * API: Listar parroquias por municipio
      * POST /api/ubicacion/parroquias
      */
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function listarParroquias() {
         $id_municipio = intval($_POST['id_municipio'] ?? 0);
         
@@ -600,14 +745,21 @@ class ConsultorioController {
         jsonResponse($parroquias);
     }
     
+<<<<<<< HEAD
     /**
      * API: Listar especialidades
      * POST /api/ubicacion/especialidades
      */
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function listaEspecialidades() {
         $consultorio = new Consultorio();
         $especialidades = $consultorio->obtenerListaEspecialidades();
         jsonResponse($especialidades);
     }
 }
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0

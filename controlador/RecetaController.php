@@ -1,8 +1,12 @@
 <?php
+<<<<<<< HEAD
 // controlador/RecetaController.php
 
 class RecetaController {
     
+=======
+class RecetaController {    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     private $receta;
     
     public function __construct() {
@@ -26,12 +30,18 @@ class RecetaController {
                strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
     }
     
+<<<<<<< HEAD
     // ==================== VISTAS ====================
     
     /**
      * Vista principal de recetas (según el rol del usuario)
      */
   public function index() {
+=======
+    // ==================== VISTAS ====================   
+   
+ public function index() {
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     $rol = $_SESSION['rol'];
     
     // Verificar permisos
@@ -47,11 +57,19 @@ class RecetaController {
             $titulo = 'Gestión de Recetas - BioVital';
             break;
         case 'medico':
+<<<<<<< HEAD
             $vista = 'medico/med_recetas';
             $titulo = 'Mis Recetas - BioVital';
             break;
         case 'asistente':
             $vista = 'administrador/adm_recetas';  // Asistente usa la misma vista que administrador
+=======
+            $vista = 'medico/adm_recetas';  // ← CORREGIDO: usa adm_recetas, no med_recetas
+            $titulo = 'Mis Recetas - BioVital';
+            break;
+        case 'asistente':
+            $vista = 'administrador/adm_recetas';
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             $titulo = 'Recetas - BioVital';
             break;
         default:
@@ -76,9 +94,12 @@ class RecetaController {
     ViewHelper::renderDashboard($vista, $data, $options);
 }
     
+<<<<<<< HEAD
     /**
      * Vista específica para administrador
      */
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function administrador() {
         if ($_SESSION['rol'] !== 'administrador') {
             redirect('login/administrador');
@@ -87,11 +108,15 @@ class RecetaController {
         renderView('administrador/adm_recetas');
     }
     
+<<<<<<< HEAD
     // ==================== API - LISTAR RECETAS ====================
     
     /**
      * Listar todas las recetas (según el rol)
      */
+=======
+    // ==================== API - LISTAR RECETAS ====================    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function listar() {
         $rol = $_SESSION['rol'];
         $id_usuario = $_SESSION['usuario'];
@@ -125,11 +150,16 @@ class RecetaController {
             error_log("Error en listar recetas: " . $e->getMessage());
             jsonResponse(['error' => 'Error al cargar recetas'], 500);
         }
+<<<<<<< HEAD
     }
     
     /**
      * Listar recetas de un paciente específico
      */
+=======
+    }   
+   
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function misRecetas() {
         $id_paciente = $_POST['id_paciente'] ?? $_SESSION['usuario'];
         
@@ -161,11 +191,16 @@ class RecetaController {
             error_log("Error en misRecetas: " . $e->getMessage());
             jsonResponse(['error' => 'Error al cargar recetas'], 500);
         }
+<<<<<<< HEAD
     }
     
     /**
      * Obtener una receta específica
      */
+=======
+    }    
+   
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function obtener() {
         $id_receta = $_POST['id_receta'] ?? 0;
         
@@ -201,6 +236,7 @@ class RecetaController {
     }
     
     // ==================== API - CRUD ====================
+<<<<<<< HEAD
     
     /**
      * Crear nueva receta
@@ -212,6 +248,10 @@ class RecetaController {
         //     return;
         // }
         
+=======
+   
+    public function crear() {        
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         $nombre_medicamento = $_POST['nombre_medicamento'] ?? '';
         $marca = $_POST['marca'] ?? '';
         $cantidad = $_POST['cantidad'] ?? '';
@@ -246,11 +286,16 @@ class RecetaController {
             error_log("Error en crear receta: " . $e->getMessage());
             jsonResponse(['success' => false, 'message' => 'Error del servidor'], 500);
         }
+<<<<<<< HEAD
     }
     
     /**
      * Editar receta existente
      */
+=======
+    }    
+    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function editar() {
         $id_receta = $_POST['id_receta'] ?? 0;
         $nombre_medicamento = $_POST['nombre_medicamento'] ?? '';
@@ -285,11 +330,16 @@ class RecetaController {
             error_log("Error en editar receta: " . $e->getMessage());
             jsonResponse(['success' => false, 'message' => 'Error del servidor'], 500);
         }
+<<<<<<< HEAD
     }
     
     /**
      * Eliminar receta (borrado lógico)
      */
+=======
+    }    
+    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function borrar() {
         $id_receta = $_POST['id_receta'] ?? 0;
         
@@ -319,6 +369,7 @@ class RecetaController {
         }
     }
     
+<<<<<<< HEAD
     // ==================== API - BÚSQUEDA DE PACIENTES ====================
     
     /**
@@ -363,6 +414,44 @@ class RecetaController {
     /**
      * Guardar diagnóstico
      */
+=======
+    // ==================== API - BÚSQUEDA DE PACIENTES ====================    
+   public function buscarPacientes() {
+    $dato = $_POST['dato'] ?? '';
+    
+    if (strlen($dato) < 2) {
+        jsonResponse([]);
+        return;
+    }
+    
+    try {
+        $pacientes = $this->receta->buscar_pacientes($dato);
+        
+        $resultado = array();
+        foreach ($pacientes as $p) {
+            $nombre_completo = trim(($p->nombre_us ?? '') . ' ' . ($p->apellidos_us ?? ''));
+            if (empty($nombre_completo)) {
+                $nombre_completo = $p->nombre_us ?? 'Usuario';
+            }
+            
+            $resultado[] = array(
+                'id_usuario' => $p->id_usuario,
+                'nombre_completo' => $nombre_completo,
+                'cedula' => $p->cedula_us ?? '',
+                'fecha_nacimiento' => $p->fecha_nacimiento ?? null,
+                'sexo' => $p->sexo_us ?? ''
+            );
+        }
+        
+        jsonResponse($resultado);
+    } catch(Exception $e) {
+        error_log("Error en buscarPacientes: " . $e->getMessage());
+        jsonResponse(['error' => 'Error al buscar pacientes'], 500);
+    }
+}
+    
+    // ==================== DIAGNÓSTICOS Y ESTUDIOS ====================   
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function guardarDiagnostico() {
         $id_receta = $_POST['id_receta'] ?? 0;
         $diagnostico = $_POST['diagnostico'] ?? '';
@@ -381,10 +470,14 @@ class RecetaController {
             jsonResponse(['success' => false, 'message' => 'Error del servidor'], 500);
         }
     }
+<<<<<<< HEAD
     /**
  * Obtener estadísticas para el panel de administrador
  * POST /api/recetas/estadisticas
  */
+=======
+  
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 public function estadisticas() {
     if ($_SESSION['rol'] !== 'administrador') {
         jsonResponse(['error' => 'No autorizado'], 403);
@@ -429,11 +522,16 @@ public function estadisticas() {
         error_log("Error en estadisticas: " . $e->getMessage());
         jsonResponse(['error' => 'Error al cargar estadísticas'], 500);
     }
+<<<<<<< HEAD
 }
     
     /**
      * Guardar estudio de laboratorio
      */
+=======
+}    
+    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function guardarEstudio() {
         $id_receta = $_POST['id_receta'] ?? 0;
         $estudios = $_POST['estudios'] ?? '';

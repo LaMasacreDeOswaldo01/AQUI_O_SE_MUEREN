@@ -318,6 +318,7 @@ $rol_actual = AuthHelper::getCurrentRole();
 </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 <!-- Modal para Diagnóstico -->
@@ -482,6 +483,8 @@ $rol_actual = AuthHelper::getCurrentRole();
 
 <?php include_once '../layouts/footer.php'; ?>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <script>
 $(document).ready(function() {
     console.log('=== GESTIÓN DE RECETAS ===');

@@ -1,21 +1,28 @@
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 /**
  * AuthController.php
  * Controlador para la autenticación de usuarios
  */
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 class AuthController {
     
     /**
      * Muestra el login de paciente (redirige a home con parámetro)
      */
     public function showLoginPaciente() {
+<<<<<<< HEAD
 =======
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
 class AuthController {
@@ -29,10 +36,13 @@ class AuthController {
         // Redirigir a la página principal con el parámetro para abrir el login
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         header('Location: ' . APP_URL . '?openLogin=paciente');
         exit();
     }
     
+<<<<<<< HEAD
 <<<<<<< HEAD
     /**
      * Muestra el login de médico (redirige a home con parámetro)
@@ -45,12 +55,18 @@ class AuthController {
 =======
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+    /**
+     * Muestra el login de médico (redirige a home con parámetro)
+     */
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function showLoginMedico() {
         header('Location: ' . APP_URL . '?openLogin=medico');
         exit();
     }
     
 <<<<<<< HEAD
+<<<<<<< HEAD
     /**
      * Muestra el login de asistente (redirige a home con parámetro)
      */
@@ -62,12 +78,18 @@ class AuthController {
 =======
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+    /**
+     * Muestra el login de asistente (redirige a home con parámetro)
+     */
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function showLoginAsistente() {
         header('Location: ' . APP_URL . '?openLogin=asistente');
         exit();
     }
     
 <<<<<<< HEAD
+<<<<<<< HEAD
     /**
      * Muestra el login de administrador (redirige a home con parámetro)
      */
@@ -79,21 +101,32 @@ class AuthController {
 =======
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+    /**
+     * Muestra el login de administrador (redirige a home con parámetro)
+     */
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function showLoginAdministrador() {
         header('Location: ' . APP_URL . '?openLogin=administrador');
         exit();
     }
     
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     /**
      * Procesa el inicio de sesión
      * POST /login
      */
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function login() {
         // Obtener datos del formulario
         $user = trim($_POST['user'] ?? '');
@@ -145,6 +178,7 @@ class AuthController {
             } else {
                 redirect('?error=1');
             }
+<<<<<<< HEAD
 =======
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
     public function login() {
@@ -204,14 +238,19 @@ class AuthController {
             redirect('?error=1');
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             return;
         }
         
         $map = $loginMap[$rol];
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         
         // Verificar que la clase existe
         if (!class_exists($map['class'])) {
@@ -226,7 +265,10 @@ class AuthController {
         
         // Intentar login
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         $login = new $map['class']();
         $login->Loguearse($user, $pass);
         
@@ -234,6 +276,7 @@ class AuthController {
         if (!empty($login->objetos)) {
             foreach ($login->objetos as $objeto) {
                 // Guardar datos en sesión
+<<<<<<< HEAD
 =======
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
         $login = new $map['class']();
@@ -247,21 +290,29 @@ class AuthController {
 =======
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 $_SESSION['usuario'] = $objeto->{$map['idField']};
                 $_SESSION['us_tipo'] = $objeto->{$map['tipoField']};
                 $_SESSION['nombre_us'] = $objeto->{$map['nameField']};
                 $_SESSION['rol'] = $rol;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 
                 // Actualizar último acceso
                 if (method_exists($login, 'actualizarUltimoAcceso')) {
                     $login->actualizarUltimoAcceso($objeto->{$map['idField']});
                 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             }
             
             // Construir URL de redirección (sin APP_URL al principio porque redirect ya lo agrega)
@@ -275,6 +326,7 @@ class AuthController {
         } else {
             // Login fallido
             if ($this->isAjax()) {
+<<<<<<< HEAD
 =======
                 $login->actualizarUltimoAcceso($objeto->{$map['idField']});
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
@@ -296,6 +348,8 @@ class AuthController {
             if ($isAjax) {
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 jsonResponse(['success' => false, 'error' => 'Cédula o contraseña incorrecta']);
             } else {
                 redirect('?error=1');
@@ -304,11 +358,14 @@ class AuthController {
     }
     
 <<<<<<< HEAD
+<<<<<<< HEAD
     /**
      * Cierra la sesión del usuario
      */
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     /**
      * Cierra la sesión del usuario
      */
@@ -331,6 +388,7 @@ class AuthController {
         return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
                strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
     }
+<<<<<<< HEAD
 =======
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
     public function logout() {
@@ -356,5 +414,7 @@ class AuthController {
 =======
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 }
 ?>

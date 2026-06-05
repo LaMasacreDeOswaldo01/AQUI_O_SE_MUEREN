@@ -1,5 +1,6 @@
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 // vista/especialidades/esp_crear.php
 // Contenido principal para la creación de especialidades
 // Este archivo se renderiza dentro del layout base dashboard.php
@@ -8,6 +9,10 @@
 $nombre_usuario = $nombre_usuario ?? 'Administrador';
 ?>
 
+=======
+$nombre_usuario = $nombre_usuario ?? 'Administrador';
+?>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- CSS Adicional para esta vista -->
 <style>
     .preview-card {
@@ -165,6 +170,7 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="duracion_defecto" class="required-field">Duración por Defecto</label>
+<<<<<<< HEAD
 =======
 if($_SESSION['us_tipo'] != 4 || $_SESSION['rol'] != 'administrador'){
     header('Location: ' . APP_URL . '/login/administrador');
@@ -370,6 +376,8 @@ $nombre_usuario = $_SESSION['nombre_us'] ?? 'Administrador';
                                         <div class="form-group">
                                             <label>Duración por Defecto (min)</label>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                                             <select class="form-control" id="duracion_defecto" name="duracion_defecto">
                                                 <option value="15">15 minutos</option>
                                                 <option value="20">20 minutos</option>
@@ -378,18 +386,26 @@ $nombre_usuario = $_SESSION['nombre_us'] ?? 'Administrador';
                                                 <option value="60">60 minutos</option>
                                             </select>
 <<<<<<< HEAD
+<<<<<<< HEAD
                                             <small class="form-text text-muted">Tiempo estándar para cada cita</small>
 =======
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                                            <small class="form-text text-muted">Tiempo estándar para cada cita</small>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
 <<<<<<< HEAD
+<<<<<<< HEAD
                                             <label for="color">Color Identificador</label>
 =======
                                             <label>Color Identificador</label>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                                            <label for="color">Color Identificador</label>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                                             <div class="input-group">
                                                 <select class="form-control" id="color" name="color">
                                                     <option value="Azul Médico">Azul Médico</option>
@@ -409,10 +425,14 @@ $nombre_usuario = $_SESSION['nombre_us'] ?? 'Administrador';
                                     <div class="col-md-6">
                                         <div class="form-group">
 <<<<<<< HEAD
+<<<<<<< HEAD
                                             <label for="prioridad">Prioridad</label>
 =======
                                             <label>Prioridad</label>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                                            <label for="prioridad">Prioridad</label>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                                             <select class="form-control" id="prioridad" name="prioridad">
                                                 <option value="Baja">Baja</option>
                                                 <option value="Media" selected>Media</option>
@@ -424,6 +444,9 @@ $nombre_usuario = $_SESSION['nombre_us'] ?? 'Administrador';
                                     <div class="col-md-6">
                                         <div class="form-group">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                                             <label for="orden_visualizacion">Orden de Visualización</label>
                                             <input type="number" class="form-control" id="orden_visualizacion" 
                                                    name="orden_visualizacion" value="0">
@@ -571,6 +594,7 @@ $(document).ready(function() {
     // Vista previa del color
     $('#color').on('change', function() {
         let colorMap = {
+<<<<<<< HEAD
 =======
                                             <label>Orden de visualización</label>
                                             <input type="number" class="form-control" id="orden_visualizacion" name="orden_visualizacion" value="0">
@@ -666,6 +690,8 @@ $(document).ready(function() {
     $('#color').on('change', function() {
         var colorMap = {
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             'Azul Médico': '#007bff',
             'Verde Salud': '#28a745',
             'Rojo Urgencias': '#dc3545',
@@ -674,6 +700,9 @@ $(document).ready(function() {
             'Naranja': '#fd7e14'
         };
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         let colorHex = colorMap[$(this).val()] || '#007bff';
         $('#color_preview').css('background-color', colorHex);
         actualizarPreview();
@@ -707,6 +736,7 @@ $(document).ready(function() {
             nombre: nombre,
             descripcion: $('#descripcion').val().trim(),
             codigo: $('#codigo').val().trim(),
+<<<<<<< HEAD
 =======
         $('#color_preview').css('background-color', colorMap[$(this).val()] || '#007bff');
     });
@@ -722,11 +752,16 @@ $(document).ready(function() {
             descripcion: $('#descripcion').val(),
             codigo: $('#codigo').val(),
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             duracion_defecto: $('#duracion_defecto').val(),
             color: $('#color').val(),
             prioridad: $('#prioridad').val(),
             orden_visualizacion: $('#orden_visualizacion').val(),
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             requisitos: $('#requisitos').val().trim(),
             observaciones: $('#observaciones').val().trim(),
             csrf_token: $('input[name="csrf_token"]').val()
@@ -736,6 +771,7 @@ $(document).ready(function() {
         
         let $btn = $('#btnGuardar');
         let originalText = $btn.html();
+<<<<<<< HEAD
 =======
             requisitos: $('#requisitos').val(),
             observaciones: $('#observaciones').val(),
@@ -750,6 +786,8 @@ $(document).ready(function() {
         var $btn = $(this).find('button[type="submit"]');
         var originalText = $btn.html();
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Guardando...');
         
         $.ajax({
@@ -758,6 +796,9 @@ $(document).ready(function() {
             data: datos,
             dataType: 'json',
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             timeout: 15000,
             success: function(response) {
                 console.log('Respuesta del servidor:', response);
@@ -784,6 +825,7 @@ $(document).ready(function() {
                     errorMsg = xhr.responseJSON.message;
                 }
                 mostrarError(errorMsg);
+<<<<<<< HEAD
 =======
             success: function(response) {
                 if (response.resultado === 'creado') {
@@ -800,12 +842,17 @@ $(document).ready(function() {
             },
             complete: function() {
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 $btn.prop('disabled', false).html(originalText);
             }
         });
     });
     
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     // ==================== FUNCIONES DE NOTIFICACIÓN ====================
     
     function mostrarError(mensaje) {
@@ -829,6 +876,7 @@ $(document).ready(function() {
         }, 3000);
     }
 });
+<<<<<<< HEAD
 </script>
 =======
     function mostrarError(mensaje) {
@@ -842,3 +890,6 @@ $(document).ready(function() {
 </body>
 </html>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+</script>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0

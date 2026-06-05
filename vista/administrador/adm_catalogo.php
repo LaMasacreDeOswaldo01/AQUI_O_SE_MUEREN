@@ -1,5 +1,6 @@
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 // vista/administrador/adm_catalogo.php
 // Contenido principal del dashboard del administrador
 // Este archivo se renderiza dentro del layout base dashboard.php
@@ -22,6 +23,11 @@ $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Administrador');
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
 ?>
 
+=======
+$nombre_usuario = $nombre_usuario ?? 'Usuario';
+$stats_url = $stats_url ?? APP_URL . '/api/administradores/estadisticas-generales';
+?>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- Welcome Banner -->
 <div class="bv-welcome-banner admin bv-animate">
     <div class="d-flex justify-content-between align-items-center">
@@ -37,8 +43,11 @@ $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Administrador');
         </div>
     </div>
 </div>
+<<<<<<< HEAD
 
 <<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- Info Boxes - Estadísticas -->
 <div class="row">
     <div class="col-12 col-sm-6 col-md-3">
@@ -51,6 +60,7 @@ $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Administrador');
                 <span class="info-box-number" id="total_usuarios">0</span>
                 <div class="progress">
                     <div class="progress-bar bg-info" style="width: 0%"></div>
+<<<<<<< HEAD
 =======
     <!-- Main Sidebar -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -137,6 +147,8 @@ $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Administrador');
                 <div class="info">
                     <a href="#" class="d-block"><?php echo $nombre_usuario; ?></a>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 </div>
                 <span class="progress-description">
                     <i class="fas fa-user-plus"></i> +<span id="usuarios_nuevos">0</span> este mes
@@ -161,8 +173,12 @@ $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Administrador');
                 </span>
             </div>
         </div>
+<<<<<<< HEAD
     </div>
     
+=======
+    </div>    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     <div class="col-12 col-sm-6 col-md-3">
         <div class="info-box bv-animate bv-animate-delay-2">
             <span class="info-box-icon bg-warning elevation-1">
@@ -179,8 +195,12 @@ $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Administrador');
                 </span>
             </div>
         </div>
+<<<<<<< HEAD
     </div>
     
+=======
+    </div>    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     <div class="col-12 col-sm-6 col-md-3">
         <div class="info-box bv-animate bv-animate-delay-2">
             <span class="info-box-icon bg-danger elevation-1">
@@ -199,7 +219,10 @@ $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Administrador');
         </div>
     </div>
 </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- Segunda fila de estadísticas -->
 <div class="row mt-3">
     <div class="col-12 col-sm-6 col-md-3">
@@ -394,6 +417,7 @@ $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Administrador');
             </div>
         </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
     </div>
 =======
     </aside>
@@ -502,6 +526,9 @@ $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Administrador');
 
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+    </div>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 </div>
 
 <script>
@@ -689,7 +716,10 @@ $(document).ready(function() {
     }
 });
 
+<<<<<<< HEAD
 // Función para actualizar estadísticas (puede llamarse desde otros componentes)
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 function actualizarEstadisticas() {
     location.reload();
 }

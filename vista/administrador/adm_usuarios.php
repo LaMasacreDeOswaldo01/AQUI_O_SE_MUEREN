@@ -1,5 +1,6 @@
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 // vista/administrador/adm_usuarios.php
 // Contenido principal para la gestión de usuarios del sistema
 // Este archivo se renderiza dentro del layout base dashboard.php
@@ -19,6 +20,10 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
 ?>
 
 <<<<<<< HEAD
+=======
+$nombre_usuario = $nombre_usuario ?? 'Administrador';
+?>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- CSS Adicional para esta vista -->
 <style>
     .user-card {
@@ -71,6 +76,7 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
     .badge-role-medico { background-color: #d1fae5; color: #065f46; }
     .badge-role-asistente { background-color: #fef3c7; color: #92400e; }
     .badge-role-administrador { background-color: #fee2e2; color: #991b1b; }
+<<<<<<< HEAD
 =======
     <script>
         var APP_URL = '<?php echo APP_URL; ?>';
@@ -83,6 +89,8 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
     <script src="<?php echo APP_URL; ?>/js/config.js"></script>
     <script src="<?php echo APP_URL; ?>/js/csrf.js"></script>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     
     .badge-status {
         font-size: 0.65rem;
@@ -246,6 +254,9 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
 </style>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- Content Header -->
 <div class="content-header">
     <div class="container-fluid">
@@ -254,6 +265,7 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
                 <h1><i class="fas fa-users"></i> Gestión de Usuarios</h1>
             </div>
         </div>
+<<<<<<< HEAD
 =======
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -355,6 +367,8 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
             </ul>
         </nav>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     </div>
 </div>
 

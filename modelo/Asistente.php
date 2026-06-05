@@ -1,10 +1,19 @@
 <?php
+<<<<<<< HEAD
 // modelo/Asistente.php - Versión limpia sin conflictos
 include_once 'Conexion.php';
 
 class Asistente {
     public $objetos;
     public $acceso;
+=======
+
+include_once 'Conexion.php';
+
+class Asistente {
+    var $objetos;
+    var $acceso;
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     
     public function __construct() {
         $db = new Conexion();
@@ -13,7 +22,12 @@ class Asistente {
     
     // ==================== MÉTODOS PRINCIPALES ====================
     
+<<<<<<< HEAD
     public function obtener_datos($id) {
+=======
+ 
+    function obtener_datos($id) {
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         try {
             $sql = "SELECT ra.*, tp.nombre_tipo 
                     FROM registro_asistente ra
@@ -29,6 +43,7 @@ class Asistente {
         }
     }
     
+<<<<<<< HEAD
     public function editar($id_asistente, $telefono, $direccion, $correo, $sexo, $adicional) {
         try {
             $sql = "UPDATE registro_asistente SET 
@@ -61,6 +76,43 @@ class Asistente {
     
     public function cambiar_photo($id_asistente, $nombre) {
         try {
+=======
+  
+   function editar($id_asistente, $telefono, $direccion, $correo, $sexo, $adicional) {
+    try {
+        $sql = "UPDATE registro_asistente SET 
+                telefono_asistente = :telefono,
+                direccion_asistente = :direccion,
+                correo_asistente = :correo,
+                sexo_asistente = :sexo,
+                adicional_asistente = :adicional 
+                WHERE id_asistente = :id";
+        $query = $this->acceso->prepare($sql);
+        $resultado = $query->execute(array(
+            ':id' => $id_asistente,
+            ':telefono' => $telefono,
+            ':direccion' => $direccion,
+            ':correo' => $correo,
+            ':sexo' => $sexo,
+            ':adicional' => $adicional
+        ));
+        
+        if ($resultado) {
+            return ['success' => true, 'message' => 'editado'];
+        } else {
+            return ['success' => false, 'message' => 'error_actualizacion'];
+        }
+    } catch(PDOException $e) {
+        error_log("Error en editar asistente: " . $e->getMessage());
+        return ['success' => false, 'message' => 'error_bd'];
+    }
+}
+    
+   
+    function cambiar_photo($id_asistente, $nombre) {
+        try {
+            // Primero obtener el avatar actual
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             $sql = "SELECT avatar_asistente FROM registro_asistente WHERE id_asistente = :id";
             $query = $this->acceso->prepare($sql);
             $query->execute(array(':id' => $id_asistente));
@@ -68,10 +120,18 @@ class Asistente {
             
             $avatar_anterior = $resultado ? $resultado->avatar_asistente : 'avatarDES.jpg';
             
+<<<<<<< HEAD
+=======
+            // Actualizar con el nuevo avatar
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             $sql = "UPDATE registro_asistente SET avatar_asistente = :nombre WHERE id_asistente = :id";
             $query = $this->acceso->prepare($sql);
             $query->execute(array(':id' => $id_asistente, ':nombre' => $nombre));
             
+<<<<<<< HEAD
+=======
+            // Retornar el nombre del avatar anterior como string
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             return $avatar_anterior;
         } catch(PDOException $e) {
             error_log("Error en cambiar_photo: " . $e->getMessage());
@@ -79,8 +139,15 @@ class Asistente {
         }
     }
     
+<<<<<<< HEAD
     public function crear($datos) {
         try {
+=======
+   
+    function crear($datos) {
+        try {
+            // Extraer datos del array
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             $nombre = $datos['nombre'] ?? '';
             $apellidos = $datos['apellidos'] ?? '';
             $fecha_nacimiento = $datos['fecha_nacimiento'] ?? '';
@@ -91,9 +158,16 @@ class Asistente {
             $sexo = $datos['sexo'] ?? '';
             $adicional = $datos['adicional'] ?? '';
             $password_hash = $datos['password_hash'] ?? '';
+<<<<<<< HEAD
             $tipo = $datos['tipo'] ?? 3;
             $avatar = $datos['avatar'] ?? 'avatarDES.jpg';
             
+=======
+            $tipo = $datos['tipo'] ?? 3; // Tipo 3 = Asistente
+            $avatar = $datos['avatar'] ?? 'avatarDES.jpg';
+            
+            // Verificar si ya existe un asistente con esta cédula o correo
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             $sql = "SELECT id_asistente FROM registro_asistente 
                     WHERE cedula_asistente = :cedula OR correo_asistente = :correo";
             $query = $this->acceso->prepare($sql);
@@ -104,6 +178,10 @@ class Asistente {
                 return ['success' => false, 'message' => 'existe'];
             }
             
+<<<<<<< HEAD
+=======
+            // Insertar el nuevo asistente
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             $sql = "INSERT INTO registro_asistente(
                 nombre_asistente, apellido_asistente, fecha_nacimiento_asistente, 
                 cedula_asistente, telefono_asistente, direccion_asistente, 
@@ -137,6 +215,10 @@ class Asistente {
                 if ($loginResult['success']) {
                     return ['success' => true, 'message' => 'add', 'id' => $id_asistente];
                 } else {
+<<<<<<< HEAD
+=======
+                    // Si falla la creación del login, se podría revertir, pero por ahora solo registramos
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     error_log("Error al crear login para asistente ID: $id_asistente");
                     return ['success' => false, 'message' => 'error_login'];
                 }
@@ -149,7 +231,12 @@ class Asistente {
         }
     }
     
+<<<<<<< HEAD
     public function crearLogin($id_asistente, $password_hash) {
+=======
+   
+    function crearLogin($id_asistente, $password_hash) {
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         try {
             $sql = "INSERT INTO login_asistente(id_asistente, password_hash, status) 
                     VALUES (:id_asistente, :password_hash, 'activo')";
@@ -172,8 +259,16 @@ class Asistente {
     
     // ==================== MÉTODOS PARA ESTADÍSTICAS ====================
     
+<<<<<<< HEAD
     public function contarRecetasGestionadas($id_asistente) {
         try {
+=======
+   
+    function contarRecetasGestionadas($id_asistente) {
+        try {
+            // Los asistentes pueden ver todas las recetas, pero podemos contar las creadas
+            // o las del día. Por ahora contamos todas las recetas activas.
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             $sql = "SELECT COUNT(*) as total FROM recetas WHERE estado = 1";
             $query = $this->acceso->prepare($sql);
             $query->execute();
@@ -185,7 +280,12 @@ class Asistente {
         }
     }
     
+<<<<<<< HEAD
     public function contarPacientesHoy() {
+=======
+  
+    function contarPacientesHoy() {
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         try {
             $sql = "SELECT COUNT(DISTINCT id_paciente) as total 
                     FROM recetas 
@@ -200,7 +300,12 @@ class Asistente {
         }
     }
     
+<<<<<<< HEAD
     public function contarRecetasHoy() {
+=======
+   
+    function contarRecetasHoy() {
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         try {
             $sql = "SELECT COUNT(*) as total 
                     FROM recetas 
@@ -215,15 +320,28 @@ class Asistente {
         }
     }
     
+<<<<<<< HEAD
     public function obtenerEstadisticas($id_asistente) {
         try {
             $stats = [];
             
+=======
+  
+    function obtenerEstadisticas($id_asistente) {
+        try {
+            $stats = [];
+            
+            // Total de recetas
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             $sql = "SELECT COUNT(*) as total FROM recetas WHERE estado = 1";
             $query = $this->acceso->prepare($sql);
             $query->execute();
             $stats['total_recetas'] = $query->fetch(PDO::FETCH_OBJ)->total ?? 0;
             
+<<<<<<< HEAD
+=======
+            // Recetas del mes
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             $sql = "SELECT COUNT(*) as total FROM recetas 
                     WHERE estado = 1 
                     AND MONTH(fecha_receta) = MONTH(CURDATE()) 
@@ -232,6 +350,10 @@ class Asistente {
             $query->execute();
             $stats['recetas_mes'] = $query->fetch(PDO::FETCH_OBJ)->total ?? 0;
             
+<<<<<<< HEAD
+=======
+            // Pacientes atendidos (distintos)
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             $sql = "SELECT COUNT(DISTINCT id_paciente) as total FROM recetas WHERE estado = 1";
             $query = $this->acceso->prepare($sql);
             $query->execute();
@@ -250,7 +372,12 @@ class Asistente {
     
     // ==================== MÉTODOS DE GESTIÓN ====================
     
+<<<<<<< HEAD
     public function listarPacientesRecientes($limit = 10) {
+=======
+    
+    function listarPacientesRecientes($limit = 10) {
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         try {
             $sql = "SELECT rp.id_paciente, rp.nombre_paciente, rp.apellido_paciente, 
                            rp.cedula_paciente, rp.telefono_paciente, rp.correo_paciente,
@@ -271,7 +398,12 @@ class Asistente {
         }
     }
     
+<<<<<<< HEAD
     public function listarRecetasRecientes($limit = 10) {
+=======
+   
+    function listarRecetasRecientes($limit = 10) {
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         try {
             $sql = "SELECT r.*, 
                            CONCAT(rp.nombre_paciente, ' ', rp.apellido_paciente) as paciente,
@@ -292,22 +424,39 @@ class Asistente {
         }
     }
     
+<<<<<<< HEAD
     public function obtenerResumenDia() {
         try {
             $resumen = [];
             
+=======
+   
+    function obtenerResumenDia() {
+        try {
+            $resumen = [];
+            
+            // Recetas de hoy
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             $sql = "SELECT COUNT(*) as total FROM recetas 
                     WHERE DATE(fecha_receta) = CURDATE() AND estado = 1";
             $query = $this->acceso->prepare($sql);
             $query->execute();
             $resumen['recetas_hoy'] = $query->fetch(PDO::FETCH_OBJ)->total ?? 0;
             
+<<<<<<< HEAD
+=======
+            // Pacientes atendidos hoy
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             $sql = "SELECT COUNT(DISTINCT id_paciente) as total FROM recetas 
                     WHERE DATE(fecha_receta) = CURDATE() AND estado = 1";
             $query = $this->acceso->prepare($sql);
             $query->execute();
             $resumen['pacientes_hoy'] = $query->fetch(PDO::FETCH_OBJ)->total ?? 0;
             
+<<<<<<< HEAD
+=======
+            // Médicos activos hoy
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             $sql = "SELECT COUNT(DISTINCT id_medico) as total FROM recetas 
                     WHERE DATE(fecha_receta) = CURDATE() AND estado = 1";
             $query = $this->acceso->prepare($sql);
@@ -327,7 +476,12 @@ class Asistente {
     
     // ==================== MÉTODOS DE BÚSQUEDA ====================
     
+<<<<<<< HEAD
     public function buscar($termino, $limit = 10) {
+=======
+  
+    function buscar($termino, $limit = 10) {
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         try {
             $sql = "SELECT id_asistente, nombre_asistente, apellido_asistente, 
                            cedula_asistente, telefono_asistente, correo_asistente
@@ -348,7 +502,11 @@ class Asistente {
         }
     }
     
+<<<<<<< HEAD
     public function obtenerPorCedula($cedula) {
+=======
+    function obtenerPorCedula($cedula) {
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         try {
             $sql = "SELECT id_asistente, nombre_asistente, apellido_asistente, 
                            cedula_asistente, telefono_asistente, correo_asistente, 
@@ -364,7 +522,11 @@ class Asistente {
         }
     }
     
+<<<<<<< HEAD
     public function existe($cedula, $correo) {
+=======
+    function existe($cedula, $correo) {
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         try {
             $sql = "SELECT id_asistente FROM registro_asistente 
                     WHERE cedula_asistente = :cedula OR correo_asistente = :correo";
@@ -379,9 +541,18 @@ class Asistente {
     
     // ==================== MÉTODOS DE ACTIVIDAD ====================
     
+<<<<<<< HEAD
     public function registrarActividad($id_asistente, $accion, $detalle = null) {
         try {
             error_log("Actividad Asistente ID: $id_asistente - Acción: $accion - Detalle: $detalle");
+=======
+    function registrarActividad($id_asistente, $accion, $detalle = null) {
+        try {
+            // Si no existe una tabla de actividades, podemos crear una o simplemente loguear
+            // Por ahora, solo registramos en el log
+            error_log("Actividad Asistente ID: $id_asistente - Acción: $accion - Detalle: $detalle");
+            
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             return ['success' => true, 'message' => 'actividad_registrada'];
         } catch(PDOException $e) {
             error_log("Error en registrarActividad: " . $e->getMessage());
@@ -389,8 +560,16 @@ class Asistente {
         }
     }
     
+<<<<<<< HEAD
     public function obtenerActividadReciente($id_asistente, $limit = 10) {
         try {
+=======
+ 
+    function obtenerActividadReciente($id_asistente, $limit = 10) {
+        try {
+            // Si tienes una tabla de actividades, implementa la consulta aquí
+            // Por ahora, retornamos un array vacío
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             return [];
         } catch(PDOException $e) {
             error_log("Error en obtenerActividadReciente: " . $e->getMessage());
@@ -398,4 +577,8 @@ class Asistente {
         }
     }
 }
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0

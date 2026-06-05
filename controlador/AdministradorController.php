@@ -1,7 +1,11 @@
 <?php
+<<<<<<< HEAD
 // controlador/AdministradorController.php
 class AdministradorController {
     
+=======
+class AdministradorController {    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function __construct() {
         // Verificar autenticación y rol
         if (!isset($_SESSION['usuario']) || !isset($_SESSION['rol']) || $_SESSION['rol'] !== 'administrador') {
@@ -21,9 +25,12 @@ class AdministradorController {
     
     // Buscar administrador (cargar datos)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
    public function buscar() {
     $id_administrador = $_POST['dato'] ?? $_POST['id_administrador'] ?? 0;
     $id_sesion = $_SESSION['usuario'];
@@ -34,7 +41,10 @@ class AdministradorController {
         ApiResponse::error('No autorizado para ver este perfil', 'unauthorized', [], 403);
         return;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     }
     
     $administrador = new Administrador();
@@ -70,6 +80,7 @@ class AdministradorController {
             'adicional' => $objeto->adicional_administrador ?? '',
             'avatar' => $avatar_path
         );
+<<<<<<< HEAD
     }
     
     ApiResponse::success($json, 'datos_cargados', 'Datos del administrador cargados correctamente');
@@ -79,6 +90,12 @@ class AdministradorController {
  * Capturar datos para edición (incluyendo ubicación desglosada)
  * POST /api/administradores/capturar-datos
  */
+=======
+    }    
+    ApiResponse::success($json, 'datos_cargados', 'Datos del administrador cargados correctamente');
+}    
+  
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 public function capturarDatos() {
     $id_administrador = $_POST['id_administrador'] ?? 0;
     $id_sesion = $_SESSION['usuario'];
@@ -99,11 +116,17 @@ public function capturarDatos() {
     }
     
     $json = array();
+<<<<<<< HEAD
     foreach ($administrador->objetos as $objeto) {
         // Parsear la dirección para obtener sus componentes
         $direccion_completa = $objeto->direccion_administrador ?? '';
         $datos_ubicacion = $this->parsearDireccion($direccion_completa);
         
+=======
+    foreach ($administrador->objetos as $objeto) {      
+        $direccion_completa = $objeto->direccion_administrador ?? '';
+        $datos_ubicacion = $this->parsearDireccion($direccion_completa);        
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         $json = array(
             'telefono' => $objeto->telefono_administrador ?? '',
             'direccion' => $direccion_completa,
@@ -117,6 +140,7 @@ public function capturarDatos() {
             'parroquia' => $datos_ubicacion['parroquia'],
             'direccion_detallada' => $datos_ubicacion['direccion_detallada']
         );
+<<<<<<< HEAD
     }
     
     ApiResponse::success($json, 'datos_capturados', 'Datos cargados para edición');
@@ -127,6 +151,12 @@ public function capturarDatos() {
  * @param string $direccion_completa Dirección en formato "Estado, Ciudad, Municipio, Parroquia - Dirección Detallada"
  * @return array Componentes de la dirección
  */
+=======
+    }    
+    ApiResponse::success($json, 'datos_capturados', 'Datos cargados para edición');
+}
+
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 private function parsearDireccion($direccion_completa) {
     $resultado = [
         'estado' => '',
@@ -134,6 +164,7 @@ private function parsearDireccion($direccion_completa) {
         'municipio' => '',
         'parroquia' => '',
         'direccion_detallada' => ''
+<<<<<<< HEAD
     ];
     
     if (empty($direccion_completa)) {
@@ -145,6 +176,16 @@ private function parsearDireccion($direccion_completa) {
     $ubicacion = $partes[0];
     $resultado['direccion_detallada'] = $partes[1] ?? '';
     
+=======
+    ];    
+    if (empty($direccion_completa)) {
+        return $resultado;
+    }   
+   
+    $partes = explode(' - ', $direccion_completa, 2);
+    $ubicacion = $partes[0];
+    $resultado['direccion_detallada'] = $partes[1] ?? '';    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     // Separar los componentes de la ubicación por comas
     $componentes = array_map('trim', explode(',', $ubicacion));
     
@@ -160,6 +201,7 @@ private function parsearDireccion($direccion_completa) {
     }
     if (count($componentes) >= 4) {
         $resultado['parroquia'] = $componentes[3];
+<<<<<<< HEAD
     }
     
     return $resultado;
@@ -353,6 +395,16 @@ private function parsearDireccion($direccion_completa) {
         
         error_log("AdministradorController::editarUsuario - ID: $id_administrador, Sesión: $id_sesion");
         
+=======
+    }    
+    return $resultado;
+}    
+
+    public function editarUsuario() {
+        $id_administrador = $_POST['id_administrador'] ?? 0;
+        $id_sesion = $_SESSION['usuario'];        
+        error_log("AdministradorController::editarUsuario - ID: $id_administrador, Sesión: $id_sesion");        
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         if($id_administrador != $id_sesion) {
             jsonResponse(['success' => false, 'error' => 'No autorizado']);
             return;
@@ -362,15 +414,24 @@ private function parsearDireccion($direccion_completa) {
         $direccion = $_POST['direccion'] ?? '';
         $correo = $_POST['correo'] ?? '';
         $sexo = $_POST['sexo'] ?? '';
+<<<<<<< HEAD
         $adicional = $_POST['adicional'] ?? '';
         
+=======
+        $adicional = $_POST['adicional'] ?? '';        
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         $administrador = new Administrador();
         $administrador->editar($id_administrador, $telefono, $direccion, $correo, $sexo, $adicional);
         
         jsonResponse(['success' => true, 'message' => 'editado']);
+<<<<<<< HEAD
     }
     
     // API: Cambiar foto
+=======
+    }    
+
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 public function cambiarFoto() {
     $id_administrador = $_SESSION['usuario'];
     
@@ -420,9 +481,13 @@ public function cambiarFoto() {
     }
     $_SESSION['avatar'] = APP_URL . '/img/' . $nombre;
 }
+<<<<<<< HEAD
 
     
     // Cambiar contraseña
+=======
+  
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function cambiarPassword() {
         $id_administrador = $_POST['id_administrador'] ?? 0;
         $id_sesion = $_SESSION['usuario'];
@@ -443,8 +508,12 @@ public function cambiarFoto() {
         $loginAdministrador = new LoginAdministrador();
         ob_start();
         $loginAdministrador->cambiar_contra($id_administrador, $oldpass, $newpass);
+<<<<<<< HEAD
         $resultado = ob_get_clean();
         
+=======
+        $resultado = ob_get_clean();        
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         jsonResponse(['resultado' => trim($resultado)]);
     }
     
@@ -505,10 +574,14 @@ public function apiEditarUsuario() {
     }
 }
 
+<<<<<<< HEAD
 /**
  * API: Eliminar usuario
  * POST /api/administradores/eliminar-usuario
  */
+=======
+
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 public function apiEliminarUsuario() {
     AuthHelper::checkRole('administrador', true);
     
@@ -583,6 +656,9 @@ private function getTablasPorRol($rol) {
     return $tablas[$rol] ?? false;
 }
 }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 ?>

@@ -7,18 +7,24 @@ class PerfilController {
     private $id;
     
 <<<<<<< HEAD
+<<<<<<< HEAD
    public function __construct() {
     AuthHelper::checkRole(['paciente', 'medico', 'asistente', 'administrador'], true);
     $this->rol = AuthHelper::getCurrentRole();
     $this->id = $_SESSION['usuario'];
 }
 =======
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     public function __construct() {
         AuthHelper::checkRole(['paciente', 'medico', 'asistente', 'administrador'], true);
         $this->rol = AuthHelper::getCurrentRole();
         $this->id = $_SESSION['usuario'];
     }
+<<<<<<< HEAD
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     
    public function index() {
     AuthHelper::checkRole(['paciente', 'medico', 'asistente', 'administrador'], true);
@@ -121,6 +127,7 @@ class PerfilController {
         jsonResponse(['resultado' => trim($resultado)]);
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     
 =======
 <<<<<<< HEAD
@@ -128,5 +135,8 @@ class PerfilController {
 =======
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+    
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 }
 ?>

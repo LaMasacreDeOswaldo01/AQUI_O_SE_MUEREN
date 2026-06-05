@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 // vista/medico/med_pacientes.php
 // Contenido principal para la gestión de pacientes del médico
 // Este archivo se renderiza dentro del layout base dashboard.php
@@ -8,6 +9,11 @@ $nombre_usuario = $nombre_usuario ?? 'Usuario';
 $id_medico = $id_medico ?? $_SESSION['usuario'] ?? 0;
 ?>
 
+=======
+$nombre_usuario = $nombre_usuario ?? 'Usuario';
+$id_medico = $id_medico ?? $_SESSION['usuario'] ?? 0;
+?>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- CSS Adicional para esta vista -->
 <style>
     .stats-card {

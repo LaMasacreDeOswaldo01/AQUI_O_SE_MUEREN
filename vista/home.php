@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
@@ -19,15 +20,20 @@ if(isset($_SESSION['usuario']) && isset($_SESSION['rol'])){
 ?>
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <title>BioVital - Sistema de Gestión Clínica</title>
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     <title>BioVital - Sistema de Gestión Clínica</title>
     
     <!-- ==================== VARIABLE GLOBAL APP_URL ==================== -->
@@ -358,6 +364,7 @@ if(isset($_SESSION['usuario']) && isset($_SESSION['rol'])){
                     </div>
                     <h3>Administrador</h3>
                     <p>Control total del sistema</p>
+<<<<<<< HEAD
 =======
     <title>BioVital - Consultoría Médica Inteligente</title>
     <meta name="description" content="BioVital - Tu salud es nuestra prioridad. Ecosistema médico digital con especialidades en cardiología, neumonología, psicología y pediatría.">
@@ -757,6 +764,8 @@ if(isset($_SESSION['usuario']) && isset($_SESSION['rol'])){
                     <span class="stat-number" data-count="10">0</span><span class="stat-suffix">K+</span>
                     <span class="stat-label">Pacientes Atendidos</span>
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 </div>
             </div>
         </div>
@@ -764,6 +773,9 @@ if(isset($_SESSION['usuario']) && isset($_SESSION['rol'])){
 </section>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- Modal de Login -->
 <div class="modal fade" id="loginModal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
@@ -789,6 +801,12 @@ if(isset($_SESSION['usuario']) && isset($_SESSION['rol'])){
                     <div class="register-link" id="registerLink">
                         <a href="#" id="registerButton">¿No tienes cuenta? Regístrate aquí</a>
                     </div>
+<<<<<<< HEAD
+=======
+                    <div class="register-link">
+                        <a href="#" id="recoverButton">¿Olvidaste tu contraseña o usuario?</a>
+                    </div>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     <div id="loginError" class="alert alert-danger mt-3" style="display:none;"></div>
                 </form>
             </div>
@@ -1006,6 +1024,7 @@ $(document).ready(function() {
             alert(mensaje);
         }
     }
+<<<<<<< HEAD
 });
 </script>
 
@@ -1309,5 +1328,17 @@ $(document).ready(function() {
 =======
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+    
+    // Abrir recuperación de cuenta
+    $('#recoverButton').on('click', function(e) {
+        e.preventDefault();
+        modal.hide();
+        window.location.href = APP_URL + '/recuperar-cuenta';
+    });
+});
+</script>
+
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 </body>
 </html>

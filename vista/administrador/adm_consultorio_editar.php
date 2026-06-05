@@ -1,5 +1,6 @@
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 // vista/administrador/adm_consultorio_editar.php
 // Contenido principal para la edición de consultorios
 // Este archivo se renderiza dentro del layout base dashboard.php
@@ -19,6 +20,12 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
 $id_consultorio = $id_consultorio ?? $_GET['id'] ?? 0;
 ?>
 
+=======
+
+$nombre_usuario = $nombre_usuario ?? 'Administrador';
+$id_consultorio = $id_consultorio ?? $_GET['id'] ?? 0;
+?>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- CSS Adicional para esta vista -->
 <style>
     .form-card {
@@ -190,6 +197,9 @@ $id_consultorio = $id_consultorio ?? $_GET['id'] ?? 0;
 </style>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- Content Header -->
 <div class="content-header">
     <div class="container-fluid">
@@ -198,6 +208,7 @@ $id_consultorio = $id_consultorio ?? $_GET['id'] ?? 0;
                 <h1><i class="fas fa-edit"></i> Editar Consultorio</h1>
             </div>
         </div>
+<<<<<<< HEAD
 =======
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?php echo APP_URL; ?>/js/config.js"></script>
@@ -346,6 +357,11 @@ $id_consultorio = $id_consultorio ?? $_GET['id'] ?? 0;
 </div>
 
 <<<<<<< HEAD
+=======
+    </div>
+</div>
+
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <section class="content">
     <div class="container-fluid">
         <input type="hidden" id="id_consultorio" value="<?php echo $id_consultorio; ?>">
@@ -359,6 +375,7 @@ $id_consultorio = $id_consultorio ?? $_GET['id'] ?? 0;
                     <div class="bv-role-tag mt-2">
                         <i class="fas fa-hospital-user"></i> Infraestructura
                     </div>
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 <!-- **********************Content Wrapper************************** -->
@@ -373,6 +390,8 @@ $id_consultorio = $id_consultorio ?? $_GET['id'] ?? 0;
                 <div class="col-sm-6">
                     <h1><i class="fas fa-edit"></i> Editar Consultorio</h1>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 </div>
                 <div class="d-none d-md-block">
                     <i class="fas fa-chart-line fa-3x" style="opacity: 0.3;"></i>
@@ -428,6 +447,7 @@ $id_consultorio = $id_consultorio ?? $_GET['id'] ?? 0;
                                         <label for="cierre" class="required-field">Cierre Habitual</label>
                                         <input type="time" class="form-control" id="cierre" name="cierre" required>
                                     </div>
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
                                     <small class="form-text text-muted">Seleccione las especialidades que se atienden en este consultorio</small>
@@ -544,6 +564,8 @@ $id_consultorio = $id_consultorio ?? $_GET['id'] ?? 0;
                                 <div class="text-center">
                                     <span class="badge badge-success">Consultorio disponible</span>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                                 </div>
                             </div>
 
@@ -700,6 +722,9 @@ $id_consultorio = $id_consultorio ?? $_GET['id'] ?? 0;
         </div>
     </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 </section>
 
 <script>
@@ -1234,6 +1259,7 @@ $(document).ready(function() {
     // ==================== INICIALIZAR ====================
     cargarDatosConsultorio();
 });
+<<<<<<< HEAD
 </script>
 =======
     <strong>Copyright &copy; 2024 BioVital.</strong> Todos los derechos reservados.
@@ -1252,3 +1278,6 @@ $(document).ready(function() {
 </body>
 </html>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+</script>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0

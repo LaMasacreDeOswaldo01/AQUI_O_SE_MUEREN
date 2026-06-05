@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
   setupNavigation();
   setupScrollEffects();
 <<<<<<< HEAD
+<<<<<<< HEAD
   // El carrusel ahora es nativo de Bootstrap 4, no necesita JS manual
 =======
 <<<<<<< HEAD
@@ -15,6 +16,9 @@ document.addEventListener('DOMContentLoaded', function () {
   setupCarousel();
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+  // El carrusel ahora es nativo de Bootstrap 4, no necesita JS manual
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
   setupSpecialtyCards();
   setupAnimations();
   setupCounters();
@@ -67,6 +71,7 @@ function setupScrollEffects() {
   });
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
@@ -141,6 +146,8 @@ function setupCarousel() {
 
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 // ========== SPECIALTY CARDS ==========
 function setupSpecialtyCards() {
   var specialtyInfo = {
@@ -192,12 +199,15 @@ function closeSpecialtyModal() {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
 // Close modal on outside click or Escape
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 window.addEventListener('click', function (e) {
   var modal = document.getElementById('specialtyModal');
   if (e.target === modal) closeSpecialtyModal();
@@ -275,12 +285,15 @@ function openLogin(role, iconClass) {
     showView('login-view');
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
     // Scroll al login
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     setTimeout(function () {
         var el = document.getElementById('login-view');
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -301,6 +314,9 @@ $(document).ready(function () {
 
         $.ajax({
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             url: APP_URL + '/login',
             type: 'POST',
             data: $(this).serialize(),
@@ -310,6 +326,7 @@ $(document).ready(function () {
                     submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> ¡Acceso concedido!';
                     window.location.href = APP_URL + '/' + response.redirect;
                 } else {
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
             url: APP_URL + '/login',
@@ -335,6 +352,8 @@ $(document).ready(function () {
     } else {
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     loginErrorMsg.textContent = response.error || 'Cédula o contraseña incorrecta';
                     loginError.classList.add('show');
                     submitBtn.disabled = false;
@@ -350,6 +369,7 @@ $(document).ready(function () {
         });
     });
 <<<<<<< HEAD
+<<<<<<< HEAD
 });
 =======
 <<<<<<< HEAD
@@ -358,6 +378,9 @@ $(document).ready(function () {
 });;
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+});
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 
 // ========== MAP ==========
 function showMap(location) {
@@ -392,6 +415,7 @@ function setupContactForm() {
     });
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
 }
 =======
 <<<<<<< HEAD
@@ -400,3 +424,6 @@ function setupContactForm() {
 }
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+}
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0

@@ -3,6 +3,7 @@ $(document).ready(function() {
     var API_URL = APP_URL + '/api/ubicacion';
     
 <<<<<<< HEAD
+<<<<<<< HEAD
        cargarEstados();
 =======
 <<<<<<< HEAD
@@ -12,6 +13,9 @@ $(document).ready(function() {
     cargarEstados();
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+       cargarEstados();
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     
     // Evento cambio de estado
     $(document).on('change', '#estado', function() {

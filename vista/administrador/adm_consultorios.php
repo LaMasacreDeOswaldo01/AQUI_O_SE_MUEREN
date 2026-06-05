@@ -1,5 +1,6 @@
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 // vista/administrador/adm_consultorios.php
 // Contenido principal para la gestión de consultorios
 // Este archivo se renderiza dentro del layout base dashboard.php
@@ -18,6 +19,10 @@ if($_SESSION['us_tipo'] != 4 || $_SESSION['rol'] != 'administrador'){
 $nombre_usuario = $nombre_usuario ?? 'Administrador';
 ?>
 
+=======
+$nombre_usuario = $nombre_usuario ?? 'Administrador';
+?>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- CSS Adicional para esta vista -->
 <style>
     .consultorio-card {
@@ -125,6 +130,9 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
 </style>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- Content Header -->
 <div class="content-header">
     <div class="container-fluid">
@@ -134,6 +142,7 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
             </div>
         </div>
     </div>
+<<<<<<< HEAD
 =======
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?php echo APP_URL; ?>/js/config.js"></script>
@@ -448,6 +457,8 @@ $nombre_usuario = $nombre_usuario ?? 'Administrador';
         </div>
     </section>
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 </div>
 
 <section class="content">
@@ -751,9 +762,12 @@ $(document).ready(function() {
                 } else {
                     for (let i = 0; i < consultorios.length; i++) {
                         let c = consultorios[i];
+<<<<<<< HEAD
                         let estadoClass = 'estado-activo';
                         let estadoIcono = 'fa-check-circle';
                         
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                         let direccionMostrar = c.direccion_detallada || 'Sin dirección registrada';
                         if (direccionMostrar.length > 60) {
                             direccionMostrar = direccionMostrar.substring(0, 60) + '...';
@@ -798,9 +812,15 @@ $(document).ready(function() {
                                             <a href="${APP_URL}/consultorios/detalle/${c.id_consultorio}" class="btn btn-info btn-sm btn-accion">
                                                 <i class="fas fa-eye"></i> Ver detalle
                                             </a>
+<<<<<<< HEAD
                                             <a href="${APP_URL}/consultorios/horarios?id=${c.id_consultorio}" class="btn btn-warning btn-sm btn-accion">
                                                 <i class="fas fa-clock"></i> Horarios
                                             </a>
+=======
+                                          <a href="${APP_URL}/consultorios/horarios/${c.id_consultorio}" class="btn btn-warning btn-sm btn-accion">
+                                                <i class="fas fa-clock"></i> Horarios
+                                              </a>   
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                                             <button class="btn btn-danger btn-sm btn-accion btn-eliminar" data-id="${c.id_consultorio}" data-nombre="${escapeHtml(c.nombre)}">
                                                 <i class="fas fa-trash"></i> Eliminar
                                             </button>
@@ -907,7 +927,14 @@ $(document).ready(function() {
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;')
+<<<<<<< HEAD
             .replace(/'/g, '&#39;');
+=======
+            .replace(/'/g, '&#39;')
+            .replace(/\\/g, '&#92;')
+            .replace(/`/g, '&#96;')
+            .replace(/\$/g, '&#36;');
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
     }
 });
 </script>

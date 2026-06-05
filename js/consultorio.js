@@ -1,12 +1,15 @@
 /**
  * consultorio.js - Gestión de consultorios
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
  
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
  */
 
 // Esperar a que APP_URL esté definida
@@ -165,9 +168,12 @@ function cargarEstadisticas() {
         type: 'POST',
         dataType: 'json',
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         success: function(response) {
             console.log('Estadísticas recibidas:', response);
             
@@ -178,12 +184,15 @@ function cargarEstadisticas() {
             }
             
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
         success: function(data) {
             console.log('Estadísticas recibidas:', data);
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             $('#total_consultorios').text(data.total_consultorios || 0);
             $('#total_activos').text(data.activos || 0);
         },
@@ -204,9 +213,12 @@ function cargarConsultorios(busqueda = '') {
         data: { busqueda: busqueda },
         dataType: 'json',
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         success: function(response) {
             console.log('Respuesta consultorios:', response);
             
@@ -226,16 +238,20 @@ function cargarConsultorios(busqueda = '') {
             }
             
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
         success: function(consultorios) {
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             let html = '';
             
             if (consultorios.length === 0) {
                 html = '<div class="col-12 text-center"><div class="alert alert-info">No se encontraron consultorios</div></div>';
             } else {
+<<<<<<< HEAD
 <<<<<<< HEAD
                 for (let i = 0; i < consultorios.length; i++) {
                     let c = consultorios[i];
@@ -247,6 +263,10 @@ function cargarConsultorios(busqueda = '') {
                 for (let c of consultorios) {
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                for (let i = 0; i < consultorios.length; i++) {
+                    let c = consultorios[i];
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     html += `
                         <div class="col-md-4 col-sm-6">
                             <div class="card consultorio-card h-100">
@@ -303,6 +323,7 @@ function cargarConsultorios(busqueda = '') {
             $('#total_medicos_asignados').text(totalMedicosAsignados);
         },
 <<<<<<< HEAD
+<<<<<<< HEAD
         error: function(xhr, status, error) {
             console.error('Error al cargar consultorios:', error);
 =======
@@ -313,6 +334,10 @@ function cargarConsultorios(busqueda = '') {
         error: function() {
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+        error: function(xhr, status, error) {
+            console.error('Error al cargar consultorios:', error);
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             $('#contenedor_consultorios').html('<div class="col-12 text-center"><div class="alert alert-danger">Error al cargar consultorios</div></div>');
         }
     });
@@ -327,9 +352,12 @@ function eliminarConsultorio(id) {
         success: function(response) {
             console.log('Respuesta eliminar:', response);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             
             // Manejar el formato de respuesta ApiResponse
             var resultado = response;
@@ -339,11 +367,14 @@ function eliminarConsultorio(id) {
             
             if (response.success === true || response.resultado === 'eliminado') {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
             if (response.resultado === 'eliminado') {
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 $('#modalEliminar').modal('hide');
                 cargarConsultorios();
                 cargarEstadisticas();
@@ -368,9 +399,12 @@ function cargarDetalleConsultorio() {
         data: { id_consultorio: id },
         dataType: 'json',
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         success: function(response) {
             console.log('Detalle consultorio:', response);
             
@@ -380,12 +414,15 @@ function cargarDetalleConsultorio() {
                 data = response.data;
             }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
         success: function(data) {
             console.log('Detalle consultorio:', data);
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             
             $('#consultorio_nombre').text(data.nombre);
             $('#detalle_nombre').text(data.nombre);
@@ -401,6 +438,7 @@ function cargarDetalleConsultorio() {
             let espHtml = '';
             if (data.especialidades && data.especialidades.length > 0) {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 for (let i = 0; i < data.especialidades.length; i++) {
                     espHtml += `<span class="especialidad-badge">${escapeHtml(data.especialidades[i])}</span>`;
 =======
@@ -412,6 +450,10 @@ function cargarDetalleConsultorio() {
                     espHtml += `<span class="especialidad-badge">${escapeHtml(esp)}</span>`;
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                for (let i = 0; i < data.especialidades.length; i++) {
+                    espHtml += `<span class="especialidad-badge">${escapeHtml(data.especialidades[i])}</span>`;
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 }
             } else {
                 espHtml = '<p class="text-muted text-center">No hay especialidades registradas</p>';
@@ -421,6 +463,7 @@ function cargarDetalleConsultorio() {
             // Médicos
             let medHtml = '';
             if (data.medicos && data.medicos.length > 0) {
+<<<<<<< HEAD
 <<<<<<< HEAD
                 for (let i = 0; i < data.medicos.length; i++) {
                     let med = data.medicos[i];
@@ -432,6 +475,10 @@ function cargarDetalleConsultorio() {
                 for (let med of data.medicos) {
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+                for (let i = 0; i < data.medicos.length; i++) {
+                    let med = data.medicos[i];
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     medHtml += `
                         <div class="medico-item p-3">
                             <div class="d-flex justify-content-between align-items-center">
@@ -460,6 +507,7 @@ function cargarDetalleConsultorio() {
     });
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 // ==================== FUNCIÓN PARA ESCAPAR HTML ====================
 =======
@@ -953,6 +1001,9 @@ function mostrarExitoHorario(mensaje) {
 
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+// ==================== FUNCIÓN PARA ESCAPAR HTML ====================
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 function escapeHtml(str) {
     if (!str) return '';
     return str
@@ -979,10 +1030,13 @@ function mostrarAlerta(mensaje, tipo) {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // ==================== FUNCIONES ADICIONALES (placeholder) ====================
 // Estas funciones se llaman desde el código pero necesitan estar definidas
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 // ==================== FUNCIONES ADICIONALES (placeholder) ====================
 // Estas funciones se llaman desde el código pero necesitan estar definidas
 
@@ -1034,6 +1088,7 @@ function asignarMedico() {
 
 function removerMedico(id) {
     console.log('removerMedico - ID:', id);
+<<<<<<< HEAD
 =======
 function mostrarMensaje(mensaje, tipo) {
     $('#mensaje_asignacion').removeClass('alert-success alert-danger')
@@ -1131,4 +1186,6 @@ function cargarParroquias(id_municipio) {
     });
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 }

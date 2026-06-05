@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 /* ========== RESET & VARIABLES ========== */
 *{margin:0;padding:0;box-sizing:border-box}
 =======
@@ -9,6 +10,10 @@
   box-sizing:border-box
 }
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
+=======
+/* ========== RESET & VARIABLES ========== */
+*{margin:0;padding:0;box-sizing:border-box}
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 :root{
   --primary:#0077b6;
   --primary-light:#90e0ef;
@@ -19,10 +24,14 @@
   --text:#1f2937;
   --text-light:#64748b;
 <<<<<<< HEAD
+<<<<<<< HEAD
   --bg:#f0f9ff;
 =======
   --bg:#FDFBF7;
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
+=======
+  --bg:#f0f9ff;
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
   --bg-white:#ffffff;
   --glass-bg:rgba(255,255,255,0.55);
   --glass-border:rgba(255,255,255,0.7);
@@ -36,6 +45,9 @@
   --radius:16px;
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 html{scroll-behavior:smooth}
 body{font-family:'Inter','Plus Jakarta Sans',system-ui,sans-serif;line-height:1.6;color:var(--text);background:var(--bg);overflow-x:hidden}
 
@@ -265,6 +277,7 @@ body{font-family:'Inter','Plus Jakarta Sans',system-ui,sans-serif;line-height:1.
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
 }
+<<<<<<< HEAD
 =======
 html{
   scroll-behavior:smooth
@@ -1458,3 +1471,5 @@ body{
 
 
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0

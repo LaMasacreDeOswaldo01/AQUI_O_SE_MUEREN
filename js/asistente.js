@@ -21,6 +21,7 @@ $(document).ready(function() {
         
         $.ajax({
 <<<<<<< HEAD
+<<<<<<< HEAD
     url: APP_URL + '/api/asistentes/buscar',
     type: 'POST',
     data: { dato: dato, id_asistente: id_usuario },
@@ -35,6 +36,11 @@ $(document).ready(function() {
             data: {dato: dato, funcion: funcion},
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+    url: APP_URL + '/api/asistentes/buscar',
+    type: 'POST',
+    data: { dato: dato, id_asistente: id_usuario },
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             dataType: 'json',
             success: function(asistente) {
                 console.log('Asistente recibido:', asistente);

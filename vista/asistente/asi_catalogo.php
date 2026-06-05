@@ -1,5 +1,6 @@
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 // vista/asistente/asi_catalogo.php
 // Contenido principal para el dashboard del asistente
 // Este archivo se renderiza dentro del layout base dashboard.php
@@ -44,6 +45,11 @@ $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Usuario');
 <div class="wrapper">
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
 
+=======
+$nombre_usuario = $nombre_usuario ?? 'Usuario';
+$id_asistente = $id_asistente ?? $_SESSION['usuario'] ?? 0;
+?>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- CSS Adicional para esta vista -->
 <style>
     .welcome-stats {
@@ -247,6 +253,9 @@ $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Usuario');
 </style>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- Content Header -->
 <div class="content-header">
     <div class="container-fluid">
@@ -279,6 +288,7 @@ $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Usuario');
                             <i class="fas fa-chart-line"></i> Turno: Mañana
                         </span>
                     </div>
+<<<<<<< HEAD
 =======
     <!-- Main Sidebar -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -295,6 +305,8 @@ $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Usuario');
                 <div class="image">
                     <img id="avatar4" src="<?php echo APP_URL; ?>/img/avatar.png" class="img-circle elevation-2" alt="User">
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                 </div>
                 <div class="d-none d-md-block">
                     <i class="fas fa-chart-line fa-3x" style="opacity: 0.3;"></i>
@@ -328,6 +340,7 @@ $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Usuario');
                     </div>
                 </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
                 <!-- Quick Access Cards -->
@@ -357,6 +370,8 @@ $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Usuario');
                 </div>
 
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             </div>
             <div class="col-lg-3 col-md-6 col-12">
                 <div class="stat-card bv-animate bv-animate-delay-3">
@@ -679,6 +694,16 @@ $(document).ready(function() {
                                             <i class="fas fa-stethoscope"></i> ${escapeHtml(cita.consultorio || 'Consultorio')}
                                         </span>
                                     </div>
+<<<<<<< HEAD
+=======
+                                    ${cita.estado === 'completada' ? `
+                                        <div class="timeline-actions mt-2">
+                                            <a href="${APP_URL}/facturas/crear?id_cita=${cita.id_cita}" class="btn btn-sm btn-primary">
+                                                <i class="fas fa-file-invoice-dollar"></i> Generar Factura
+                                            </a>
+                                        </div>
+                                    ` : ''}
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                                 </div>
                             </div>
                         `;

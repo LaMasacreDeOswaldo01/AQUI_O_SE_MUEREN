@@ -1,5 +1,6 @@
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 // vista/asistente/asi_editar_datos.php
 // Contenido principal para la edición de perfil del asistente
 // Este archivo se renderiza dentro del layout base dashboard.php
@@ -1448,11 +1449,16 @@ if($_SESSION['us_tipo'] == 3 && $_SESSION['rol'] == 'asistente'){
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
 
 // Los datos vienen del controlador a través de $data
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 $nombre_usuario = $nombre_usuario ?? 'Usuario';
 $id_asistente = $id_asistente ?? $_SESSION['usuario'] ?? 0;
 $avatar_actual = $avatar_actual ?? (!empty($_SESSION['avatar']) ? $_SESSION['avatar'] : APP_URL . '/img/avatarDES.jpg');
 ?>
+<<<<<<< HEAD
 
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <!-- CSS Adicional para esta vista -->
 <style>
     .profile-header {
@@ -1970,6 +1976,9 @@ $avatar_actual = $avatar_actual ?? (!empty($_SESSION['avatar']) ? $_SESSION['ava
 </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 <script src="<?php echo APP_URL; ?>/js/ubicacion.js"></script>
 
 <script>
@@ -2771,6 +2780,7 @@ $(document).ready(function() {
     // ==================== INICIALIZAR ====================
     cargarDatosAsistente();
 });
+<<<<<<< HEAD
 </script>
 =======
 <?php
@@ -2783,3 +2793,6 @@ else{
 <script src="../../js/asistente.js"></script>
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+</script>
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0

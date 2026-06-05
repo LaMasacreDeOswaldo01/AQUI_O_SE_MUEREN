@@ -1,15 +1,20 @@
+<<<<<<< HEAD
 // Usar la configuración global
 var BASE_URL = window.CONFIG ? window.CONFIG.BASE_URL : '';
 <<<<<<< HEAD
 function getUrl(endpoint) {
 =======
 <<<<<<< HEAD
+=======
+var BASE_URL = window.CONFIG ? window.CONFIG.BASE_URL : '';
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 function getUrl(endpoint) {
     if (window.CONFIG) {
         return window.CONFIG.getApiUrl(endpoint);
     }
     // Fallback para compatibilidad
     return BASE_URL + '/api/' + endpoint;
+<<<<<<< HEAD
 =======
 function getUrl(controller, action) {
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
@@ -24,6 +29,8 @@ function getUrl(controller, action) {
     return BASE_URL + '/controlador/' + controller + '.php';
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 }
 
 $(document).ready(function() {
@@ -74,9 +81,12 @@ $(document).ready(function() {
     });
 });
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 function cargarEstadisticas() {
     $.ajax({
         url: APP_URL + '/api/recetas/estadisticas',
@@ -108,7 +118,10 @@ function cargarEstadisticas() {
     });
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 
 function listar_recetas() {
     $('#tabla_recetas').html('<tr><td colspan="9" class="text-center"><div class="spinner-border text-primary"></div><p>Cargando recetas...</p></td></tr>');
@@ -162,6 +175,7 @@ function listar_recetas() {
                     html += `
                         <tr>
                             <td><span class="badge badge-secondary">${receta.id_receta || ''}</span></td>
+<<<<<<< HEAD
 =======
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
 
@@ -222,16 +236,21 @@ function listar_recetas() {
                             <td>${receta.id_receta || ''}</td>
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                             <td><strong>${escapeHtml(receta.nombre_medicamento || '')}</strong></td>
                             <td>${escapeHtml(receta.marca || '')}</td>
                             <td>${escapeHtml(receta.cantidad || '')}</td>
                             <td>${escapeHtml(receta.dosis || '-')}</td>
+<<<<<<< HEAD
 <<<<<<< HEAD
                             <td><i class="fas fa-user-injured text-info"></i> ${escapeHtml(receta.paciente || 'N/A')}</td>
                             <td><i class="fas fa-user-md text-success"></i> ${escapeHtml(receta.medico || 'N/A')}</td>
                             <td><i class="fas fa-calendar-alt"></i> ${receta.fecha_receta || ''}</td>
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                             <td><i class="fas fa-user-injured text-info"></i> ${escapeHtml(receta.paciente || 'N/A')}</td>
                             <td><i class="fas fa-user-md text-success"></i> ${escapeHtml(receta.medico || 'N/A')}</td>
                             <td><i class="fas fa-calendar-alt"></i> ${receta.fecha_receta || ''}</td>
@@ -241,6 +260,7 @@ function listar_recetas() {
                                 </button>
                              </td>
                          </tr>
+<<<<<<< HEAD
 =======
                             <td>${escapeHtml(receta.paciente || 'N/A')}</td>
                             <td>${receta.fecha_receta || ''}</td>
@@ -260,18 +280,24 @@ function listar_recetas() {
                         </tr>
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
                     `;
                 }
             }
             
             $('#tabla_recetas').html(html);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
             console.log('Tabla actualizada con', recetas.length, 'recetas');
         },
         error: function(xhr, status, error) {
             console.error('Error al listar recetas:', error);
             console.error('Respuesta del servidor:', xhr.responseText);
             $('#tabla_recetas').html('<tr><td colspan="9" class="text-center text-danger">Error al cargar las recetas: ' + error + '</td></tr>');
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
             console.log('Tabla actualizada con', recetas.length, 'recetas');
@@ -288,11 +314,17 @@ function listar_recetas() {
             mostrarAlerta('Error al cargar las recetas', 'error');
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
         }
     });
 }
 
+<<<<<<< HEAD
 // USAR EVENTOS DELEGADOS - Esta es la solución para evitar duplicación
+=======
+// USAR EVENTOS DELEGADOS 
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
 $(document).on('click', '.btn-editar', function() {
     let id = $(this).data('id');
     console.log('Click editar - ID:', id);
@@ -773,6 +805,7 @@ $(document).on('click', '#btnGenerarRecetaDiag', function() {
     let hoy = new Date();
     let fecha = hoy.toISOString().split('T')[0];
     $('#fecha_receta').val(fecha);
+<<<<<<< HEAD
     $('#id_receta').val('');
     
     $('#modalDiagnostico').modal('hide');
@@ -787,3 +820,10 @@ $(document).on('click', '#btnGenerarRecetaDiag', function() {
 });
 >>>>>>> d2039bf34adef6d12dd6c79371df596a3d39fedb
 >>>>>>> f341bcbb925276c3abd14e136b7a785bda722852
+=======
+    $('#id_receta').val('');    
+    $('#modalDiagnostico').modal('hide');
+    $('#modalTitle').text('Nueva Receta - Diagnóstico');
+    $('#modalReceta').modal('show');
+});
+>>>>>>> c29324f8947233d5281c64cb5729a15acf34bac0
