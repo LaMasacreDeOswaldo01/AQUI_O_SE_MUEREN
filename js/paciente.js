@@ -1,9 +1,8 @@
-
 $(document).ready(function() {
     var id_usuario = $('#id_usuario').val();
     var edit = false;
 
-    console.log('=== PACIENTE JS CORREGIDO V2 ===');
+    console.log('=== PACIENTE JS MIGRADO A API ===');
     console.log('APP_URL:', APP_URL);
     console.log('ID Usuario:', id_usuario);
 
@@ -12,33 +11,25 @@ $(document).ready(function() {
         $('#nombre_us').html('Error: Sesión no válida');
         return;
     }
-
     // ==================== FUNCIÓN PRINCIPAL: BUSCAR PACIENTE ====================
     function buscar_paciente(dato) {
-        console.log('Buscando paciente con dato:', dato);
-        
+        console.log('Buscando paciente con dato:', dato);        
         $.ajax({
             url: APP_URL + '/api/pacientes/buscar',
             type: 'POST',
-            data: { dato: dato, id_paciente: dato },
+            data: { id_paciente: dato, dato: dato },
             dataType: 'json',
             timeout: 10000,
             success: function(response) {
-                console.log('Respuesta del servidor:', response);
+                console.log('Respuesta del servidor:', response);                
+                var paciente = response.data || response;
                 
-                // Manejar formato ApiResponse
-                var paciente = response;
-                if (response.success && response.data) {
-                    paciente = response.data;
-                }
-                
-                if (paciente.error) {
-                    console.error('Error:', paciente.error);
-                    $('#nombre_us').html('Error: ' + paciente.error);
+                if (!response.success || paciente.error) {
+                    console.error('Error:', paciente.error || response.message);
+                    $('#nombre_us').html('Error: ' + (paciente.error || response.message));
                     return;
                 }
                 
-                // Actualizar UI con los datos
                 $('#nombre_us').html(paciente.nombre || '');
                 $('#apellidos_us').html(paciente.apellidos || '');
                 $('#edad').html(paciente.fecha_nacimiento || '');
@@ -47,31 +38,24 @@ $(document).ready(function() {
                 $('#telefono_us').html(paciente.telefono || '');
                 $('#correo_us').html(paciente.correo || '');
                 $('#sexo_us').html(paciente.sexo || '');
-                $('#adicional_us').html(paciente.adicional || '');
-                
-                // Mostrar dirección
+                $('#adicional_us').html(paciente.adicional || '');                
                 if (paciente.direccion) {
                     $('#direccion_us').html(paciente.direccion);
-                    // Cargar dirección en los campos de edición
                     cargarDireccionEnCampos(paciente.direccion);
                 } else {
                     $('#direccion_us').html('-');
                     cargarEstados();
                 }
                 
-                // Actualizar avatar
                 if (paciente.avatar) {
                     var avatarUrl = paciente.avatar;
                     var timestamp = new Date().getTime();
                     avatarUrl = avatarUrl + '?t=' + timestamp;
                     $('#avatar1, #avatar2, #avatar3, #avatar4, #avatar_nav').attr('src', avatarUrl);
-                    console.log('Avatar actualizado:', avatarUrl);
                 } else {
                     var defaultAvatar = APP_URL + '/img/avatarDES.jpg?t=' + new Date().getTime();
                     $('#avatar1, #avatar2, #avatar3, #avatar4, #avatar_nav').attr('src', defaultAvatar);
                 }
-                
-                console.log('Datos actualizados correctamente');
             },
             error: function(xhr, status, error) {
                 console.error('Error en la petición AJAX:', error);
@@ -80,7 +64,6 @@ $(document).ready(function() {
             }
         });
     }
-
     // ==================== FUNCIONES DE UBICACIÓN ====================    
     function cargarDireccionEnCampos(direccion_completa) {
         console.log('Parseando dirección:', direccion_completa);
@@ -234,8 +217,7 @@ $(document).ready(function() {
             data: { id_estado: id_estado },
             dataType: 'json',
             success: function(response) {
-                console.log('Respuesta municipios:', response);
-                
+                console.log('Respuesta municipios:', response);                
                 // ========== MANEJAR FORMATO ApiResponse ==========
                 var municipios = [];
                 if (response.success && response.data) {
@@ -584,12 +566,10 @@ $(document).ready(function() {
         }
     });
 
-    // ==================== BOTÓN EDITAR ====================
+   // ==================== BOTÓN EDITAR ====================
     $(document).on('click', '.edit, .btn-editor', function(e) {
         e.preventDefault();
         edit = true;
-        
-        console.log('Editando paciente ID:', id_usuario);
         
         var $btn = $(this);
         var originalText = $btn.html();
@@ -601,30 +581,25 @@ $(document).ready(function() {
             data: { id_paciente: id_usuario },
             dataType: 'json',
             success: function(response) {
-                var paciente = response.success && response.data ? response.data : response;
-                console.log('Datos a editar:', paciente);
+                var paciente = response.data || response;
                 
-                if (paciente.error) {
-                    alert('Error: ' + paciente.error);
+                if (!response.success || paciente.error) {
+                    alert('Error: ' + (paciente.error || response.message));
                     return;
                 }
                 
-                // Cargar datos en los campos
                 $('#telefono').val(paciente.telefono || '');
                 $('#correo').val(paciente.correo || '');
                 $('#sexo').val(paciente.sexo || '');
                 $('#adicional').val(paciente.adicional || '');
                 
-                // Habilitar campos de edición
                 $('#telefono, #correo, #sexo, #adicional, #estado, #ciudad, #municipio, #parroquia, #direccion_detallada').prop('disabled', false);
                 
-                // Cambiar estilo del botón guardar
                 $('.btn-outline-success')
                     .removeClass('btn-outline-success')
                     .addClass('btn-success')
                     .prop('disabled', false);
                 
-                // Cargar dirección existente en los selects
                 if (paciente.direccion && paciente.direccion !== '-') {
                     cargarDireccionEnCampos(paciente.direccion);
                 } else {
@@ -644,7 +619,7 @@ $(document).ready(function() {
         });
     });
 
-    // ==================== FORMULARIO DE EDICIÓN - GUARDAR CAMBIOS ====================
+    // ==================== FORMULARIO DE EDICIÓN ====================
     $('#form-usuario').off('submit').on('submit', function(e) {
         e.preventDefault();
         
@@ -653,49 +628,39 @@ $(document).ready(function() {
             return false;
         }
         
-        // Construir dirección completa
         var estado_nombre = $('#estado option:selected').text();
         var ciudad_nombre = $('#ciudad option:selected').text();
         var municipio_nombre = $('#municipio option:selected').text();
         var parroquia_nombre = $('#parroquia option:selected').text();
         var direccion_detallada = $('#direccion_detallada').val();
         
-        console.log('Estado seleccionado:', estado_nombre);
-        console.log('Ciudad seleccionada:', ciudad_nombre);
-        console.log('Municipio seleccionado:', municipio_nombre);
-        console.log('Parroquia seleccionada:', parroquia_nombre);
-        console.log('Dirección detallada:', direccion_detallada);
-        
         var direccion_completa = '';
-        
         if (estado_nombre && estado_nombre !== 'Seleccione un estado...' && estado_nombre !== '') {
             direccion_completa = estado_nombre;
         }
         if (ciudad_nombre && ciudad_nombre !== 'Seleccione una ciudad...' && ciudad_nombre !== '' && ciudad_nombre !== 'Cargando ciudades...') {
             direccion_completa += (direccion_completa ? ', ' : '') + ciudad_nombre;
         }
-        if (municipio_nombre && municipio_nombre !== 'Seleccione un municipio...' && municipio_nombre !== '' && municipio_nombre !== 'Cargando municipios...') {
+        if (municipio_nombre && municipio_nombre !== 'Seleccione un municipio...' && municipio_nombre !== '') {
             direccion_completa += (direccion_completa ? ', ' : '') + municipio_nombre;
         }
-        if (parroquia_nombre && parroquia_nombre !== 'Seleccione una parroquia...' && parroquia_nombre !== '' && parroquia_nombre !== 'Cargando parroquias...') {
+        if (parroquia_nombre && parroquia_nombre !== 'Seleccione una parroquia...' && parroquia_nombre !== '') {
             direccion_completa += (direccion_completa ? ', ' : '') + parroquia_nombre;
         }
         if (direccion_detallada && direccion_detallada !== '') {
             direccion_completa += (direccion_completa ? ' - ' : '') + direccion_detallada;
         }
         
-        var telefono = $('#telefono').val();
-        var correo = $('#correo').val();
-        var sexo = $('#sexo').val();
-        var adicional = $('#adicional').val();
-        
-        console.log('=== ENVIANDO DATOS ===');
-        console.log('ID:', id_usuario);
-        console.log('Dirección completa:', direccion_completa);
-        console.log('Teléfono:', telefono);
-        console.log('Correo:', correo);
-        console.log('Sexo:', sexo);
-        console.log('Adicional:', adicional);
+        var datos = {
+            id_paciente: id_usuario,
+            telefono: $('#telefono').val(),
+            direccion: direccion_completa,
+            correo: $('#correo').val(),
+            sexo: $('#sexo').val(),
+            tipo_sangre: $('#tipo_sangre_edit').val(),
+            adicional: $('#adicional').val(),
+            csrf_token: $('input[name="csrf_token"]').val()
+        };
         
         var $btn = $(this).find('button[type="submit"]');
         var originalText = $btn.html();
@@ -704,18 +669,9 @@ $(document).ready(function() {
         $.ajax({
             url: APP_URL + '/api/pacientes/editar',
             type: 'POST',
-            data: {
-                id_paciente: id_usuario,
-                telefono: telefono,
-                direccion: direccion_completa,
-                correo: correo,
-                sexo: sexo,
-                adicional: adicional
-            },
+            data: datos,
             dataType: 'json',
             success: function(response) {
-                console.log('Respuesta del servidor:', response);
-                
                 if (response.success) {
                     $('#editado').show(1000);
                     setTimeout(function() { 
@@ -724,25 +680,21 @@ $(document).ready(function() {
                     
                     edit = false;
                     
-                    // Deshabilitar campos después de guardar
                     $('#telefono, #correo, #sexo, #adicional, #estado, #ciudad, #municipio, #parroquia, #direccion_detallada').prop('disabled', true);
                     
-                    // Restaurar estilo del botón guardar
                     $('.btn-success')
                         .removeClass('btn-success')
                         .addClass('btn-outline-success')
                         .prop('disabled', true);
                     
-                    // Recargar datos del paciente
                     buscar_paciente(id_usuario);
-                    
                     alert('¡Datos actualizados correctamente!');
                 } else {
                     $('#noeditado').show(1000);
                     setTimeout(function() { 
                         $('#noeditado').hide(2000); 
                     }, 3000);
-                    alert(response.error || 'Error al guardar los cambios');
+                    alert(response.message || 'Error al guardar los cambios');
                 }
             },
             error: function(xhr, status, error) {
@@ -783,13 +735,12 @@ $(document).ready(function() {
             data: {
                 id_paciente: id_usuario,
                 oldpass: oldpass,
-                newpass: newpass
+                newpass: newpass,
+                csrf_token: $('input[name="csrf_token"]').val()
             },
             dataType: 'json',
             success: function(response) {
-                console.log('Respuesta cambio contraseña:', response);
-                
-                if (response.resultado === 'update') {
+                if (response.resultado === 'update' || response.success) {
                     $('#update').show(1000);
                     setTimeout(function() { 
                         $('#update').hide(2000); 
@@ -825,6 +776,7 @@ $(document).ready(function() {
         
         var formData = new FormData(this);
         formData.append('id_paciente', id_usuario);
+        formData.append('csrf_token', $('input[name="csrf_token"]').val());
         
         var $btn = $(this).find('button[type="submit"]');
         var originalText = $btn.html();
@@ -839,11 +791,9 @@ $(document).ready(function() {
             contentType: false,
             dataType: 'json',
             success: function(response) {
-                console.log('Respuesta cambio foto:', response);
-                
-                if (response.alert === 'edit') {
+                if (response.alert === 'edit' || response.success) {
                     var timestamp = new Date().getTime();
-                    var nuevaRuta = response.ruta + '?t=' + timestamp;
+                    var nuevaRuta = (response.ruta || response.data.ruta) + '?t=' + timestamp;
                     
                     $('#avatar1, #avatar2, #avatar3, #avatar4, #avatar_nav').attr('src', nuevaRuta);
                     
@@ -853,17 +803,15 @@ $(document).ready(function() {
                     }, 3000);
                     
                     $('#form-photo').trigger('reset');
-                    
                     setTimeout(function() { 
                         $('#cambiophoto').modal('hide'); 
                     }, 1500);
-                    
                 } else {
                     $('#noedit').show(1000);
                     setTimeout(function() { 
                         $('#noedit').hide(2000); 
                     }, 3000);
-                    alert(response.error || 'Error al cambiar la foto');
+                    alert(response.message || 'Error al cambiar la foto');
                 }
             },
             error: function(xhr, status, error) {

@@ -208,63 +208,76 @@ class Especialidad {
         }
     }
     
-    function listarMedicosDisponibles($id_especialidad = null) {
-        try {
-            $sql = "SELECT rm.id_medico, rm.nombre_medico, rm.apellido_medico, rm.cedula_medico, rm.mpps_registro
-                    FROM registro_medico rm
-                    WHERE rm.medico_tipo = 2 AND rm.activo = 1";
-            
-            if($id_especialidad) {
-                $sql .= " AND rm.id_medico NOT IN (
-                            SELECT id_medico FROM especialidad_medicos 
-                            WHERE id_especialidad = :id_especialidad AND activo = 1
-                         )";
-                $query = $this->acceso->prepare($sql);
-                $query->execute(array(':id_especialidad' => $id_especialidad));
-            } else {
-                $query = $this->acceso->prepare($sql);
-                $query->execute();
-            }
-            
-            return $query->fetchAll();
-        } catch(PDOException $e) {
-            return array();
-        }
+ function listarMedicosDisponibles($id_especialidad = null) {
+    try {
+        // TEMPORAL: Probar sin filtrar
+        $sql = "SELECT rm.id_medico, rm.nombre_medico, rm.apellido_medico, rm.cedula_medico, rm.mpps_registro
+                FROM registro_medico rm
+                WHERE rm.medico_tipo = 2";
+        
+        $query = $this->acceso->prepare($sql);
+        $query->execute();
+        
+        $resultados = $query->fetchAll();
+        error_log("Médicos disponibles (sin filtrar): " . count($resultados));
+        
+        return $resultados;
+    } catch(PDOException $e) {
+        error_log("Error en listarMedicosDisponibles: " . $e->getMessage());
+        return array();
     }
-    
+}
   
-    function asignarMedico($id_especialidad, $id_medico, $tarifa, $exp_anios, $domicilio, $extra) {
-        try {
-            // Verificar si ya existe
-            $sql_check = "SELECT id FROM especialidad_medicos 
-                          WHERE id_especialidad = :id_especialidad AND id_medico = :id_medico AND activo = 1";
-            $query_check = $this->acceso->prepare($sql_check);
-            $query_check->execute(array(':id_especialidad' => $id_especialidad, ':id_medico' => $id_medico));
-            
-            if($query_check->rowCount() > 0) {
-                echo 'ya_asignado';
-                return;
-            }
-            
-            $sql = "INSERT INTO especialidad_medicos(
-                        id_especialidad, id_medico, tarifa, exp_anios, domicilio, extra, fecha_asignacion
-                    ) VALUES (
-                        :id_especialidad, :id_medico, :tarifa, :exp_anios, :domicilio, :extra, CURDATE()
-                    )";
-            $query = $this->acceso->prepare($sql);
-            $query->execute(array(
-                ':id_especialidad' => $id_especialidad,
-                ':id_medico' => $id_medico,
-                ':tarifa' => $tarifa,
-                ':exp_anios' => $exp_anios,
-                ':domicilio' => $domicilio,
-                ':extra' => $extra
-            ));
-            echo 'asignado';
-        } catch(PDOException $e) {
-            echo 'error';
-        }
+  function asignarMedico($id_especialidad, $id_medico, $tarifa, $exp_anios, $domicilio, $extra) {
+    try {
+        $sql = "INSERT INTO especialidad_medicos(
+                    id_especialidad, id_medico, tarifa, exp_anios, domicilio, extra, fecha_asignacion
+                ) VALUES (
+                    :id_especialidad, :id_medico, :tarifa, :exp_anios, :domicilio, :extra, CURDATE()
+                )";
+        $query = $this->acceso->prepare($sql);
+        $resultado = $query->execute(array(
+            ':id_especialidad' => $id_especialidad,
+            ':id_medico' => $id_medico,
+            ':tarifa' => $tarifa,
+            ':exp_anios' => $exp_anios,
+            ':domicilio' => $domicilio,
+            ':extra' => $extra
+        ));
+        
+        return $resultado; // Devuelve true si se insertó correctamente
+    } catch(PDOException $e) {
+        error_log("Error en asignarMedico: " . $e->getMessage());
+        return false;
     }
+}
+
+// Agrega este método para verificar si ya está asignado
+function verificarAsignacion($id_especialidad, $id_medico) {
+    try {
+        $sql = "SELECT id FROM especialidad_medicos 
+                WHERE id_especialidad = :id_especialidad 
+                AND id_medico = :id_medico 
+                AND activo = 1";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(
+            ':id_especialidad' => $id_especialidad,
+            ':id_medico' => $id_medico
+        ));
+        $existe = $query->rowCount() > 0;
+        
+        // Log para depuración
+        error_log("=== verificarAsignacion ===");
+        error_log("ID Especialidad: $id_especialidad");
+        error_log("ID Médico: $id_medico");
+        error_log("Existe: " . ($existe ? 'SI' : 'NO'));
+        
+        return $existe;
+    } catch(PDOException $e) {
+        error_log("Error en verificarAsignacion: " . $e->getMessage());
+        return false;
+    }
+}
     
    
     function removerMedico($id_asignacion) {

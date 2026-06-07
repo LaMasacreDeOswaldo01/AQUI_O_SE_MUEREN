@@ -1,5 +1,3 @@
-
-
 (function() {
     // Detectar la URL base del proyecto
     var path = window.location.pathname;
@@ -34,13 +32,12 @@
         if (parts.length > 0 && !parts[0].includes('.php') && !parts[0].includes('.')) {
             baseUrl = '/' + parts[0];
         }
-    }
-    
+    }    
     // ==================== NUEVA CONFIGURACIÓN ====================
     // API_URL ahora apunta a /api (router MVC), NO a /controlador directamente
     window.CONFIG = {
         BASE_URL: baseUrl,
-        API_URL: baseUrl + '/api',           // ← CAMBIADO: usa router MVC
+        API_URL: baseUrl + '/api',          
         UPLOADS_URL: baseUrl + '/img',
         
         // Método para obtener URL de API (sin extensión .php)

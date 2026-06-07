@@ -184,17 +184,17 @@ $id_consultorio = $id_consultorio ?? $_GET['id'] ?? 0;
                             </li>
                         </ul>
                         
-                        <div class="action-buttons text-center">
-                            <a href="<?php echo APP_URL; ?>/consultorios/horarios?id=<?php echo $id_consultorio; ?>" class="btn btn-info btn-sm">
-                                <i class="fas fa-calendar-alt"></i> Gestionar Horarios
-                            </a>
-                            <a href="<?php echo APP_URL; ?>/consultorios/editar?id=<?php echo $id_consultorio; ?>" class="btn btn-warning btn-sm">
-                                <i class="fas fa-edit"></i> Editar
-                            </a>
-                            <button class="btn btn-secondary btn-sm" id="btnVolver">
-                                <i class="fas fa-arrow-left"></i> Volver
-                            </button>
-                        </div>
+                       <div class="action-buttons text-center">
+    <a href="<?php echo APP_URL; ?>/consultorios/horarios/<?php echo $id_consultorio; ?>" class="btn btn-info btn-sm">
+        <i class="fas fa-calendar-alt"></i> Gestionar Horarios
+    </a>
+    <a href="<?php echo APP_URL; ?>/consultorios/editar/<?php echo $id_consultorio; ?>" class="btn btn-warning btn-sm">
+        <i class="fas fa-edit"></i> Editar
+    </a>
+   <a href="<?php echo APP_URL; ?>/consultorios" class="btn btn-secondary btn-sm">
+    <i class="fas fa-arrow-left"></i> Volver al listado
+</a>
+</div>
                     </div>
                 </div>
 

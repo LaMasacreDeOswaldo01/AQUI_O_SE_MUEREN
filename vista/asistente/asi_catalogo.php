@@ -590,13 +590,6 @@ $(document).ready(function() {
                                             <i class="fas fa-stethoscope"></i> ${escapeHtml(cita.consultorio || 'Consultorio')}
                                         </span>
                                     </div>
-                                    ${cita.estado === 'completada' ? `
-                                        <div class="timeline-actions mt-2">
-                                            <a href="${APP_URL}/facturas/crear?id_cita=${cita.id_cita}" class="btn btn-sm btn-primary">
-                                                <i class="fas fa-file-invoice-dollar"></i> Generar Factura
-                                            </a>
-                                        </div>
-                                    ` : ''}
                                 </div>
                             </div>
                         `;

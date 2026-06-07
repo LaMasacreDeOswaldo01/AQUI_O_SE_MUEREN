@@ -411,7 +411,6 @@ $(document).ready(function() {
             success: function(response) {
                 console.log('Datos de especialidad:', response);
                 
-                // Manejar formato ApiResponse
                 var data = response;
                 if (response.success && response.data) {
                     data = response.data;
@@ -422,7 +421,6 @@ $(document).ready(function() {
                     return;
                 }
                 
-                // Llenar formulario con los datos
                 $('#nombre').val(data.nombre);
                 $('#codigo').val(data.codigo || '');
                 $('#descripcion').val(data.descripcion || '');
@@ -434,10 +432,8 @@ $(document).ready(function() {
                 $('#observaciones').val(data.observaciones || '');
                 $('#activo').prop('checked', data.activo == 1);
                 
-                // Actualizar vista previa
                 actualizarPreview();
                 
-                // Actualizar color preview
                 let colorMap = {
                     'Azul Médico': '#007bff',
                     'Verde Salud': '#28a745',
@@ -447,8 +443,6 @@ $(document).ready(function() {
                     'Naranja': '#fd7e14'
                 };
                 $('#color_preview').css('background-color', colorMap[data.color] || '#007bff');
-                
-                // Actualizar texto del estado
                 $('#estado_texto').text(data.activo == 1 ? 'Activo' : 'Inactivo');
                 
                 $('#loadingDatos').hide();
@@ -464,11 +458,9 @@ $(document).ready(function() {
     // ==================== VISTA PREVIA EN TIEMPO REAL ====================
     
     function actualizarPreview() {
-        // Nombre
         let nombre = $('#nombre').val();
         $('#preview_nombre').text(nombre || 'Nombre de la Especialidad');
         
-        // Descripción
         let descripcion = $('#descripcion').val();
         if (descripcion) {
             $('#preview_descripcion').html(descripcion.length > 80 ? 
@@ -477,26 +469,21 @@ $(document).ready(function() {
             $('#preview_descripcion').html('<em class="text-muted">Sin descripción</em>');
         }
         
-        // Duración
         let duracion = $('#duracion_defecto').val();
         $('#preview_duracion').text(duracion + ' minutos');
         
-        // Prioridad
         let prioridad = $('#prioridad').val();
         let prioridadBadge = getPrioridadBadge(prioridad);
         $('#preview_prioridad').html(prioridadBadge);
         
-        // Color
         let color = $('#color').val();
         $('#preview_color').text(color);
         
-        // Estado
         let activo = $('#activo').is(':checked');
         let estadoTexto = activo ? 'Activo' : 'Inactivo';
         let estadoColor = activo ? '#28a745' : '#dc3545';
         $('#preview_estado').html(`<span style="color: ${estadoColor};">${estadoTexto}</span>`);
         
-        // Badge
         if (activo) {
             $('#preview_badge').html('<i class="fas fa-check-circle"></i> Especialidad activa');
             $('#preview_badge').css({'background': '#e8f4f8', 'color': '#0d9488'});
@@ -524,14 +511,12 @@ $(document).ready(function() {
         actualizarPreview();
     });
     
-    // Evento para el switch de estado
     $('#activo').on('change', function() {
         let estadoTexto = $(this).is(':checked') ? 'Activo' : 'Inactivo';
         $('#estado_texto').text(estadoTexto);
         actualizarPreview();
     });
     
-    // Evento para cambio de color
     $('#color').on('change', function() {
         let colorMap = {
             'Azul Médico': '#007bff',
@@ -554,11 +539,10 @@ $(document).ready(function() {
         }
     });
     
-    // ==================== ENVÍO DEL FORMULARIO ====================
+    // ==================== ENVÍO DEL FORMULARIO CORREGIDO ====================
     $('#formEditarEspecialidad').submit(function(e) {
         e.preventDefault();
         
-        // Validaciones
         let nombre = $('#nombre').val().trim();
         if (!nombre) {
             mostrarError('El nombre de la especialidad es requerido');
@@ -572,7 +556,6 @@ $(document).ready(function() {
             return;
         }
         
-        // Recopilar datos
         let datos = {
             id_especialidad: id,
             nombre: nombre,
@@ -603,8 +586,12 @@ $(document).ready(function() {
             success: function(response) {
                 console.log('Respuesta del servidor:', response);
                 
-                if (response.resultado === 'editado') {
+                // CORRECCIÓN: Verificar tanto 'resultado' como el formato ApiResponse
+                if (response.resultado === 'editado' || 
+                    (response.success && (response.code === 'updated' || response.code === 'success'))) {
                     mostrarExito('Especialidad actualizada exitosamente');
+                    
+                    // Redirigir al detalle después de 2 segundos
                     setTimeout(function() {
                         window.location.href = APP_URL + '/especialidades/detalle/' + id;
                     }, 2000);
@@ -619,8 +606,6 @@ $(document).ready(function() {
             },
             error: function(xhr, status, error) {
                 console.error('Error en AJAX:', error);
-                console.error('Respuesta del servidor:', xhr.responseText);
-                
                 let errorMsg = 'Error de conexión: ' + status;
                 if (xhr.responseJSON && xhr.responseJSON.message) {
                     errorMsg = xhr.responseJSON.message;
@@ -640,7 +625,6 @@ $(document).ready(function() {
             $('#alertError').fadeOut(500);
         }, 5000);
         
-        // Scroll al error
         $('html, body').animate({
             scrollTop: $('#alertError').offset().top - 100
         }, 500);
@@ -657,5 +641,4 @@ $(document).ready(function() {
     // ==================== INICIALIZAR ====================
     cargarDatosEspecialidad();
 });
-
 </script>

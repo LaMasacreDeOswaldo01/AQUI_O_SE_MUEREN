@@ -7,14 +7,20 @@
     
     <!-- ==================== VARIABLE GLOBAL APP_URL ==================== -->
     <script>
+        // Definir APP_URL de forma robusta
         var APP_URL = '<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>';
-        console.log('APP_URL:', APP_URL);
+        // Si está vacío, usar la raíz
+        if (APP_URL === '') APP_URL = '';
+        console.log('APP_URL definida como:', APP_URL);
+        
+        // También definir como variable de window para máxima compatibilidad
+        window.APP_URL = APP_URL;
     </script>
     
-    <!-- jQuery PRIMERO -->
+    <!-- jQuery primero -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
-    <!-- Bootstrap CSS -->
+    <!-- CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -24,80 +30,63 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-        
+        }        
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-        }
-        
-        /* Navbar */
+        }        
         .navbar {
             background: rgba(255, 255, 255, 0.95);
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             padding: 15px 0;
-        }
-        
+        }        
         .navbar-brand img {
             height: 50px;
-        }
-        
+        }        
         .navbar-brand span {
             font-size: 1.5rem;
             font-weight: 700;
             color: #4e73df;
             margin-left: 10px;
-        }
-        
-        /* Carrusel */
+        }        
         .carousel {
             margin-top: 76px;
-        }
-        
+        }        
         .carousel-item {
             height: 500px;
-        }
-        
+        }        
         .carousel-item img {
             object-fit: cover;
             height: 100%;
             width: 100%;
-        }
-        
+        }        
         .carousel-caption {
             background: rgba(0,0,0,0.5);
             border-radius: 10px;
             padding: 20px;
-        }
-        
+        }        
         .carousel-caption h3 {
             font-size: 2rem;
             font-weight: 600;
-        }
-        
-        /* Tarjetas de acceso */
+        }        
         .access-section {
             padding: 60px 0;
             background: #f8f9fa;
-        }
-        
+        }        
         .section-title {
             text-align: center;
             margin-bottom: 50px;
-        }
-        
+        }        
         .section-title h2 {
             font-size: 2.5rem;
             color: #333;
             margin-bottom: 15px;
-        }
-        
+        }        
         .section-title p {
             color: #666;
             font-size: 1.1rem;
-        }
-        
+        }        
         .access-card {
             background: white;
             border-radius: 15px;
@@ -107,13 +96,11 @@
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             margin-bottom: 30px;
-        }
-        
+        }        
         .access-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-        }
-        
+        }        
         .access-card .icon {
             width: 80px;
             height: 80px;
@@ -124,63 +111,51 @@
             border-radius: 50%;
             font-size: 2.5rem;
             color: white;
-        }
-        
+        }        
         .card-paciente .icon { background: #4e73df; }
         .card-medico .icon { background: #1cc88a; }
         .card-asistente .icon { background: #36b9cc; }
-        .card-administrador .icon { background: #e74a3b; }
-        
+        .card-administrador .icon { background: #e74a3b; }        
         .access-card h3 {
             font-size: 1.5rem;
             margin-bottom: 10px;
             color: #333;
         }
-        
         .access-card p {
             color: #666;
             margin-bottom: 0;
-        }
-        
-        /* Modal de login */
+        }        
         .modal-content {
             border-radius: 15px;
             border: none;
-        }
-        
+        }        
         .modal-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border-radius: 15px 15px 0 0;
             border: none;
-        }
-        
+        }        
         .modal-header .btn-close {
             filter: brightness(0) invert(1);
-        }
-        
+        }        
         .login-form .input-group {
             margin-bottom: 20px;
-        }
-        
+        }        
         .login-form .input-group-text {
             background: #f0f0f0;
             border: none;
             border-radius: 10px 0 0 10px;
-        }
-        
+        }        
         .login-form .form-control {
             border: none;
             border-radius: 0 10px 10px 0;
             background: #f0f0f0;
             padding: 12px 15px;
-        }
-        
+        }        
         .login-form .form-control:focus {
             box-shadow: none;
             background: #e8e8e8;
-        }
-        
+        }        
         .btn-login {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
@@ -189,34 +164,35 @@
             font-weight: 600;
             width: 100%;
             margin-top: 10px;
-        }
-        
+            color: white;
+        }        
         .btn-login:hover {
             transform: scale(1.02);
             background: linear-gradient(135deg, #5a67d8 0%, #6b46a0 100%);
-        }
-        
+        }        
         .register-link {
             text-align: center;
             margin-top: 20px;
-        }
-        
+        }        
         .register-link a {
             color: #4e73df;
             text-decoration: none;
-        }
-        
+        }        
         .register-link a:hover {
             text-decoration: underline;
-        }
-        
+        }        
         footer {
             background: #2c3e50;
             color: white;
             padding: 30px 0;
             text-align: center;
         }
-        
+        .alert-error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+            border-radius: 10px;
+        }
         @media (max-width: 768px) {
             .carousel-item {
                 height: 300px;
@@ -262,21 +238,21 @@
     </div>
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="<?php echo APP_URL; ?>../img/Dotora1.jpg" class="d-block w-100" alt="Hospital">
+            <img src="<?php echo APP_URL; ?>/img/Dotora1.jpg" class="d-block w-100" alt="Hospital">
             <div class="carousel-caption d-none d-md-block">
                 <h3>Atención Médica de Calidad</h3>
                 <p>Comprometidos con tu salud y bienestar</p>
             </div>
         </div>
         <div class="carousel-item">
-            <img src="<?php echo APP_URL; ?>../img/banner.png" class="d-block w-100" alt="Médicos">
+            <img src="<?php echo APP_URL; ?>/img/banner.png" class="d-block w-100" alt="Médicos">
             <div class="carousel-caption d-none d-md-block">
                 <h3>Profesionales Especializados</h3>
                 <p>Contamos con los mejores especialistas</p>
             </div>
         </div>
         <div class="carousel-item">
-            <img src="<?php echo APP_URL; ?>../img/imagen_tecnologia.png" class="d-block w-100" alt="Tecnología">
+            <img src="<?php echo APP_URL; ?>/img/imagen_tecnologia.png" class="d-block w-100" alt="Tecnología">
             <div class="carousel-caption d-none d-md-block">
                 <h3>Tecnología de Punta</h3>
                 <p>Equipos modernos para tu diagnóstico</p>
@@ -348,26 +324,26 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form id="loginForm" class="login-form">
-                    <input type="hidden" id="rol" name="rol" value="">
+                <form id="form-login" class="login-form">
+                    <!-- Campo oculto para el rol - IMPORTANTE -->
+                    <input type="hidden" id="login-rol" name="rol" value="">
+                    
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-id-card"></i></span>
-                        <input type="text" class="form-control" id="cedula" name="user" placeholder="Cédula" required>
+                        <input type="text" class="form-control" id="login-user" name="user" placeholder="Cédula" required autocomplete="username">
                     </div>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                        <input type="password" class="form-control" id="password" name="pass" placeholder="Contraseña" required>
+                        <input type="password" class="form-control" id="login-pass" name="pass" placeholder="Contraseña" required autocomplete="current-password">
                     </div>
-                    <button type="submit" class="btn btn-primary btn-login">
+                    <button type="submit" class="btn btn-primary btn-login" id="login-submit-btn">
                         <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
                     </button>
-                    <div class="register-link" id="registerLink">
-                        <a href="#" id="registerButton">¿No tienes cuenta? Regístrate aquí</a>
-                    </div>
-                    <div class="register-link">
+                    <div class="register-link" id="signup-redirect"></div>
+                    <div class="register-link mt-2">
                         <a href="#" id="recoverButton">¿Olvidaste tu contraseña o usuario?</a>
                     </div>
-                    <div id="loginError" class="alert alert-danger mt-3" style="display:none;"></div>
+                    <div id="loginError" class="alert alert-danger alert-error mt-3" style="display:none;"></div>
                 </form>
             </div>
         </div>
@@ -377,7 +353,7 @@
 <!-- Footer -->
 <footer>
     <div class="container">
-        <p>&copy; 2024 BioVital - Sistema de Gestión Clínica. Todos los derechos reservados.</p>
+        <p>&copy; <?php echo date('Y'); ?> BioVital - Sistema de Gestión Clínica. Todos los derechos reservados.</p>
     </div>
 </footer>
 
@@ -388,70 +364,83 @@
 $(document).ready(function() {
     // Verificar que APP_URL esté definida
     if (typeof APP_URL === 'undefined') {
-        console.error('APP_URL no está definida');
+        console.error('APP_URL no está definida, usando valor por defecto');
         window.APP_URL = '';
     }
     
     console.log('APP_URL:', APP_URL);
     
-    var currentRol = '';
     var modal = null;
+    var currentRol = '';
+    
+    // Función para mostrar errores
+    function mostrarError(mensaje) {
+        console.error('Error:', mensaje);
+        var $errorDiv = $('#loginError');
+        if ($errorDiv.length) {
+            $errorDiv.text(mensaje).fadeIn();
+            setTimeout(function() {
+                $errorDiv.fadeOut();
+            }, 5000);
+        } else {
+            alert(mensaje);
+        }
+    }
+    
+    // Función para mostrar éxito (para depuración)
+    function mostrarExito(mensaje) {
+        console.log('Éxito:', mensaje);
+    }
     
     // Función para abrir el modal con un rol específico
     function abrirModalConRol(rol) {
-        console.log('abrirModalConRol llamado con rol:', rol);
+        console.log('Abriendo modal para rol:', rol);
         
         var titulo = '';
-        var registerUrl = '';
+        var iconClass = '';
         
         switch(rol) {
-            case 'paciente':
+            case 'paciente': 
                 titulo = 'Acceso Paciente';
-                registerUrl = APP_URL + '/registro/paciente';
+                iconClass = 'fa-user';
                 break;
-            case 'medico':
+            case 'medico': 
                 titulo = 'Acceso Médico';
-                registerUrl = APP_URL + '/registro/medico';
+                iconClass = 'fa-user-md';
                 break;
-            case 'asistente':
+            case 'asistente': 
                 titulo = 'Acceso Asistente';
-                registerUrl = APP_URL + '/registro/asistente';
+                iconClass = 'fa-user-nurse';
                 break;
-            case 'administrador':
+            case 'administrador': 
                 titulo = 'Acceso Administrador';
-                registerUrl = APP_URL + '/registro/administrador';
+                iconClass = 'fa-user-shield';
                 break;
             default:
                 console.error('Rol no válido:', rol);
                 return false;
         }
         
-        // Verificar que los elementos existan
-        if ($('#modalTitle').length === 0) {
-            console.error('Elemento #modalTitle no encontrado');
-            return false;
-        }
+        // Actualizar título del modal
+        $('#modalTitle').html('<i class="fas ' + iconClass + '"></i> ' + titulo);
         
-        if ($('#rol').length === 0) {
-            console.error('Elemento #rol no encontrado');
-            return false;
-        }
+        // Establecer el rol en el campo oculto
+        $('#login-rol').val(rol);
         
-        if ($('#registerButton').length === 0) {
-            console.error('Elemento #registerButton no encontrado');
-            return false;
-        }
-        
-        $('#modalTitle').text(titulo);
-        $('#rol').val(rol);
-        $('#registerButton').attr('href', registerUrl);
-        
-        // Limpiar formulario
-        $('#cedula').val('');
-        $('#password').val('');
+        // Limpiar formulario y errores
+        $('#login-user').val('');
+        $('#login-pass').val('');
         $('#loginError').hide();
         
-        // Crear y abrir modal si no existe, o reutilizar
+        // Actualizar el enlace de registro
+        var footer = $('#signup-redirect');
+        if (rol === 'paciente') {
+            footer.html('¿Eres nuevo? <a href="' + APP_URL + '/registro/paciente">Regístrate aquí</a>');
+        } else {
+            footer.html('<i class="fa-solid fa-circle-info"></i> Cuentas administrativas protegidas. Solicita accesos con TI.');
+        }
+        
+        // Abrir el modal
         var modalElement = document.getElementById('loginModal');
         if (!modalElement) {
             console.error('Modal #loginModal no encontrado');
@@ -467,49 +456,26 @@ $(document).ready(function() {
         return true;
     }
     
-    // ==================== ABRIR MODAL AUTOMÁTICAMENTE ====================
-    // Verificar si hay parámetro openLogin en la URL
-    var urlParams = new URLSearchParams(window.location.search);
-    var openLogin = urlParams.get('openLogin');
-    
-    if (openLogin) {
-        console.log('Parámetro openLogin detectado:', openLogin);
-        
-        // Pequeño retraso para asegurar que el DOM esté completamente cargado
-        setTimeout(function() {
-            var success = abrirModalConRol(openLogin);
-            if (success) {
-                // Limpiar el parámetro de la URL para que no se quede visible
-                var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-                window.history.replaceState({}, document.title, newUrl);
-                console.log('URL limpiada:', newUrl);
-            } else {
-                console.error('No se pudo abrir el modal para el rol:', openLogin);
-                // Mostrar mensaje de error en la consola pero no al usuario
-            }
-        }, 200); // Pequeño retraso para asegurar que todo esté listo
-    }
-    // ==================== FIN ABRIR MODAL AUTOMÁTICO ====================
-    
-    // Abrir modal según el rol seleccionado (click en tarjetas)
+    // Evento para las tarjetas de acceso
     $('.access-card').on('click', function() {
         var rol = $(this).data('rol');
         console.log('Tarjeta clickeada, rol:', rol);
         abrirModalConRol(rol);
     });
     
-    // Procesar login
-    $('#loginForm').on('submit', function(e) {
+    // ==================== PROCESAR LOGIN ====================
+    $('#form-login').on('submit', function(e) {
         e.preventDefault();
         
         console.log('Formulario de login enviado');
         
-        var rol = $('#rol').val();
-        var cedula = $('#cedula').val().trim();
-        var password = $('#password').val();
+        var rol = $('#login-rol').val();
+        var cedula = $('#login-user').val().trim();
+        var password = $('#login-pass').val();
         
-        console.log('Datos:', { rol: rol, cedula: cedula, password: password ? '***' : '' });
+        console.log('Datos de login - Rol:', rol, 'Cédula:', cedula);
         
+        // Validaciones
         if (!rol) {
             mostrarError('Por favor seleccione un rol');
             return;
@@ -517,21 +483,28 @@ $(document).ready(function() {
         
         if (!cedula) {
             mostrarError('Por favor ingrese su cédula');
+            $('#login-user').focus();
             return;
         }
         
         if (!password) {
             mostrarError('Por favor ingrese su contraseña');
+            $('#login-pass').focus();
             return;
         }
         
-        // Deshabilitar botón mientras se procesa
+        // Deshabilitar botón y mostrar spinner
         var $btn = $(this).find('button[type="submit"]');
         var originalText = $btn.html();
-        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Ingresando...');
+        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Verificando...');
         
+        // Construir URL correctamente - PREVENIR UNDEFINED
+        var loginUrl = APP_URL + '/login';
+        console.log('URL de petición:', loginUrl);
+        
+        // Realizar petición AJAX
         $.ajax({
-            url: APP_URL + '/login',
+            url: loginUrl,
             type: 'POST',
             data: {
                 user: cedula,
@@ -541,56 +514,90 @@ $(document).ready(function() {
             dataType: 'json',
             timeout: 15000,
             success: function(response) {
-                console.log('Respuesta login:', response);
+                console.log('Respuesta del servidor:', response);
                 
                 if (response.success) {
-                    // Redirigir al panel correspondiente
-                    var redirectUrl = APP_URL + '/panel/' + rol;
-                    console.log('Login exitoso, redirigiendo a:', redirectUrl);
+                    mostrarExito('Login exitoso, redirigiendo...');
+                    var redirectUrl = APP_URL + '/' + response.redirect;
+                    console.log('Redirigiendo a:', redirectUrl);
                     window.location.href = redirectUrl;
                 } else {
                     mostrarError(response.error || 'Cédula o contraseña incorrecta');
+                    // Limpiar solo la contraseña, mantener la cédula para no tener que reescribirla
+                    $('#login-pass').val('');
+                    $('#login-pass').focus();
                     $btn.prop('disabled', false).html(originalText);
                 }
             },
             error: function(xhr, status, error) {
-                console.error('Error en login:', status, error);
+                console.error('Error en la petición AJAX:');
+                console.error('Status:', status);
+                console.error('Error:', error);
                 console.error('Respuesta del servidor:', xhr.responseText);
                 
-                var errorMsg = 'Error de conexión. ';
-                if (xhr.status === 404) {
-                    errorMsg += 'El servidor no responde. Verifique que el sistema esté funcionando.';
-                } else if (xhr.status === 500) {
-                    errorMsg += 'Error interno del servidor.';
-                } else {
-                    errorMsg += 'Intente nuevamente.';
+                var errorMsg = 'Error de conexión. Intente nuevamente.';
+                
+                // Intentar extraer mensaje de error de la respuesta
+                if (xhr.responseJSON && xhr.responseJSON.error) {
+                    errorMsg = xhr.responseJSON.error;
+                } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMsg = xhr.responseJSON.message;
+                } else if (xhr.responseText) {
+                    try {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.error) errorMsg = response.error;
+                        else if (response.message) errorMsg = response.message;
+                    } catch(e) {
+                        // Si no es JSON, mostrar error genérico
+                        console.log('Respuesta no es JSON');
+                    }
                 }
                 
                 mostrarError(errorMsg);
+                $('#login-pass').val('');
                 $btn.prop('disabled', false).html(originalText);
             }
         });
     });
     
-    function mostrarError(mensaje) {
-        console.error('Error:', mensaje);
-        var $errorDiv = $('#loginError');
-        if ($errorDiv.length) {
-            $errorDiv.text(mensaje).fadeIn();
+    // ==================== MOSTRAR ERROR DE LOGIN SI EXISTE ====================
+    var urlParams = new URLSearchParams(window.location.search);
+    var hasError = urlParams.get('error');
+    var openLoginRol = urlParams.get('openLogin');
+    
+    if (hasError && openLoginRol) {
+        console.log('Detectado error de login desde URL - Rol:', openLoginRol);
+        
+        // Pequeño retraso para asegurar que el DOM está listo
+        setTimeout(function() {
+            abrirModalConRol(openLoginRol);
+            
+            // Mostrar el mensaje de error después de que el modal se abra
             setTimeout(function() {
-                $errorDiv.fadeOut();
-            }, 5000);
-        } else {
-            alert(mensaje);
-        }
+                mostrarError('Cédula o contraseña incorrecta');
+            }, 500);
+        }, 300);
+        
+        // Limpiar la URL sin recargar la página
+        var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
     }
     
-    // Abrir recuperación de cuenta
+    // ==================== RECUPERAR CONTRASEÑA ====================
     $('#recoverButton').on('click', function(e) {
         e.preventDefault();
-        modal.hide();
+        if (modal) {
+            modal.hide();
+        }
         window.location.href = APP_URL + '/recuperar-cuenta';
     });
+    
+    // ==================== FUNCIÓN GLOBAL PARA ABRIR LOGIN ====================
+    window.openLoginModal = function(rol) {
+        abrirModalConRol(rol);
+    };
+    
+    console.log('Página de inicio cargada correctamente');
 });
 </script>
 

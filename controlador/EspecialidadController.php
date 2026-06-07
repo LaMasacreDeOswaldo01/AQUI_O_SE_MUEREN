@@ -15,11 +15,8 @@ class EspecialidadController {
     private function isAjax() {
         return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
                strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
-    }
-    
-    // ==================== VISTAS ====================
-    
-    
+    }    
+    // ==================== VISTAS ====================   
    public function index() {
         AuthHelper::checkRole('administrador', true);
         
@@ -120,35 +117,44 @@ class EspecialidadController {
     ViewHelper::renderDashboard('especialidades/esp_editar', $data, $options);
 }    
    
-   public function asignarMedico() {
-    AuthHelper::checkRole('administrador', true);
+ public function asignarMedico() {
+    // Obtener datos del POST
+    $id_especialidad = intval($_POST['id_especialidad'] ?? 0);
+    $id_medico = intval($_POST['id_medico'] ?? 0);
+    $tarifa = floatval($_POST['tarifa'] ?? 0);
+    $exp_anios = intval($_POST['exp_anios'] ?? 0);
+    $domicilio = isset($_POST['domicilio']) ? 1 : 0;
+    $extra = floatval($_POST['extra'] ?? 0);
     
-    $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-    
-    if ($id <= 0) {
-        redirect('especialidades');
+    // Validar datos requeridos
+    if ($id_especialidad <= 0) {
+        ApiResponse::error('ID de especialidad no válido', 'validation_error', [], 400);
+        return;
     }
     
-    $options = [
-        'title' => 'Asignar Médico - BioVital',
-        'breadcrumbs' => [
-            ['label' => 'Inicio', 'url' => APP_URL . '/panel/administrador'],
-            ['label' => 'Especialidades', 'url' => APP_URL . '/especialidades'],
-            ['label' => 'Detalle', 'url' => APP_URL . '/especialidades/detalle/' . $id],
-            ['label' => 'Asignar Médico']
-        ],
-        'active_page' => 'especialidades',
-        'css' => '<link rel="stylesheet" href="' . APP_URL . '/css/dashboard-utils.css">'
-    ];
+    if ($id_medico <= 0) {
+        ApiResponse::error('ID de médico no válido', 'validation_error', [], 400);
+        return;
+    }
     
-    $data = [
-        'nombre_usuario' => $_SESSION['nombre_us'] ?? 'Administrador',
-        'id_especialidad' => $id
-    ];
+    $especialidad = new Especialidad();
     
-    ViewHelper::renderDashboard('especialidades/esp_asignar_medico', $data, $options);
-}
+    // Verificar si ya está asignado
+    $yaAsignado = $especialidad->verificarAsignacion($id_especialidad, $id_medico);
+    if ($yaAsignado) {
+        ApiResponse::error('El médico ya está asignado a esta especialidad', 'ya_asignado', [], 409);
+        return;
+    }
     
+    // Intentar asignar
+    $resultado = $especialidad->asignarMedico($id_especialidad, $id_medico, $tarifa, $exp_anios, $domicilio, $extra);
+    
+    if ($resultado) {
+        ApiResponse::success([], 'asignado', 'Médico asignado correctamente a la especialidad');
+    } else {
+        ApiResponse::error('Error al asignar el médico', 'error_asignacion', [], 500);
+    }
+} 
     // ==================== API - LISTAR ====================   
     public function listar() {
         $busqueda = isset($_POST['busqueda']) ? $_POST['busqueda'] : '';
@@ -189,8 +195,7 @@ class EspecialidadController {
             'total_medicos' => $total_medicos,
             'citas_mes' => $citas_mes
         ]);
-    }
-    
+    }    
     // ==================== API - CRUD ====================    
     public function obtenerDetalle() {
         $id_especialidad = isset($_POST['id_especialidad']) ? intval($_POST['id_especialidad']) : 0;
@@ -316,29 +321,28 @@ class EspecialidadController {
         $resultado = ob_get_clean();
         
         jsonResponse(['resultado' => trim($resultado)]);
+    }    
+    // ==================== API - MÉDICOS ====================    
+ public function listarMedicosDisponibles() {
+    $id_especialidad = intval($_POST['id_especialidad'] ?? 0);
+    
+    $especialidad = new Especialidad();
+    // Temporal: pasar null para que NO excluya los asignados
+    $medicos = $especialidad->listarMedicosDisponibles(null); // ← CAMBIO TEMPORAL
+    
+    $resultado = array();
+    foreach ($medicos as $med) {
+        $resultado[] = array(
+            'id_medico' => $med->id_medico,
+            'nombre_medico' => $med->nombre_medico,
+            'apellido_medico' => $med->apellido_medico,
+            'cedula_medico' => $med->cedula_medico,
+            'mpps_registro' => $med->mpps_registro ?? ''
+        );
     }
     
-    // ==================== API - MÉDICOS ====================    
-    public function asignarMedicoEspecialidad() {
-        $id_especialidad = intval($_POST['id_especialidad'] ?? 0);
-        $id_medico = intval($_POST['id_medico'] ?? 0);
-        $tarifa = floatval($_POST['tarifa'] ?? 0);
-        $exp_anios = intval($_POST['exp_anios'] ?? 0);
-        $domicilio = isset($_POST['domicilio']) ? 1 : 0;
-        $extra = floatval($_POST['extra'] ?? 0);
-        
-        if ($id_especialidad <= 0 || $id_medico <= 0) {
-            jsonResponse(['resultado' => 'error']);
-            return;
-        }
-        
-        $especialidad = new Especialidad();
-        ob_start();
-        $especialidad->asignarMedico($id_especialidad, $id_medico, $tarifa, $exp_anios, $domicilio, $extra);
-        $resultado = ob_get_clean();
-        
-        jsonResponse(['resultado' => trim($resultado)]);
-    }    
+    ApiResponse::success($resultado, 'medicos_listados', 'Médicos disponibles');
+}
    
     public function removerMedicoEspecialidad() {
         $id_asignacion = intval($_POST['id_asignacion'] ?? 0);
@@ -354,26 +358,11 @@ class EspecialidadController {
         $resultado = ob_get_clean();
         
         jsonResponse(['resultado' => trim($resultado)]);
-    }
-    
-    
-    public function listarMedicosDisponibles() {
-    $id_especialidad = intval($_POST['id_especialidad'] ?? 0);
-    
-    $especialidad = new Especialidad();
-    $medicos = $especialidad->listarMedicosDisponibles($id_especialidad);
-    
-    $resultado = array();
-    foreach ($medicos as $med) {
-        $resultado[] = array(
-            'id_medico' => $med->id_medico,
-            'nombre' => $med->nombre_medico . ' ' . $med->apellido_medico,
-            'cedula' => $med->cedula_medico,
-            'mpps' => $med->mpps_registro ?? ''
-        );
-    }
-    
-    jsonResponse($resultado);
+    }      
+   public function asignarMedicoEspecialidad() {
+    // Llamar al método existente
+    $this->asignarMedico();
 }
+  
 }
 ?>

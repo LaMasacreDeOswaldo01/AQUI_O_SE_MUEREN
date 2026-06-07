@@ -1,18 +1,9 @@
 <?php
-/**
- * UbicacionController.php
- * Controlador para manejar peticiones de ubicación (estados, ciudades, municipios, parroquias)
- * Rutas: /api/ubicacion/estados, /api/ubicacion/ciudades, etc.
- */
-
-class UbicacionController {
-    
-    private $consultorio;
-    
+class UbicacionController {    
+    private $consultorio;    
     public function __construct() {
         // Usar rutas absolutas con constantes definidas en index.php
-        $modelPath = dirname(__DIR__) . '/modelo/Consultorio.php';
-        
+        $modelPath = dirname(__DIR__) . '/modelo/Consultorio.php';        
         if (!file_exists($modelPath)) {
             error_log("ERROR: No se encuentra Consultorio.php en: " . $modelPath);
             jsonResponse(['error' => 'Error interno del servidor'], 500);
@@ -23,10 +14,6 @@ class UbicacionController {
         $this->consultorio = new Consultorio();
     }
     
-    /**
-     * Listar todos los estados de Venezuela
-     * POST /api/ubicacion/estados
-     */
     public function listarEstados() {
         try {
             $estados = $this->consultorio->listarEstados();
@@ -37,11 +24,6 @@ class UbicacionController {
         }
     }
     
-    /**
-     * Listar ciudades por estado
-     * POST /api/ubicacion/ciudades
-     * Datos requeridos: id_estado
-     */
     public function listarCiudades() {
         try {
             $id_estado = isset($_POST['id_estado']) ? intval($_POST['id_estado']) : 0;
@@ -59,11 +41,6 @@ class UbicacionController {
         }
     }
     
-    /**
-     * Listar municipios por estado
-     * POST /api/ubicacion/municipios
-     * Datos requeridos: id_estado
-     */
     public function listarMunicipios() {
         try {
             $id_estado = isset($_POST['id_estado']) ? intval($_POST['id_estado']) : 0;
@@ -80,12 +57,7 @@ class UbicacionController {
             jsonResponse(['error' => 'Error al cargar municipios'], 500);
         }
     }
-    
-    /**
-     * Listar parroquias por municipio
-     * POST /api/ubicacion/parroquias
-     * Datos requeridos: id_municipio
-     */
+  
     public function listarParroquias() {
         try {
             $id_municipio = isset($_POST['id_municipio']) ? intval($_POST['id_municipio']) : 0;
@@ -103,10 +75,6 @@ class UbicacionController {
         }
     }
     
-    /**
-     * Listar especialidades médicas disponibles
-     * POST /api/ubicacion/especialidades
-     */
     public function listaEspecialidades() {
         try {
             $especialidades = $this->consultorio->obtenerListaEspecialidades();

@@ -21,10 +21,8 @@ class RecetaController {
     private function isAjax() {
         return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
                strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
-    }
-    
-    // ==================== VISTAS ====================   
-   
+    }    
+    // ==================== VISTAS ====================      
  public function index() {
     $rol = $_SESSION['rol'];
     
@@ -41,7 +39,7 @@ class RecetaController {
             $titulo = 'Gestión de Recetas - BioVital';
             break;
         case 'medico':
-            $vista = 'medico/adm_recetas';  // ← CORREGIDO: usa adm_recetas, no med_recetas
+            $vista = 'medico/adm_recetas';  
             $titulo = 'Mis Recetas - BioVital';
             break;
         case 'asistente':
@@ -76,8 +74,7 @@ class RecetaController {
             return;
         }
         renderView('administrador/adm_recetas');
-    }
-    
+    }    
     // ==================== API - LISTAR RECETAS ====================    
     public function listar() {
         $rol = $_SESSION['rol'];
@@ -179,10 +176,8 @@ class RecetaController {
             error_log("Error en obtener receta: " . $e->getMessage());
             jsonResponse(['error' => 'Error al obtener receta'], 500);
         }
-    }
-    
-    // ==================== API - CRUD ====================
-   
+    }    
+    // ==================== API - CRUD ====================   
     public function crear() {        
         $nombre_medicamento = $_POST['nombre_medicamento'] ?? '';
         $marca = $_POST['marca'] ?? '';
@@ -283,8 +278,7 @@ class RecetaController {
             error_log("Error en borrar receta: " . $e->getMessage());
             jsonResponse(['success' => false, 'message' => 'Error del servidor'], 500);
         }
-    }
-    
+    }    
     // ==================== API - BÚSQUEDA DE PACIENTES ====================    
    public function buscarPacientes() {
     $dato = $_POST['dato'] ?? '';
@@ -318,8 +312,7 @@ class RecetaController {
         error_log("Error en buscarPacientes: " . $e->getMessage());
         jsonResponse(['error' => 'Error al buscar pacientes'], 500);
     }
-}
-    
+}    
     // ==================== DIAGNÓSTICOS Y ESTUDIOS ====================   
     public function guardarDiagnostico() {
         $id_receta = $_POST['id_receta'] ?? 0;

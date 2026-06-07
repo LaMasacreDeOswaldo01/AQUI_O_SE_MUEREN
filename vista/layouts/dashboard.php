@@ -171,14 +171,6 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
                             </a>
                         </li>
                         
-                        <li class="nav-header">FACTURACIÓN</li>
-                        <li class="nav-item">
-                            <a href="<?php echo APP_URL; ?>/factura_demo.html" class="nav-link" target="_blank">
-                                <i class="nav-icon fas fa-file-invoice-dollar"></i>
-                                <p>Ver Factura (Demo)</p>
-                            </a>
-                        </li>
-                        
                         <li class="nav-header">REPORTES</li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -187,8 +179,7 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
                             </a>
                         </li>
                         
-                  <?php elseif ($current_role === 'medico'): ?>
-    <!-- Menú de Médico CORREGIDO -->
+         <?php elseif ($current_role === 'medico'): ?>
     <li class="nav-header">USUARIO</li>
     <li class="nav-item">
         <a href="<?php echo APP_URL; ?>/perfil" class="nav-link <?php echo ($active_page ?? '') === 'perfil' ? 'active' : ''; ?>">
@@ -205,11 +196,24 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
         </a>
     </li>
     
-    <li class="nav-header">FACTURACIÓN</li>
     <li class="nav-item">
-        <a href="<?php echo APP_URL; ?>/configurar_tarifa_demo.html" class="nav-link" target="_blank">
-            <i class="nav-icon fas fa-dollar-sign"></i>
-            <p>Configurar Tarifa</p>
+        <a href="<?php echo APP_URL; ?>/medico/citas" class="nav-link <?php echo ($active_page ?? '') === 'citas' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-calendar-alt"></i>
+            <p>Mis Citas</p>
+        </a>
+    </li>
+    
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/medico/agenda" class="nav-link <?php echo ($active_page ?? '') === 'agenda' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-calendar-week"></i>
+            <p>Mi Agenda</p>
+        </a>
+    </li>
+    
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/medico/evoluciones" class="nav-link <?php echo ($active_page ?? '') === 'evoluciones' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-notes-medical"></i>
+            <p>Evoluciones Clínicas</p>
         </a>
     </li>
     
@@ -220,6 +224,7 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
             <p>Mis Pacientes</p>
         </a>
     </li>
+
     
 <?php elseif ($current_role === 'asistente'): ?>
     <!-- Menú de Asistente -->
@@ -239,14 +244,6 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
         </a>
     </li>
     
-    <li class="nav-header">FACTURACIÓN</li>
-    <li class="nav-item">
-        <a href="<?php echo APP_URL; ?>/factura_demo.html" class="nav-link" target="_blank">
-            <i class="nav-icon fas fa-file-invoice-dollar"></i>
-            <p>Ver Factura (Demo)</p>
-        </a>
-    </li>
-    
 <?php elseif ($current_role === 'paciente'): ?>
     <!-- Menú de Paciente -->
     <li class="nav-header">USUARIO</li>
@@ -262,14 +259,6 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
         <a href="<?php echo APP_URL; ?>/paciente/recetas" class="nav-link <?php echo ($active_page ?? '') === 'recetas' ? 'active' : ''; ?>">
             <i class="nav-icon fas fa-prescription-bottle-alt"></i>
             <p>Mis Recetas</p>
-        </a>
-    </li>
-    
-    <li class="nav-header">FACTURACIÓN</li>
-    <li class="nav-item">
-        <a href="<?php echo APP_URL; ?>/factura_demo.html" class="nav-link" target="_blank">
-            <i class="nav-icon fas fa-file-invoice-dollar"></i>
-            <p>Mis Facturas (Demo)</p>
         </a>
     </li>
     
@@ -301,7 +290,7 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
 </div>
 
 <!-- Scripts globales -->
-<script src="<?php echo APP_URL; ?>/js/adminlte.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <?php if (isset($scripts_extra)) echo $scripts_extra; ?>

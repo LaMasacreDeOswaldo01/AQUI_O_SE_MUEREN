@@ -1,7 +1,5 @@
 <?php
-
-class ConsultorioController {
-    
+class ConsultorioController {    
     public function __construct() {
         // Verificar que el usuario esté autenticado y sea administrador
         if (!isset($_SESSION['usuario']) || !isset($_SESSION['rol']) || $_SESSION['rol'] !== 'administrador') {
@@ -116,8 +114,7 @@ class ConsultorioController {
         ];
         
         ViewHelper::renderDashboard('administrador/adm_consultorio_editar', $data, $options);
-    }
-    
+    }    
     // ==================== MÉTODO HORARIOS CORREGIDO ====================
 public function horarios() {
     AuthHelper::checkRole('administrador', true);
@@ -181,10 +178,8 @@ public function horarios() {
             'total_consultorios' => $total_activos,
             'activos' => $total_activos
         ]);
-    }
-    
-    // ==================== API - CRUD ====================
-    
+    }    
+    // ==================== API - CRUD ====================    
     public function obtenerDetalle() {
         $id_consultorio = isset($_POST['id_consultorio']) ? intval($_POST['id_consultorio']) : 0;
         
@@ -326,10 +321,8 @@ public function horarios() {
         $resultado = ob_get_clean();
         
         jsonResponse(['resultado' => trim($resultado)]);
-    }
-    
-    // ==================== API - MÉDICOS ====================
-    
+    }    
+    // ==================== API - MÉDICOS ====================    
     public function asignarMedico() {
         $id_consultorio = intval($_POST['id_consultorio'] ?? 0);
         $id_medico = intval($_POST['id_medico'] ?? 0);
@@ -378,10 +371,8 @@ public function horarios() {
         }
         
         jsonResponse($resultado);
-    }
-    
-    // ==================== API - HORARIOS ====================
-    
+    }    
+    // ==================== API - HORARIOS ====================    
     public function obtenerHorarios() {
         $id_consultorio = intval($_POST['id_consultorio'] ?? 0);
         
@@ -471,10 +462,8 @@ public function horarios() {
         $resultado = ob_get_clean();
         
         jsonResponse(['resultado' => trim($resultado)]);
-    }
-    
-    // ==================== API - UBICACIÓN ====================
-    
+    }    
+    // ==================== API - UBICACIÓN ====================    
     public function listarEstados() {
         $consultorio = new Consultorio();
         $estados = $consultorio->listarEstados();

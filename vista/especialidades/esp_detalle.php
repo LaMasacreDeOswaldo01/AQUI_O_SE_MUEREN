@@ -291,16 +291,13 @@ $id_especialidad = $id_especialidad ?? $_GET['id'] ?? 0;
                     <i class="fas fa-info-circle"></i> Complete los datos del médico para asignarlo a esta especialidad.
                 </div>
                 
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="required-field">Seleccionar Médico</label>
-                            <select class="form-control" id="medico_seleccionado">
-                                <option value="">Seleccione un médico...</option>
-                            </select>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label class="required-field">Seleccionar Médico</label>
+                    <select class="form-control" id="medico_seleccionado">
+                        <option value="">Seleccione un médico...</option>
+                    </select>
                 </div>
+                
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
@@ -321,16 +318,14 @@ $id_especialidad = $id_especialidad ?? $_GET['id'] ?? 0;
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="domicilio">
-                            <label class="form-check-label" for="domicilio">
-                                <i class="fas fa-home"></i> ¿Realiza consulta a domicilio?
-                            </label>
-                        </div>
-                    </div>
+                
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="domicilio">
+                    <label class="form-check-label" for="domicilio">
+                        <i class="fas fa-home"></i> ¿Realiza consulta a domicilio?
+                    </label>
                 </div>
+                
                 <div id="mensaje_asignacion" class="alert mt-3" style="display:none;"></div>
             </div>
             <div class="modal-footer">
@@ -387,16 +382,38 @@ $(document).ready(function() {
     });
     
     // Botón editar
-    $('#btnEditar').click(function() {
-        var id = $('#id_especialidad').val();
-        window.location.href = APP_URL + '/especialidades/editar?id=' + id;
-    });
+   $('#btnEditar').click(function() {
+    var id = $('#id_especialidad').val();
+    console.log('Editando especialidad ID:', id);
+    console.log('URL:', APP_URL + '/especialidades/editar/' + id);
+    // Usar la ruta con parámetro en URL amigable
+    window.location.href = APP_URL + '/especialidades/editar/' + id;
+});
     
     // Botones asignar médico (varios)
-    $('#btnAsignarMedico, #btnAsignarMedicoHeader, #btnAsignarMedicoFooter').click(function() {
+    $('#btnAsignarMedico, #btnAsignarMedicoHeader, #btnAsignarMedicoFooter, #btnAsignarMedicoEmpty').click(function() {
+    console.log('=== BOTÓN ASIGNAR MÉDICO CLICKEADO ===');
+    console.log('ID Especialidad:', $('#id_especialidad').val());
+    console.log('Función cargarListaMedicosDisponibles existe:', typeof cargarListaMedicosDisponibles);
+    
+    // Limpiar el modal antes de abrirlo
+    $('#medico_seleccionado').html('<option value="">Cargando médicos...</option>');
+    $('#tarifa').val('');
+    $('#exp_anios').val('');
+    $('#extra').val('');
+    $('#domicilio').prop('checked', false);
+    $('#mensaje_asignacion').hide();
+    
+    // Cargar la lista de médicos disponibles
+    if (typeof cargarListaMedicosDisponibles === 'function') {
         cargarListaMedicosDisponibles();
-        $('#modalAsignarMedico').modal('show');
-    });
+    } else {
+        console.error('ERROR: La función cargarListaMedicosDisponibles no está definida');
+        $('#medico_seleccionado').html('<option value="">Error: función no disponible</option>');
+    }
+    
+    $('#modalAsignarMedico').modal('show');
+});
     
     // Botón guardar asignación
     $('#btnGuardarAsignacion').click(function() {

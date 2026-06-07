@@ -1,5 +1,5 @@
 <?php
-// vista/registro_asistente.php - VERSIÓN CORREGIDA
+// vista/registro_asistente.php 
 // Registro de Asistente - Estilo BioVital Dashboard
 ?>
 <!DOCTYPE html>

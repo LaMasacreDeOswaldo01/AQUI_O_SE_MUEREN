@@ -1,17 +1,12 @@
 <?php
-// controlador/PerfilController.php
-
-class PerfilController {
-    
+class PerfilController {    
     private $rol;
-    private $id;
-    
+    private $id;    
     public function __construct() {
         AuthHelper::checkRole(['paciente', 'medico', 'asistente', 'administrador'], true);
         $this->rol = AuthHelper::getCurrentRole();
         $this->id = $_SESSION['usuario'];
-    }
-    
+    }    
    public function index() {
     AuthHelper::checkRole(['paciente', 'medico', 'asistente', 'administrador'], true);
     $this->rol = AuthHelper::getCurrentRole();
@@ -111,7 +106,6 @@ class PerfilController {
         $resultado = ob_get_clean();
         
         jsonResponse(['resultado' => trim($resultado)]);
-    }
-    
+    }    
 }
 ?>

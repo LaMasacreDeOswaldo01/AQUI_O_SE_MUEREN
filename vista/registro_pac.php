@@ -1,5 +1,5 @@
 <?php
-// vista/registro_pac.php - VERSIÓN CORREGIDA
+// vista/registro_pac.php 
 // Registro de Paciente - Estilo BioVital Dashboard
 ?>
 <!DOCTYPE html>

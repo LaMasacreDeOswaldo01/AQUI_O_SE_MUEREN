@@ -1,7 +1,3 @@
-/* ========== DASHBOARD UTILITIES ========== */
-/* Utilidades complementarias para dashboard.css */
-
-/* === Componentes Base === */
 .card-hover {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }

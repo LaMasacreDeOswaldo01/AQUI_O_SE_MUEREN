@@ -1,16 +1,10 @@
 <?php
-
-
-class CitaController {
-    
-    private $cita;
-    
+class CitaController {    
+    private $cita;    
     public function __construct() {
         $this->cita = new Cita();
-    }
-    
-    // ==================== VISTAS ====================
-    
+    }    
+    // ==================== VISTAS ====================    
     public function misCitas() {
         AuthHelper::checkRole('paciente', true);
         
@@ -100,8 +94,7 @@ class CitaController {
         ];
         
         ViewHelper::renderDashboard('paciente/pac_agendar_tercero', $data, $options);
-    }
-    
+    }    
     // ==================== API ====================   
     public function listar() {
         $id_paciente = $_SESSION['usuario'];

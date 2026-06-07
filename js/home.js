@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function () {
   setupCounters();
   setupContactForm();
 });
-
 // ========== NAVIGATION ==========
 function setupNavigation() {
   if (hamburger) {
@@ -21,14 +20,12 @@ function setupNavigation() {
       navMenu.classList.toggle('active');
     });
   }
-
   document.querySelectorAll('.nav-link').forEach(function (link) {
     link.addEventListener('click', function () {
       if (hamburger) hamburger.classList.remove('active');
       if (navMenu) navMenu.classList.remove('active');
     });
   });
-
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
@@ -40,7 +37,6 @@ function setupNavigation() {
     });
   });
 }
-
 function scrollToSection(id) {
   var el = document.getElementById(id);
   if (el) {
@@ -48,7 +44,6 @@ function scrollToSection(id) {
     window.scrollTo({ top: offset, behavior: 'smooth' });
   }
 }
-
 // ========== SCROLL EFFECTS ==========
 function setupScrollEffects() {
   window.addEventListener('scroll', function () {
@@ -58,7 +53,6 @@ function setupScrollEffects() {
     }
   });
 }
-
 // ========== SPECIALTY CARDS ==========
 function setupSpecialtyCards() {
   var specialtyInfo = {
@@ -88,7 +82,6 @@ function setupSpecialtyCards() {
       services: ['Control de crecimiento', 'Vacunación infantil', 'Chequeos pediátricos', 'Urgencias']
     }
   };
-
   document.querySelectorAll('.specialty-card').forEach(function (card) {
     card.addEventListener('click', function () {
       var key = this.dataset.specialty;
@@ -104,25 +97,20 @@ function setupSpecialtyCards() {
     card.setAttribute('tabindex', '0');
   });
 }
-
 function closeSpecialtyModal() {
   document.getElementById('specialtyModal').classList.remove('show');
 }
-
 window.addEventListener('click', function (e) {
   var modal = document.getElementById('specialtyModal');
   if (e.target === modal) closeSpecialtyModal();
 });
-
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') closeSpecialtyModal();
 });
-
 // ========== SCROLL ANIMATIONS ==========
 function setupAnimations() {
   var els = document.querySelectorAll('.about-container, .locations-container, .contact-container, .access-container, .location-card, .role-card');
   els.forEach(function (el) { el.classList.add('animate-on-scroll'); });
-
   var observer = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) {
@@ -133,7 +121,6 @@ function setupAnimations() {
 
   els.forEach(function (el) { observer.observe(el); });
 }
-
 // ========== STAT COUNTERS ==========
 function setupCounters() {
   var counters = document.querySelectorAll('.stat-number[data-count]');
@@ -156,7 +143,6 @@ function setupCounters() {
 
   counters.forEach(function (c) { observer.observe(c); });
 }
-
 // ========== LOGIN SYSTEM ==========
 var currentRole = '';
 
@@ -177,12 +163,14 @@ function openLogin(role, iconClass) {
     badge.innerHTML = '<i class="fa-solid ' + iconClass + '"></i> Perfil: ' + role;
 
     var footer = document.getElementById('signup-redirect');
-    if (role === 'administrador' || role === 'asistente') {
-        footer.innerHTML = '<i class="fa-solid fa-circle-info"></i> Cuentas administrativas protegidas. Solicita accesos con TI.';
-    } else {
+    // El enlace de registro SOLO debe aparecer para PACIENTES
+    if (role === 'paciente') {
         footer.innerHTML = '¿Eres nuevo? <a href="' + APP_URL + '/registro/' + role + '">Regístrate aquí</a>';
+    } else {
+        // Para médico, asistente y administrador, mostramos un mensaje informativo
+        footer.innerHTML = '<i class="fa-solid fa-circle-info"></i> Cuentas administrativas protegidas. Solicita accesos con TI.';
     }
-
+    // =======================
     showView('login-view');
 
     setTimeout(function () {
@@ -190,7 +178,6 @@ function openLogin(role, iconClass) {
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
 }
-
 // AJAX Login
 $(document).ready(function () {
     $('#form-login').submit(function (e) {
@@ -203,10 +190,20 @@ $(document).ready(function () {
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando...';
 
+        // OBTENER EL VALOR DEL ROL DEL CAMPO OCULTO
+        var rol = $('#login-rol').val();
+        
+        console.log('Enviando login - Rol:', rol);
+        console.log('Usuario:', $('#login-user').val());
+
         $.ajax({
             url: APP_URL + '/login',
             type: 'POST',
-            data: $(this).serialize(),
+            data: {
+                user: $('#login-user').val(),
+                pass: $('#login-pass').val(),
+                rol: rol  // ← IMPORTANTE: Agregar el campo rol
+            },
             dataType: 'json',
             success: function (response) {
                 if (response.success) {
@@ -219,7 +216,9 @@ $(document).ready(function () {
                     submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Autenticar Entrada';
                 }
             },
-            error: function () {
+            error: function (xhr, status, error) {
+                console.error('Error en login:', error);
+                console.error('Respuesta del servidor:', xhr.responseText);
                 loginErrorMsg.textContent = 'Error de conexión con el servidor';
                 loginError.classList.add('show');
                 submitBtn.disabled = false;
@@ -238,7 +237,6 @@ function showMap(location) {
   };
   if (urls[location]) window.open(urls[location], '_blank');
 }
-
 // ========== CONTACT FORM ==========
 function setupContactForm() {
   var form = document.getElementById('contactForm');
@@ -248,7 +246,6 @@ function setupContactForm() {
       var btn = form.querySelector('.submit-btn');
       btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
       btn.disabled = true;
-
       setTimeout(function () {
         btn.innerHTML = '<i class="fas fa-check"></i> ¡Mensaje enviado!';
         btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';

@@ -1,59 +1,41 @@
 <?php
-/**
- * AuthController.php
- * Controlador para la autenticación de usuarios
- */
-
-class AuthController {
-    
-    /**
-     * Muestra el login de paciente (redirige a home con parámetro)
-     */
+class AuthController {   
     public function showLoginPaciente() {
         header('Location: ' . APP_URL . '?openLogin=paciente');
         exit();
     }
     
-    /**
-     * Muestra el login de médico (redirige a home con parámetro)
-     */
     public function showLoginMedico() {
         header('Location: ' . APP_URL . '?openLogin=medico');
         exit();
     }
     
-    /**
-     * Muestra el login de asistente (redirige a home con parámetro)
-     */
     public function showLoginAsistente() {
         header('Location: ' . APP_URL . '?openLogin=asistente');
         exit();
     }
     
-    /**
-     * Muestra el login de administrador (redirige a home con parámetro)
-     */
     public function showLoginAdministrador() {
         header('Location: ' . APP_URL . '?openLogin=administrador');
         exit();
     }
     
-    /**
-     * Procesa el inicio de sesión
-     * POST /login
-     */
     public function login() {
         // Obtener datos del formulario
         $user = trim($_POST['user'] ?? '');
         $pass = $_POST['pass'] ?? '';
         $rol = $_POST['rol'] ?? '';
         
+        error_log("[AuthController] Intento de login - User: $user, Rol: $rol");
+        
         // Validar que los campos no estén vacíos
         if (empty($user) || empty($pass) || empty($rol)) {
+            error_log("[AuthController] Error: Campos vacíos");
+            
             if ($this->isAjax()) {
                 jsonResponse(['success' => false, 'error' => 'Todos los campos son obligatorios']);
             } else {
-                redirect('?error=1');
+                $this->redirectWithError('Todos los campos son obligatorios', $rol);
             }
             return;
         }
@@ -88,10 +70,11 @@ class AuthController {
         
         // Validar rol
         if (!isset($loginMap[$rol])) {
+            error_log("[AuthController] Error: Rol inválido - $rol");
             if ($this->isAjax()) {
                 jsonResponse(['success' => false, 'error' => 'Rol inválido']);
             } else {
-                redirect('?error=1');
+                $this->redirectWithError('Rol inválido', $rol);
             }
             return;
         }
@@ -100,11 +83,11 @@ class AuthController {
         
         // Verificar que la clase existe
         if (!class_exists($map['class'])) {
-            error_log("Clase no encontrada: " . $map['class']);
+            error_log("[AuthController] Error: Clase no encontrada - " . $map['class']);
             if ($this->isAjax()) {
                 jsonResponse(['success' => false, 'error' => 'Error interno del servidor']);
             } else {
-                redirect('?error=1');
+                $this->redirectWithError('Error interno del servidor', $rol);
             }
             return;
         }
@@ -122,13 +105,33 @@ class AuthController {
                 $_SESSION['nombre_us'] = $objeto->{$map['nameField']};
                 $_SESSION['rol'] = $rol;
                 
+                // Guardar avatar si existe
+                $avatarField = 'avatar_' . $rol;
+                if (isset($objeto->$avatarField)) {
+                    $_SESSION['avatar'] = APP_URL . '/img/' . $objeto->$avatarField;
+                }
+                
+                // Guardar cédula para mostrar en el perfil
+                $cedulaField = 'cedula_' . $rol;
+                if (isset($objeto->$cedulaField)) {
+                    $_SESSION['cedula'] = $objeto->$cedulaField;
+                }
+                
+                // Guardar teléfono
+                $telefonoField = 'telefono_' . $rol;
+                if (isset($objeto->$telefonoField)) {
+                    $_SESSION['telefono'] = $objeto->$telefonoField;
+                }
+                
                 // Actualizar último acceso
                 if (method_exists($login, 'actualizarUltimoAcceso')) {
                     $login->actualizarUltimoAcceso($objeto->{$map['idField']});
                 }
             }
             
-            // Construir URL de redirección (sin APP_URL al principio porque redirect ya lo agrega)
+            error_log("[AuthController] Login exitoso - Usuario ID: " . $_SESSION['usuario'] . ", Rol: $rol");
+            
+            // Construir URL de redirección
             $redirectUrl = 'panel/' . $rol;
             
             if ($this->isAjax()) {
@@ -138,17 +141,34 @@ class AuthController {
             }
         } else {
             // Login fallido
+            error_log("[AuthController] Login fallido - User: $user, Rol: $rol");
+            
             if ($this->isAjax()) {
                 jsonResponse(['success' => false, 'error' => 'Cédula o contraseña incorrecta']);
             } else {
-                redirect('?error=1');
+                $this->redirectWithError('Cédula o contraseña incorrecta', $rol);
             }
         }
     }
     
     /**
-     * Cierra la sesión del usuario
+     * Redirige al home con un mensaje de error - CORREGIDO
      */
+    private function redirectWithError($errorMessage, $rol) {
+        // Guardar el mensaje de error en sesión para mostrarlo al volver
+        $_SESSION['login_error'] = $errorMessage;
+        $_SESSION['login_rol'] = $rol;
+        
+        // CORRECCIÓN: Asegurar que APP_URL esté definido y no tenga barras dobles
+        $baseUrl = rtrim(APP_URL, '/');
+        $redirectUrl = $baseUrl . '/?openLogin=' . $rol . '&error=1';
+        
+        error_log("[AuthController] Redirigiendo a: " . $redirectUrl);
+        
+        header('Location: ' . $redirectUrl);
+        exit();
+    }
+    
     public function logout() {
         // Destruir todas las variables de sesión
         $_SESSION = array();
@@ -160,13 +180,8 @@ class AuthController {
         redirect('');
     }
     
-    /**
-     * Verifica si la petición es AJAX
-     * @return bool
-     */
     private function isAjax() {
         return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
                strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
     }
 }
-?>
