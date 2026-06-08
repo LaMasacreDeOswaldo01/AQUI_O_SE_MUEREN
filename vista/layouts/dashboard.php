@@ -1,7 +1,9 @@
 <?php
+
 if (!function_exists('AuthHelper')) {
     require_once dirname(__DIR__, 2) . '/helpers/AuthHelper.php';
 }
+
 // Obtener el rol actual
 $current_role = AuthHelper::getCurrentRole();
 $nombre_usuario = htmlspecialchars($_SESSION['nombre_us'] ?? 'Usuario');
@@ -14,14 +16,16 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="<?php echo Security::getTokenCSRF(); ?>">
-    <title><?php echo $titulo_pagina; ?></title>    
+    <title><?php echo $titulo_pagina; ?></title>
+    
     <!-- Variables globales JavaScript -->
     <script>
         var APP_URL = '<?php echo APP_URL; ?>';
         var CURRENT_ROLE = '<?php echo $current_role; ?>';
         var USER_NAME = '<?php echo $nombre_usuario; ?>';
         var AVATAR_URL = '<?php echo !empty($_SESSION['avatar']) ? $_SESSION['avatar'] : APP_URL . "/img/avatarDES.jpg"; ?>';
-    </script>    
+    </script>
+    
     <!-- CSS Globales -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/css/all.min.css">
@@ -30,12 +34,15 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
     <!-- CSS del Sistema -->
     <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/adminlte.min.css">
     <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/dashboard.css">
-    <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/dashboard-utils.css">    
+    <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/dashboard-utils.css">
+    
     <!-- jQuery (siempre primero) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
     <!-- Configuración y CSRF -->
     <script src="<?php echo APP_URL; ?>/js/config.js"></script>
-    <script src="<?php echo APP_URL; ?>/js/csrf.js"></script>    
+    <script src="<?php echo APP_URL; ?>/js/csrf.js"></script>
+    
     <?php if (isset($css_extra)) echo $css_extra; ?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -109,6 +116,7 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
             </li>
         </ul>
     </nav>
+
     <!-- Sidebar -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
@@ -116,6 +124,7 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
             <img src="<?php echo APP_URL; ?>/img/logo_azul.png" alt="BioVital Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
             <span class="brand-text font-weight-bold">BIOVITAL</span>
         </a>
+
         <!-- Sidebar -->
         <div class="sidebar">
             <!-- User Panel -->
@@ -132,6 +141,14 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
             <!-- Sidebar Menu -->
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+                    <!-- Inicio / Dashboard -->
+                    <li class="nav-item">
+                        <a href="<?php echo APP_URL; ?>/panel/<?php echo $current_role; ?>" class="nav-link <?php echo ($active_page ?? '') === 'dashboard' ? 'active' : ''; ?>">
+                            <i class="nav-icon fas fa-home"></i>
+                            <p>Inicio</p>
+                        </a>
+                    </li>
+                    <li class="nav-divider"></li>
                     <!-- Menú según el rol -->
                     <?php if ($current_role === 'administrador'): ?>
                         <!-- Menú de Administrador -->
@@ -179,7 +196,29 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
                             </a>
                         </li>
                         
+
          <?php elseif ($current_role === 'medico'): ?>
+
+                    <?php elseif ($current_role === 'medico'): ?>
+                        <!-- Menú de Médico -->
+                        <li class="nav-header">USUARIO</li>
+                        <li class="nav-item">
+                            <a href="<?php echo APP_URL; ?>/perfil" class="nav-link <?php echo ($active_page ?? '') === 'perfil' ? 'active' : ''; ?>">
+                                <i class="nav-icon fas fa-user-cog"></i>
+                                <p>Datos personales</p>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-header">CLÍNICA</li>
+                        <li class="nav-item">
+                            <a href="<?php echo APP_URL; ?>/recetas" class="nav-link <?php echo ($active_page ?? '') === 'recetas' ? 'active' : ''; ?>">
+                                <i class="nav-icon fas fa-prescription-bottle-alt"></i>
+                                <p>Recetas</p>
+                            </a>
+                        </li>
+                        
+                        <?php elseif ($current_role === 'medico'): ?>
+
     <li class="nav-header">USUARIO</li>
     <li class="nav-item">
         <a href="<?php echo APP_URL; ?>/perfil" class="nav-link <?php echo ($active_page ?? '') === 'perfil' ? 'active' : ''; ?>">
@@ -195,6 +234,7 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
             <p>Recetas</p>
         </a>
     </li>
+
     
     <li class="nav-item">
         <a href="<?php echo APP_URL; ?>/medico/citas" class="nav-link <?php echo ($active_page ?? '') === 'citas' ? 'active' : ''; ?>">
@@ -214,6 +254,12 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
         <a href="<?php echo APP_URL; ?>/medico/evoluciones" class="nav-link <?php echo ($active_page ?? '') === 'evoluciones' ? 'active' : ''; ?>">
             <i class="nav-icon fas fa-notes-medical"></i>
             <p>Evoluciones Clínicas</p>
+
+    <li class="nav-item">
+        <a href="#" class="nav-link <?php echo ($active_page ?? '') === 'agenda' ? 'active' : ''; ?>" data-toggle="modal" data-target="#modal_agenda">
+            <i class="nav-icon fas fa-calendar-alt"></i>
+            <p>Agenda</p>
+
         </a>
     </li>
     
@@ -224,6 +270,7 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
             <p>Mis Pacientes</p>
         </a>
     </li>
+
 
     
 <?php elseif ($current_role === 'asistente'): ?>
@@ -263,13 +310,59 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
     </li>
     
     <li class="nav-header">CITAS</li>
+    <li class="nav-header">EPIDEMIOLOGÍA</li>
+
     <li class="nav-item">
-        <a href="<?php echo APP_URL; ?>/paciente/citas" class="nav-link <?php echo ($active_page ?? '') === 'citas' ? 'active' : ''; ?>">
-            <i class="nav-icon fas fa-calendar-alt"></i>
-            <p>Mis Citas</p>
+        <a href="<?php echo APP_URL; ?>/medico/alertas" class="nav-link <?php echo ($active_page ?? '') === 'alertas' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-exclamation-triangle"></i>
+            <p>Gestión de Alertas</p>
         </a>
     </li>
-<?php endif; ?>
+                        
+                    <?php elseif ($current_role === 'asistente'): ?>
+                        <!-- Menú de Asistente -->
+                        <li class="nav-header">USUARIO</li>
+                        <li class="nav-item">
+                            <a href="<?php echo APP_URL; ?>/perfil" class="nav-link <?php echo ($active_page ?? '') === 'perfil' ? 'active' : ''; ?>">
+                                <i class="nav-icon fas fa-user-cog"></i>
+                                <p>Datos personales</p>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-header">CLÍNICA</li>
+                        <li class="nav-item">
+                            <a href="<?php echo APP_URL; ?>/recetas" class="nav-link <?php echo ($active_page ?? '') === 'recetas' ? 'active' : ''; ?>">
+                                <i class="nav-icon fas fa-prescription-bottle-alt"></i>
+                                <p>Recetas</p>
+                            </a>
+                        </li>
+                        
+                    <?php elseif ($current_role === 'paciente'): ?>
+                        <!-- Menú de Paciente -->
+                        <li class="nav-header">USUARIO</li>
+                        <li class="nav-item">
+                            <a href="<?php echo APP_URL; ?>/perfil" class="nav-link <?php echo ($active_page ?? '') === 'perfil' ? 'active' : ''; ?>">
+                                <i class="nav-icon fas fa-user-cog"></i>
+                                <p>Datos personales</p>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-header">CLÍNICA</li>
+                        <li class="nav-item">
+                            <a href="<?php echo APP_URL; ?>/paciente/recetas" class="nav-link <?php echo ($active_page ?? '') === 'recetas' ? 'active' : ''; ?>">
+                                <i class="nav-icon fas fa-prescription-bottle-alt"></i>
+                                <p>Mis Recetas</p>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-header">CITAS</li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-calendar-alt"></i>
+                                <p>Mis Citas</p>
+                            </a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </nav>
         </div>
@@ -292,6 +385,8 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
 <!-- Scripts globales -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<?php include_once dirname(__DIR__) . '/medico/med_agenda.php'; ?>
 
 <?php if (isset($scripts_extra)) echo $scripts_extra; ?>
 
@@ -322,5 +417,6 @@ $(function() {
     $('[data-toggle="popover"]').popover();
 });
 </script>
+
 </body>
 </html>

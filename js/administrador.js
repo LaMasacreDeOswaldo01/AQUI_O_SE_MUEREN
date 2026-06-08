@@ -4,11 +4,15 @@ $(document).ready(function() {
         console.error('ERROR: APP_URL no está definida');
         $('#nombre_us').html('Error de configuración');
         return;
-    }    
-    console.log('APP_URL:', APP_URL);    
+    }
+    
+    console.log('APP_URL:', APP_URL);
+    
     var id_usuario = $('#id_usuario').val();
     var edit = false;
-    console.log('ID Administrador desde PHP:', id_usuario);    
+
+    console.log('ID Administrador desde PHP:', id_usuario);
+    
     if (!id_usuario || id_usuario === '') {
         console.error('ERROR: ID de administrador no encontrado');
         $('#nombre_us').html('Error: Sesión no válida');
@@ -31,6 +35,7 @@ $(document).ready(function() {
                 // Manejar formato ApiResponse
                 var administrador = response.data || response;
                 
+
                 if(administrador.error || !response.success) {
                     console.error('Error:', administrador.error || response.message);
                     $('#nombre_us').html('Error: ' + (administrador.error || response.message));
@@ -84,6 +89,19 @@ $(document).ready(function() {
                 console.error('Error en la petición AJAX:', error);
                 console.error('Respuesta del servidor:', xhr.responseText);
                 $('#nombre_us').html('Error de conexión: ' + status);
+
+                console.log('Avatar actualizado en todas partes:', avatarUrl);
+            } else {
+                var defaultAvatar = APP_URL + '/img/avatarDES.jpg?t=' + new Date().getTime();
+                $('#avatar1, #avatar2, #avatar3, #avatar4, #avatar_nav').attr('src', defaultAvatar);
+            }
+            // ==================== FIN ACTUALIZAR AVATARES ====================
+            
+            // Cargar dirección en los campos de edición si existe
+            if (administrador.direccion && administrador.direccion !== '-') {
+                cargarDireccionEnCampos(administrador.direccion);
+            } else {
+
                 cargarEstados();
             }
         });
@@ -130,8 +148,10 @@ $(document).ready(function() {
             direccion_detallada = partes.slice(1).join(' - ');
         }
         
-        let ubicacion_partes = ubicacion.split(', ').filter(p => p.trim() !== '');        
-        $('#direccion_detallada').val(direccion_detallada);        
+        let ubicacion_partes = ubicacion.split(', ').filter(p => p.trim() !== '');
+        
+        $('#direccion_detallada').val(direccion_detallada);
+        
         cargarEstadosConSeleccion(ubicacion_partes);
     }
 
@@ -596,6 +616,7 @@ $(document).ready(function() {
         });
     });    
     // ==================== CAMBIAR FOTO ====================
+
     $('#form-photo').submit(function(e) {
         e.preventDefault();    
         var fileInput = $(this).find('input[type="file"]')[0];
@@ -646,6 +667,60 @@ $(document).ready(function() {
             },
             error: function(xhr, status, error) {
                 console.error('Error al cambiar foto:', error);
+  
+$('#form-photo').submit(function(e) {
+    e.preventDefault();
+    
+    var fileInput = $(this).find('input[type="file"]')[0];
+    if (!fileInput.files || fileInput.files.length === 0) {
+        alert('Por favor seleccione una imagen');
+        return;
+    }
+    
+    var formData = new FormData(this);
+    formData.append('id_administrador', id_usuario);
+    
+    var $btn = $(this).find('button[type="submit"]');
+    var originalText = $btn.html();
+    $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Subiendo...');
+    
+    $.ajax({
+        url: APP_URL + '/api/administradores/cambiar-foto',
+        type: 'POST',
+        data: formData,
+        cache: false,
+        processData: false,
+        contentType: false,
+        dataType: 'json',
+        success: function(response) {
+            console.log('Respuesta cambio foto:', response);
+            
+            if (response.alert === 'edit') {
+                var timestamp = new Date().getTime();
+                var nuevaRuta = response.ruta + '?t=' + timestamp;
+                
+                console.log('Nueva ruta de avatar:', nuevaRuta);
+                
+                // ==================== ACTUALIZAR TODOS LOS AVATARES ====================
+                // Actualizar imágenes en el formulario de edición
+                $('#avatar1, #avatar2, #avatar3, #avatar4').attr('src', nuevaRuta);
+                // Actualizar imagen en el NAV (sidebar)
+                $('#avatar_nav').attr('src', nuevaRuta);
+                // ==================== FIN ACTUALIZAR AVATARES ====================
+                
+                $('#edit').show(1000);
+                setTimeout(function() { 
+                    $('#edit').hide(2000); 
+                }, 3000);
+                
+                $('#form-photo').trigger('reset');
+                
+                setTimeout(function() { 
+                    $('#cambiophoto').modal('hide'); 
+                }, 1500);
+                
+            } else {
+
                 $('#noedit').show(1000);
                 setTimeout(function() { 
                     $('#noedit').hide(2000); 

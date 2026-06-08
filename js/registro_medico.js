@@ -52,11 +52,16 @@ $(document).ready(function() {
             fecha_nacimiento: $('#fecha_nacimiento').val(),
             cedula: $('#cedula').val().trim(),
             telefono: $('#telefono').val().trim(),
-            direccion: direccion_completa,
+            estado: $('#estado').val(),
+            ciudad: $('#ciudad').val(),
+            municipio: $('#municipio').val(),
+            parroquia: $('#parroquia').val(),
+            direccion: direccion_detallada.trim(),
             correo: $('#correo').val().trim(),
             sexo: $('#sexo').val(),
             adicional: $('#adicional').val().trim(),
             pass: pass,
+            confirm_pass: confirm_pass,
             csrf_token: $('input[name="csrf_token"]').val()
         };
         

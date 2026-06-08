@@ -1,7 +1,13 @@
 <?php
+// vista/paciente/pac_recetas.php
+// Contenido principal para la visualización de recetas del paciente
+// Este archivo se renderiza dentro del layout base dashboard.php
+
+// Los datos vienen del controlador a través de $data
 $nombre_usuario = $nombre_usuario ?? 'Usuario';
 $id_paciente = $id_paciente ?? $_SESSION['usuario'] ?? 0;
 ?>
+
 <!-- CSS Adicional para esta vista -->
 <style>
     .stats-card {

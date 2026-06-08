@@ -1,7 +1,13 @@
 <?php
+// vista/asistente/asi_catalogo.php
+// Contenido principal para el dashboard del asistente
+// Este archivo se renderiza dentro del layout base dashboard.php
+
+// Los datos vienen del controlador a través de $data
 $nombre_usuario = $nombre_usuario ?? 'Usuario';
 $id_asistente = $id_asistente ?? $_SESSION['usuario'] ?? 0;
 ?>
+
 <!-- CSS Adicional para esta vista -->
 <style>
     .welcome-stats {

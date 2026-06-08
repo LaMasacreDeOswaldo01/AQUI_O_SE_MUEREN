@@ -1,6 +1,12 @@
 <?php
+// vista/administrador/adm_consultorios.php
+// Contenido principal para la gestión de consultorios
+// Este archivo se renderiza dentro del layout base dashboard.php
+
+// Los datos vienen del controlador a través de $data
 $nombre_usuario = $nombre_usuario ?? 'Administrador';
 ?>
+
 <!-- CSS Adicional para esta vista -->
 <style>
     .consultorio-card {
@@ -419,6 +425,9 @@ $(document).ready(function() {
                 } else {
                     for (let i = 0; i < consultorios.length; i++) {
                         let c = consultorios[i];
+                        let estadoClass = 'estado-activo';
+                        let estadoIcono = 'fa-check-circle';
+                        
                         let direccionMostrar = c.direccion_detallada || 'Sin dirección registrada';
                         if (direccionMostrar.length > 60) {
                             direccionMostrar = direccionMostrar.substring(0, 60) + '...';
@@ -463,9 +472,9 @@ $(document).ready(function() {
                                             <a href="${APP_URL}/consultorios/detalle/${c.id_consultorio}" class="btn btn-info btn-sm btn-accion">
                                                 <i class="fas fa-eye"></i> Ver detalle
                                             </a>
-                                          <a href="${APP_URL}/consultorios/horarios/${c.id_consultorio}" class="btn btn-warning btn-sm btn-accion">
+                                            <a href="${APP_URL}/consultorios/horarios?id=${c.id_consultorio}" class="btn btn-warning btn-sm btn-accion">
                                                 <i class="fas fa-clock"></i> Horarios
-                                              </a>   
+                                            </a>
                                             <button class="btn btn-danger btn-sm btn-accion btn-eliminar" data-id="${c.id_consultorio}" data-nombre="${escapeHtml(c.nombre)}">
                                                 <i class="fas fa-trash"></i> Eliminar
                                             </button>
@@ -572,10 +581,7 @@ $(document).ready(function() {
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;')
-            .replace(/\\/g, '&#92;')
-            .replace(/`/g, '&#96;')
-            .replace(/\$/g, '&#36;');
+            .replace(/'/g, '&#39;');
     }
 });
 </script>

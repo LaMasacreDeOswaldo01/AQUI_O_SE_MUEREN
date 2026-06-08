@@ -1,6 +1,17 @@
+
 if (typeof APP_URL === 'undefined') {
     console.error('ERROR: APP_URL no está definida');
     var APP_URL = '';
+
+// Usar la configuración global
+var BASE_URL = window.CONFIG ? window.CONFIG.BASE_URL : '';
+function getUrl(endpoint) {
+    if (window.CONFIG) {
+        return window.CONFIG.getApiUrl(endpoint);
+    }
+    // Fallback para compatibilidad
+    return BASE_URL + '/api/' + endpoint;
+
 }
 
 $(document).ready(function() {
@@ -70,6 +81,62 @@ $(document).ready(function() {
         paginaActual = 1;
         aplicarFiltros();
     });
+
+
+}
+
+// USAR EVENTOS DELEGADOS - Esta es la solución para evitar duplicación
+$(document).on('click', '.btn-editar', function() {
+    let id = $(this).data('id');
+    console.log('Click editar - ID:', id);
+    editarReceta(id);
+});
+
+$(document).on('click', '.btn-borrar', function() {
+    let id = $(this).data('id');
+    console.log('Click borrar - ID:', id);
+    borrarReceta(id);
+});
+
+// Eventos para los botones de los modales
+$(document).on('click', '#btnEstudioLaboratorio', function() {
+    resetModalEstudio();
+    $('#modalEstudioLaboratorio').modal('show');
+});
+
+$(document).on('click', '#btnDiagnostico', function() {
+    resetModalDiagnostico();
+    $('#modalDiagnostico').modal('show');
+});
+
+$(document).on('click', '#btnBuscarPacienteLab', function() {
+    let cedula = $('#buscar_paciente_lab').val().trim();
+    if (cedula === '') {
+        mostrarAlerta('Ingrese una cédula para buscar', 'error');
+        return;
+    }
+    buscarPacientePorCedula(cedula, 'lab');
+});
+
+$(document).on('click', '#btnBuscarPacienteDiag', function() {
+    let cedula = $('#buscar_paciente_diag').val().trim();
+    if (cedula === '') {
+        mostrarAlerta('Ingrese una cédula para buscar', 'error');
+        return;
+    }
+    buscarPacientePorCedula(cedula, 'diag');
+});
+
+function guardarReceta() {
+    let id_receta = $('#id_receta').val();
+    let nombre_medicamento = $('#nombre_medicamento').val().trim();
+    let marca = $('#marca').val().trim();
+    let cantidad = $('#cantidad').val().trim();
+    let dosis = $('#dosis').val().trim();
+    let instrucciones = $('#instrucciones').val().trim();
+    let id_paciente = $('#id_paciente').val();
+    let fecha_receta = $('#fecha_receta').val();
+
     
     // Filtro por orden (si existe)
     if ($('#filtro_orden').length) {
@@ -898,4 +965,23 @@ $(document).ready(function() {
         if (!str) return '';
         return str.replace(/"/g, '""');
     }
+
+});
+
+    
+    $('#nombre_medicamento').val('DIAGNÓSTICO MÉDICO');
+    $('#marca').val('Registro médico');
+    $('#cantidad').val('1 diagnóstico');
+    $('#dosis').val('Ver instrucciones');
+    $('#instrucciones').val(diagnosticoTexto);
+    $('#buscar_paciente').val(nombre_paciente);
+    $('#id_paciente').val(id_paciente);
+    let hoy = new Date();
+    let fecha = hoy.toISOString().split('T')[0];
+    $('#fecha_receta').val(fecha);
+    $('#id_receta').val('');
+    
+    $('#modalDiagnostico').modal('hide');
+    $('#modalTitle').text('Nueva Receta - Diagnóstico');
+    $('#modalReceta').modal('show');
 });

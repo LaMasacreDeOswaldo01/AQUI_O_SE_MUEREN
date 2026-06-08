@@ -1,8 +1,13 @@
 <?php
+// vista/administrador/adm_consultorio_editar.php
+// Contenido principal para la edición de consultorios
+// Este archivo se renderiza dentro del layout base dashboard.php
 
+// Los datos vienen del controlador a través de $data
 $nombre_usuario = $nombre_usuario ?? 'Administrador';
 $id_consultorio = $id_consultorio ?? $_GET['id'] ?? 0;
 ?>
+
 <!-- CSS Adicional para esta vista -->
 <style>
     .form-card {

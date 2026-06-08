@@ -1,8 +1,14 @@
 <?php
+// vista/administrador/adm_editar_datos.php
+// Contenido principal para la edición de perfil del administrador
+// Este archivo se renderiza dentro del layout base dashboard.php
+
+// Los datos vienen del controlador a través de $data
 $nombre_usuario = $nombre_usuario ?? 'Usuario';
 $id_administrador = $id_administrador ?? $_SESSION['usuario'] ?? 0;
 $avatar_actual = $avatar_actual ?? (!empty($_SESSION['avatar']) ? $_SESSION['avatar'] : APP_URL . '/img/avatarDES.jpg');
 ?>
+
 <!-- CSS Adicional para esta vista -->
 <style>
     .profile-header {

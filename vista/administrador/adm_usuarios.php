@@ -1,6 +1,12 @@
 <?php
+// vista/administrador/adm_usuarios.php
+// Contenido principal para la gestión de usuarios del sistema
+// Este archivo se renderiza dentro del layout base dashboard.php
+
+// Los datos vienen del controlador a través de $data
 $nombre_usuario = $nombre_usuario ?? 'Administrador';
 ?>
+
 <!-- CSS Adicional para esta vista -->
 <style>
     .user-card {

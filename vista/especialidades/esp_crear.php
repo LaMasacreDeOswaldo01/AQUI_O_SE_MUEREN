@@ -1,6 +1,12 @@
 <?php
+// vista/especialidades/esp_crear.php
+// Contenido principal para la creación de especialidades
+// Este archivo se renderiza dentro del layout base dashboard.php
+
+// Los datos vienen del controlador a través de $data
 $nombre_usuario = $nombre_usuario ?? 'Administrador';
 ?>
+
 <!-- CSS Adicional para esta vista -->
 <style>
     .preview-card {

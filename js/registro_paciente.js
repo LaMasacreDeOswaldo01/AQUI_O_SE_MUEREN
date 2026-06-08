@@ -1,9 +1,12 @@
+
+
 $(document).ready(function() {
     // Verificar que APP_URL esté definida
     if (typeof APP_URL === 'undefined') {
         console.error('ERROR: APP_URL no está definida');
         window.APP_URL = '';
-    }    
+    }
+    
     console.log('APP_URL:', APP_URL);
     
     $('#form-registro').submit(function(e) {
@@ -22,32 +25,6 @@ $(document).ready(function() {
             return false;
         }
         
-        // Obtener valores de ubicación (guardamos los nombres, no los IDs)
-        var estado_nombre = $('#estado option:selected').text();
-        var ciudad_nombre = $('#ciudad option:selected').text();
-        var municipio_nombre = $('#municipio option:selected').text();
-        var parroquia_nombre = $('#parroquia option:selected').text();
-        
-        // Construir dirección completa con todos los campos
-        var direccion_completa = '';
-        if (estado_nombre && estado_nombre !== 'Seleccione un estado...') {
-            direccion_completa += estado_nombre;
-        }
-        if (ciudad_nombre && ciudad_nombre !== 'Seleccione una ciudad...') {
-            direccion_completa += (direccion_completa ? ', ' : '') + ciudad_nombre;
-        }
-        if (municipio_nombre && municipio_nombre !== 'Seleccione un municipio...') {
-            direccion_completa += (direccion_completa ? ', ' : '') + municipio_nombre;
-        }
-        if (parroquia_nombre && parroquia_nombre !== 'Seleccione una parroquia...') {
-            direccion_completa += (direccion_completa ? ', ' : '') + parroquia_nombre;
-        }
-        
-        var direccion_detallada = $('#direccion').val();
-        if (direccion_detallada) {
-            direccion_completa += (direccion_completa ? ' - ' : '') + direccion_detallada;
-        }
-        
         // Obtener el token CSRF
         var csrf_token = $('input[name="csrf_token"]').val();
         
@@ -57,11 +34,16 @@ $(document).ready(function() {
             fecha_nacimiento: $('#fecha_nacimiento').val(),
             cedula: $('#cedula').val().trim(),
             telefono: $('#telefono').val().trim(),
-            direccion: direccion_completa,
+            estado: $('#estado').val(),
+            ciudad: $('#ciudad').val(),
+            municipio: $('#municipio').val(),
+            parroquia: $('#parroquia').val(),
+            direccion: $('#direccion').val().trim(),
             correo: $('#correo').val().trim(),
             sexo: $('#sexo').val(),
             adicional: $('#adicional').val().trim(),
             pass: pass,
+            confirm_pass: confirm_pass,
             csrf_token: csrf_token
         };
         

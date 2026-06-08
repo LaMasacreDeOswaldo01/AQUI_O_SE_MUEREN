@@ -1,4 +1,9 @@
 <?php
+// vista/administrador/adm_consultorio_crear.php
+// Contenido principal para la creación de consultorios
+// Este archivo se renderiza dentro del layout base dashboard.php
+
+// Los datos vienen del controlador a través de $data
 $nombre_usuario = $nombre_usuario ?? 'Administrador';
 ?>
 
@@ -420,7 +425,8 @@ $(document).ready(function() {
             dataType: 'json',
             timeout: 10000,
             success: function(response) {
-                console.log('Estados cargados:', response);                
+                console.log('Estados cargados:', response);
+                
                 var estados = [];
                 if (response.success && response.data) {
                     estados = response.data;
@@ -430,10 +436,12 @@ $(document).ready(function() {
                     estados = response.estados;
                 } else {
                     estados = response;
-                }                
+                }
+                
                 if (!Array.isArray(estados)) {
                     estados = [];
-                }                
+                }
+                
                 let options = '<option value="">Seleccione un estado...</option>';
                 for (let i = 0; i < estados.length; i++) {
                     let estado = estados[i];
@@ -676,8 +684,9 @@ $(document).ready(function() {
         $('#preview_horario').text($('#apertura').val() + ' - ' + $('#cierre').val());
     }
     
-    // ==================== EVENTOS DE UBICACION====================
+    // ==================== EVENTOS ====================
     
+    // Eventos de ubicación
     $(document).on('change', '#estado', function() {
         let id_estado = $(this).val();
         if (id_estado) {

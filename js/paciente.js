@@ -1,3 +1,9 @@
+/**
+ * js/paciente.js 
+ * Maneja correctamente el formato ApiResponse de la API de ubicación
+ */
+
+
 $(document).ready(function() {
     var id_usuario = $('#id_usuario').val();
     var edit = false;
@@ -64,7 +70,12 @@ $(document).ready(function() {
             }
         });
     }
+
     // ==================== FUNCIONES DE UBICACIÓN ====================    
+
+
+    // ==================== FUNCIONES DE UBICACIÓN ====================
+    
     function cargarDireccionEnCampos(direccion_completa) {
         console.log('Parseando dirección:', direccion_completa);
         
