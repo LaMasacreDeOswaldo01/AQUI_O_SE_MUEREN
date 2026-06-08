@@ -130,6 +130,12 @@ $id_medico = $_SESSION['usuario'];
                         <p>Recetas</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-toggle="modal" data-target="#modal_agenda">
+                        <i class="nav-icon fas fa-calendar-alt"></i>
+                        <p>Agenda</p>
+                    </a>
+                </li>
                 <li class="nav-header">
                     <i class="fas fa-users"></i> Pacientes
                 </li>

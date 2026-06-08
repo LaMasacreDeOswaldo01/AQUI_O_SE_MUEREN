@@ -49,6 +49,7 @@ return [
     
     // ==================== MÉDICO ====================
     'medico/pacientes' => ['controller' => 'MedicoController', 'action' => 'pacientes', 'rol' => 'medico'],
+    'medico/alertas' => ['controller' => 'MedicoController', 'action' => 'mostrarAlertas', 'rol' => 'medico'], // <-- NUEVA: Carga la vista principal
     'api/medicos/buscar' => ['controller' => 'MedicoController', 'action' => 'buscar', 'method' => 'POST', 'rol' => 'medico'],
     'api/medicos/capturar-datos' => ['controller' => 'MedicoController', 'action' => 'capturarDatos', 'method' => 'POST', 'rol' => 'medico'],
     'api/medicos/editar' => ['controller' => 'MedicoController', 'action' => 'editarUsuario', 'method' => 'POST', 'rol' => 'medico'],
@@ -58,6 +59,11 @@ return [
     'api/medicos/listar-pacientes' => ['controller' => 'MedicoController', 'action' => 'listarPacientes', 'method' => 'POST', 'rol' => 'medico'],
     'api/medicos/actividad-reciente' => ['controller' => 'MedicoController', 'action' => 'actividadReciente', 'method' => 'POST', 'rol' => 'medico'],
     'api/medicos/proximas-citas' => ['controller' => 'MedicoController', 'action' => 'proximasCitas', 'method' => 'POST', 'rol' => 'medico'],
+    
+    // APIs para el Módulo de Epidemiología (Alertas)
+    'api/alertas/registrar' => ['controller' => 'AlertaController', 'action' => 'registrar', 'method' => 'POST', 'rol' => 'medico'],
+    'api/alertas/listar' => ['controller' => 'AlertaController', 'action' => 'listar', 'method' => 'POST', 'rol' => ['medico', 'administrador']],
+    'api/alertas/eliminar' => ['controller' => 'AlertaController', 'action' => 'eliminar', 'method' => 'POST', 'rol' => ['medico', 'administrador']],
 
     // ==================== PACIENTE ====================
     'paciente/recetas' => ['controller' => 'PacienteController', 'action' => 'recetas', 'rol' => 'paciente'],       
