@@ -144,6 +144,56 @@ $id_consultorio = isset($_GET['id']) ? intval($_GET['id']) : 0;
     </div>
 </aside>
 
+
+<section class="content">
+    <div class="container-fluid">
+        <input type="hidden" id="id_consultorio" value="<?php echo $id_consultorio; ?>">
+        
+        <div class="row">
+            <!-- Columna Izquierda - Información General -->
+            <div class="col-md-4">
+                <div class="card card-primary card-outline">
+                    <div class="card-body box-profile">
+                        <div class="text-center">
+                            <div class="info-box-icon-custom bg-primary mx-auto d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; border-radius: 50%;">
+                                <i class="fas fa-hospital-user fa-3x text-white"></i>
+                            </div>
+                        </div>
+                        <h3 class="profile-username text-center" id="detalle_nombre">-</h3>
+                        <p class="text-muted text-center" id="detalle_ciudad">-</p>
+                        
+                        <ul class="list-group list-group-unbordered mb-3">
+                            <li class="list-group-item">
+                                <b><i class="fas fa-clock"></i> Horario</b>
+                                <a class="float-right" id="detalle_horario">-</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b><i class="fas fa-phone"></i> Teléfono</b>
+                                <a class="float-right" id="detalle_telefono">-</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b><i class="fas fa-envelope"></i> Email</b>
+                                <a class="float-right" id="detalle_email">-</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b><i class="fas fa-map-marker-alt"></i> Dirección</b>
+                                <div class="float-right text-right direccion-text" id="detalle_direccion">-</div>
+                            </li>
+                        </ul>
+                        
+                       <div class="action-buttons text-center">
+    <a href="<?php echo APP_URL; ?>/consultorios/horarios/<?php echo $id_consultorio; ?>" class="btn btn-info btn-sm">
+        <i class="fas fa-calendar-alt"></i> Gestionar Horarios
+    </a>
+    <a href="<?php echo APP_URL; ?>/consultorios/editar/<?php echo $id_consultorio; ?>" class="btn btn-warning btn-sm">
+        <i class="fas fa-edit"></i> Editar
+    </a>
+   <a href="<?php echo APP_URL; ?>/consultorios" class="btn btn-secondary btn-sm">
+    <i class="fas fa-arrow-left"></i> Volver al listado
+</a>
+</div>
+                    </div>
+
 <!-- Content Wrapper -->
 <div class="content-wrapper">
     <section class="content-header">
@@ -151,6 +201,7 @@ $id_consultorio = isset($_GET['id']) ? intval($_GET['id']) : 0;
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1><i class="fas fa-building"></i> <span id="consultorio_nombre">Detalle del Consultorio</span></h1>
+
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">

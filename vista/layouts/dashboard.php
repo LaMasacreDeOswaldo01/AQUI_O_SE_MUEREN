@@ -196,6 +196,9 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
                             </a>
                         </li>
                         
+
+         <?php elseif ($current_role === 'medico'): ?>
+
                     <?php elseif ($current_role === 'medico'): ?>
                         <!-- Menú de Médico -->
                         <li class="nav-header">USUARIO</li>
@@ -215,6 +218,7 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
                         </li>
                         
                         <?php elseif ($current_role === 'medico'): ?>
+
     <li class="nav-header">USUARIO</li>
     <li class="nav-item">
         <a href="<?php echo APP_URL; ?>/perfil" class="nav-link <?php echo ($active_page ?? '') === 'perfil' ? 'active' : ''; ?>">
@@ -230,10 +234,32 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
             <p>Recetas</p>
         </a>
     </li>
+
+    
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/medico/citas" class="nav-link <?php echo ($active_page ?? '') === 'citas' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-calendar-alt"></i>
+            <p>Mis Citas</p>
+        </a>
+    </li>
+    
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/medico/agenda" class="nav-link <?php echo ($active_page ?? '') === 'agenda' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-calendar-week"></i>
+            <p>Mi Agenda</p>
+        </a>
+    </li>
+    
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/medico/evoluciones" class="nav-link <?php echo ($active_page ?? '') === 'evoluciones' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-notes-medical"></i>
+            <p>Evoluciones Clínicas</p>
+
     <li class="nav-item">
         <a href="#" class="nav-link <?php echo ($active_page ?? '') === 'agenda' ? 'active' : ''; ?>" data-toggle="modal" data-target="#modal_agenda">
             <i class="nav-icon fas fa-calendar-alt"></i>
             <p>Agenda</p>
+
         </a>
     </li>
     
@@ -245,7 +271,47 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
         </a>
     </li>
 
+
+    
+<?php elseif ($current_role === 'asistente'): ?>
+    <!-- Menú de Asistente -->
+    <li class="nav-header">USUARIO</li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/perfil" class="nav-link <?php echo ($active_page ?? '') === 'perfil' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-user-cog"></i>
+            <p>Datos personales</p>
+        </a>
+    </li>
+    
+    <li class="nav-header">CLÍNICA</li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/recetas" class="nav-link <?php echo ($active_page ?? '') === 'recetas' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-prescription-bottle-alt"></i>
+            <p>Recetas</p>
+        </a>
+    </li>
+    
+<?php elseif ($current_role === 'paciente'): ?>
+    <!-- Menú de Paciente -->
+    <li class="nav-header">USUARIO</li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/perfil" class="nav-link <?php echo ($active_page ?? '') === 'perfil' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-user-cog"></i>
+            <p>Datos personales</p>
+        </a>
+    </li>
+    
+    <li class="nav-header">CLÍNICA</li>
+    <li class="nav-item">
+        <a href="<?php echo APP_URL; ?>/paciente/recetas" class="nav-link <?php echo ($active_page ?? '') === 'recetas' ? 'active' : ''; ?>">
+            <i class="nav-icon fas fa-prescription-bottle-alt"></i>
+            <p>Mis Recetas</p>
+        </a>
+    </li>
+    
+    <li class="nav-header">CITAS</li>
     <li class="nav-header">EPIDEMIOLOGÍA</li>
+
     <li class="nav-item">
         <a href="<?php echo APP_URL; ?>/medico/alertas" class="nav-link <?php echo ($active_page ?? '') === 'alertas' ? 'active' : ''; ?>">
             <i class="nav-icon fas fa-exclamation-triangle"></i>
@@ -317,7 +383,7 @@ $titulo_pagina = $titulo_pagina ?? 'BioVital - Panel';
 </div>
 
 <!-- Scripts globales -->
-<script src="<?php echo APP_URL; ?>/js/adminlte.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <?php include_once dirname(__DIR__) . '/medico/med_agenda.php'; ?>

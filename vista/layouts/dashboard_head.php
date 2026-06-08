@@ -1,5 +1,5 @@
 <?php
-// vista/layouts/dashboard_head.php - VERSIÓN OPTIMIZADA
+// vista/layouts/dashboard_head.php 
 ?>
 <!DOCTYPE html>
 <html>

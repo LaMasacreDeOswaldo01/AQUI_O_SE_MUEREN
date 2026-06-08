@@ -1,7 +1,5 @@
 <?php
-
-class PanelController {
-    
+class PanelController {    
   public function paciente() {
     AuthHelper::checkRole('paciente', true);
     

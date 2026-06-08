@@ -1,4 +1,8 @@
 <?php
+
+// vista/registro_pac.php 
+// Registro de Paciente - Estilo BioVital Dashboard
+
 // vista/registro_pac.php
 // Registro de pacientes - Versión con interfaz unificada BioVital
 
@@ -8,6 +12,7 @@ if (!file_exists($securityPath)) {
     die("Error: No se encuentra Security.php en: " . $securityPath);
 }
 include_once $securityPath;
+
 ?>
 <!DOCTYPE html>
 <html lang="es">

@@ -1,15 +1,5 @@
 <?php
-/**
- * CSRFController.php
- * Controlador para manejar tokens CSRF
- */
-
-class CSRFController {
-    
-    /**
-     * Genera y retorna un token CSRF
-     * POST /api/csrf/token
-     */
+class CSRFController {   
     public function getToken() {
         // Iniciar sesión si no está iniciada
         if (session_status() === PHP_SESSION_NONE) {

@@ -225,32 +225,6 @@ class Cita {
         }
     }
     
-    /**
-     * Obtener cita por ID
-     */
-    function obtenerPorId($id_cita) {
-        try {
-            $sql = "SELECT c.*, 
-                           rp.nombre_paciente, rp.apellido_paciente, rp.cedula_paciente,
-                           rm.nombre_medico, rm.apellido_medico, rm.especialidad,
-                           e.nombre as especialidad_nombre,
-                           con.nombre as consultorio_nombre
-                    FROM citas c
-                    LEFT JOIN registro_paciente rp ON c.id_paciente = rp.id_paciente
-                    LEFT JOIN registro_medico rm ON c.id_medico = rm.id_medico
-                    LEFT JOIN especialidades e ON c.id_especialidad = e.id_especialidad
-                    LEFT JOIN consultorios con ON c.id_consultorio = con.id_consultorio
-                    WHERE c.id_cita = :id_cita";
-            
-            $query = $this->acceso->prepare($sql);
-            $query->execute(array(':id_cita' => $id_cita));
-            return $query->fetch(PDO::FETCH_OBJ);
-        } catch(PDOException $e) {
-            error_log("Error en obtenerPorId: " . $e->getMessage());
-            return null;
-        }
-    }
-    
     private function getDiaSemana($fecha) {
         $dias = [
             'Monday' => 'Lunes',

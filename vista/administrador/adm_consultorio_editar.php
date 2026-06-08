@@ -404,11 +404,11 @@ $id_consultorio = $id_consultorio ?? $_GET['id'] ?? 0;
                 </div>
                 
                 <!-- Botón Volver al Detalle -->
-                <div class="info-card text-center">
-                    <a href="<?php echo APP_URL; ?>/consultorios/detalle?id=<?php echo $id_consultorio; ?>" class="btn btn-info btn-block">
-                        <i class="fas fa-arrow-left"></i> Volver al Detalle
-                    </a>
-                </div>
+               <div class="info-card text-center">
+    <a href="<?php echo APP_URL; ?>/consultorios/detalle/<?php echo $id_consultorio; ?>" class="btn btn-info btn-block">
+        <i class="fas fa-arrow-left"></i> Volver al Detalle
+    </a>
+</div>
             </div>
         </div>
     </div>

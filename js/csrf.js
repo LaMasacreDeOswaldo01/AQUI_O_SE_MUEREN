@@ -1,8 +1,3 @@
-/**
- * CSRF Protection - Versión corregida
- * NO genera tokens falsos. Si falla el servidor, muestra error y bloquea formularios.
- */
-
 var CSRF = (function() {
     // Almacenar token en memoria
     var currentToken = null;
@@ -10,14 +5,12 @@ var CSRF = (function() {
     var isInitialized = false;
     var initError = null;
     var retryCount = 0;
-    var maxRetries = 3;
-    
+    var maxRetries = 3;    
     // Verificar que APP_URL esté definida
     if (typeof APP_URL === 'undefined') {
         console.error('APP_URL no está definida para CSRF');
         window.APP_URL = '';
-    }
-    
+    }    
     // Mostrar error al usuario
     function showError(mensaje) {
         console.error('[CSRF] ' + mensaje);
@@ -29,24 +22,20 @@ var CSRF = (function() {
             errorDiv.id = 'csrf-global-error';
             errorDiv.style.cssText = 'position:fixed; top:10px; left:50%; transform:translateX(-50%); z-index:10000; background:#dc3545; color:white; padding:12px 20px; border-radius:8px; font-size:14px; font-family:sans-serif; box-shadow:0 4px 12px rgba(0,0,0,0.2); display:none;';
             document.body.appendChild(errorDiv);
-        }
-        
+        }        
         errorDiv.innerHTML = '<i class="fas fa-shield-alt"></i> ' + mensaje + ' <button onclick="location.reload()" style="background:white; border:none; border-radius:4px; margin-left:10px; padding:4px 10px; cursor:pointer;">Recargar</button>';
-        errorDiv.style.display = 'block';
-        
+        errorDiv.style.display = 'block';        
         // Deshabilitar todos los formularios
         $('form').each(function() {
             $(this).data('csrf-disabled', true);
             $(this).find('button[type="submit"]').prop('disabled', true);
             $(this).find('input, select, textarea').prop('disabled', true);
         });
-    }
-    
+    }    
     // Obtener token del servidor (sin fallback falso)
     function fetchTokenFromServer(callback) {
         var tokenUrl = APP_URL + '/api/csrf/token';
-        console.log('[CSRF] Obteniendo token desde:', tokenUrl);
-        
+        console.log('[CSRF] Obteniendo token desde:', tokenUrl);        
         $.ajax({
             url: tokenUrl,
             type: 'POST',
@@ -69,8 +58,7 @@ var CSRF = (function() {
                 if (callback) callback(false, null);
             }
         });
-    }
-    
+    }    
     // Intentar obtener token con reintentos
     function fetchTokenWithRetry(callback, attempt) {
         attempt = attempt || 0;
@@ -227,13 +215,11 @@ var CSRF = (function() {
                 });
             }
         }, 30 * 60 * 1000);
-    }
-    
+    }    
     // Verificar si CSRF está listo
     function isReady() {
         return isInitialized && currentToken !== null;
-    }
-    
+    }    
     // API pública
     return {
         init: init,
@@ -245,7 +231,6 @@ var CSRF = (function() {
         isReady: isReady
     };
 })();
-
 // Inicializar cuando el documento esté listo
 $(document).ready(function() {
     console.log('[CSRF] Inicializando protección CSRF...');

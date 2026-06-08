@@ -1,14 +1,10 @@
 <?php
-// controlador/AsistenteController.php - CORREGIDO
-// Maneja correctamente ApiResponse y todos los métodos necesarios
-
-class AsistenteController {
-    
+class AsistenteController {    
     public function __construct() {
         // Verificar autenticación y rol
         if (!isset($_SESSION['usuario']) || !isset($_SESSION['rol']) || $_SESSION['rol'] !== 'asistente') {
             if ($this->isAjax()) {
-                ApiResponse::unauthorized('No autorizado');
+                ApiResponse::unauthorized('No autorizado. Debe iniciar sesión como asistente.');
             } else {
                 redirect('login/asistente');
             }
@@ -19,9 +15,8 @@ class AsistenteController {
     private function isAjax() {
         return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
                strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
-    }
-    
-    // ==================== BUSCAR ASISTENTE (cargar datos para el perfil) ====================
+    }    
+    // ==================== PERFIL Y DATOS PERSONALES ====================  
     public function buscar() {
         $id_asistente = $_POST['dato'] ?? $_POST['id_asistente'] ?? 0;
         $id_sesion = $_SESSION['usuario'];
@@ -29,7 +24,7 @@ class AsistenteController {
         error_log("AsistenteController::buscar - ID: $id_asistente, Sesión: $id_sesion");
         
         if($id_asistente != $id_sesion) {
-            ApiResponse::error('No autorizado para ver este perfil', 'unauthorized', [], 403);
+            ApiResponse::error('No autorizado para ver este perfil', ApiResponse::CODE_FORBIDDEN, [], 403);
             return;
         }
         
@@ -64,14 +59,59 @@ class AsistenteController {
                 'correo' => $objeto->correo_asistente ?? '',
                 'sexo' => $objeto->sexo_asistente ?? '',
                 'adicional' => $objeto->adicional_asistente ?? '',
-                'avatar' => $avatar_path
+                'avatar' => $avatar_path,
+                // Estadísticas adicionales para el dashboard
+                'total_recetas' => $this->contarTotalRecetas(),
+                'total_pacientes' => $this->contarTotalPacientes(),
+                'total_medicos' => $this->contarTotalMedicos()
             );
         }
         
         ApiResponse::success($json, 'datos_cargados', 'Datos del asistente cargados correctamente');
     }
     
-    // ==================== CAPTURAR DATOS PARA EDICIÓN ====================
+    private function contarTotalRecetas() {
+        try {
+            $db = new Conexion();
+            $sql = "SELECT COUNT(*) as total FROM recetas WHERE estado = 1";
+            $query = $db->pdo->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetch(PDO::FETCH_OBJ);
+            return $resultado->total ?? 0;
+        } catch(PDOException $e) {
+            error_log("Error en contarTotalRecetas: " . $e->getMessage());
+            return 0;
+        }
+    }
+    
+    private function contarTotalPacientes() {
+        try {
+            $db = new Conexion();
+            $sql = "SELECT COUNT(*) as total FROM registro_paciente WHERE paciente_tipo = 1";
+            $query = $db->pdo->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetch(PDO::FETCH_OBJ);
+            return $resultado->total ?? 0;
+        } catch(PDOException $e) {
+            error_log("Error en contarTotalPacientes: " . $e->getMessage());
+            return 0;
+        }
+    }
+    
+    private function contarTotalMedicos() {
+        try {
+            $db = new Conexion();
+            $sql = "SELECT COUNT(*) as total FROM registro_medico WHERE medico_tipo = 2";
+            $query = $db->pdo->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetch(PDO::FETCH_OBJ);
+            return $resultado->total ?? 0;
+        } catch(PDOException $e) {
+            error_log("Error en contarTotalMedicos: " . $e->getMessage());
+            return 0;
+        }
+    }
+    
     public function capturarDatos() {
         $id_asistente = $_POST['id_asistente'] ?? 0;
         $id_sesion = $_SESSION['usuario'];
@@ -79,7 +119,7 @@ class AsistenteController {
         error_log("AsistenteController::capturarDatos - ID: $id_asistente, Sesión: $id_sesion");
         
         if($id_asistente != $id_sesion) {
-            ApiResponse::error('No autorizado', 'unauthorized', [], 403);
+            ApiResponse::error('No autorizado', ApiResponse::CODE_FORBIDDEN, [], 403);
             return;
         }
         
@@ -115,11 +155,6 @@ class AsistenteController {
         ApiResponse::success($json, 'datos_capturados', 'Datos cargados para edición');
     }
     
-    /**
-     * Parsea una dirección completa para obtener sus componentes
-     * @param string $direccion_completa Dirección en formato "Estado, Ciudad, Municipio, Parroquia - Dirección Detallada"
-     * @return array Componentes de la dirección
-     */
     private function parsearDireccion($direccion_completa) {
         $resultado = [
             'estado' => '',
@@ -158,7 +193,6 @@ class AsistenteController {
         return $resultado;
     }
     
-    // ==================== EDITAR ASISTENTE ====================
     public function editarUsuario() {
         $id_asistente = $_POST['id_asistente'] ?? 0;
         $id_sesion = $_SESSION['usuario'];
@@ -166,7 +200,13 @@ class AsistenteController {
         error_log("AsistenteController::editarUsuario - ID: $id_asistente, Sesión: $id_sesion");
         
         if($id_asistente != $id_sesion) {
-            ApiResponse::error('No autorizado', 'unauthorized', [], 403);
+            ApiResponse::error('No autorizado', ApiResponse::CODE_FORBIDDEN, [], 403);
+            return;
+        }
+        
+        // Verificar token CSRF
+        if (!Security::verificarTokenCSRF($_POST['csrf_token'] ?? '')) {
+            ApiResponse::csrfError();
             return;
         }
         
@@ -176,22 +216,25 @@ class AsistenteController {
         $sexo = $_POST['sexo'] ?? '';
         $adicional = $_POST['adicional'] ?? '';
         
+        error_log("=== EDITANDO ASISTENTE ===");
+        error_log("ID Asistente: " . $id_asistente);
+        error_log("Dirección recibida: " . $direccion);
+        
         $asistente = new Asistente();
         $resultado = $asistente->editar($id_asistente, $telefono, $direccion, $correo, $sexo, $adicional);
         
         if ($resultado['success']) {
-            ApiResponse::updated([], 'Datos actualizados correctamente');
+            ApiResponse::success([], 'usuario_actualizado', 'Datos actualizados correctamente');
         } else {
             ApiResponse::error($resultado['message'], 'update_error', [], 500);
         }
     }
     
-    // ==================== CAMBIAR FOTO ====================
     public function cambiarFoto() {
         $id_asistente = $_SESSION['usuario'];
         
         if (empty($id_asistente)) {
-            ApiResponse::error('Sesión no válida', 'auth_error', [], 401);
+            ApiResponse::error('Sesión no válida', ApiResponse::CODE_AUTH_ERROR, [], 401);
             return;
         }
         
@@ -210,8 +253,9 @@ class AsistenteController {
             return;
         }
         
+        // Generar nombre seguro para el archivo
         $extension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
-        $nombre = uniqid() . '.' . $extension;
+        $nombre = bin2hex(random_bytes(16)) . '.' . $extension;
         $ruta_destino = dirname(__DIR__) . '/img/' . $nombre;
         
         if (move_uploaded_file($_FILES['photo']['tmp_name'], $ruta_destino)) {
@@ -234,13 +278,18 @@ class AsistenteController {
         }
     }
     
-    // ==================== CAMBIAR CONTRASEÑA ====================
     public function cambiarPassword() {
         $id_asistente = $_POST['id_asistente'] ?? 0;
         $id_sesion = $_SESSION['usuario'];
         
         if($id_asistente != $id_sesion) {
-            ApiResponse::error('No autorizado', 'unauthorized', [], 403);
+            ApiResponse::error('No autorizado', ApiResponse::CODE_FORBIDDEN, [], 403);
+            return;
+        }
+        
+        // Verificar token CSRF
+        if (!Security::verificarTokenCSRF($_POST['csrf_token'] ?? '')) {
+            ApiResponse::csrfError();
             return;
         }
         
@@ -260,24 +309,175 @@ class AsistenteController {
         if ($resultado === 'update') {
             ApiResponse::success([], 'password_updated', 'Contraseña actualizada correctamente');
         } else {
-            ApiResponse::error('Contraseña actual incorrecta', 'auth_error', [], 401);
+            ApiResponse::error('Contraseña actual incorrecta', ApiResponse::CODE_AUTH_ERROR, [], 401);
         }
-    }
-    
-    // ==================== MIS ESTADÍSTICAS ====================
+    }    
+    // ==================== ESTADÍSTICAS Y DASHBOARD ====================  
     public function misEstadisticas() {
         $id_asistente = $_POST['id_asistente'] ?? 0;
         $id_sesion = $_SESSION['usuario'];
         
         if($id_asistente != $id_sesion) {
-            ApiResponse::error('No autorizado', 'unauthorized', [], 403);
+            ApiResponse::error('No autorizado', ApiResponse::CODE_FORBIDDEN, [], 403);
             return;
         }
         
         $asistente = new Asistente();
         $estadisticas = $asistente->obtenerEstadisticas($id_asistente);
         
+        // Agregar estadísticas adicionales del día
+        $estadisticas['recetas_hoy'] = $asistente->contarRecetasHoy();
+        $estadisticas['pacientes_hoy'] = $asistente->contarPacientesHoy();
+        $estadisticas['medicos_activos'] = $asistente->contarMedicosActivos();
+        $estadisticas['promedio_espera'] = 15; // Valor por defecto, se podría calcular
+        
         ApiResponse::success($estadisticas, 'estadisticas', 'Estadísticas cargadas correctamente');
+    }    
+  
+    public function actividadReciente() {
+        $id_asistente = $_POST['id_asistente'] ?? 0;
+        $id_sesion = $_SESSION['usuario'];
+        
+        if($id_asistente != $id_sesion) {
+            ApiResponse::error('No autorizado', ApiResponse::CODE_FORBIDDEN, [], 403);
+            return;
+        }
+        
+        $actividades = $this->obtenerActividadRecienteSistema();
+        
+        ApiResponse::success($actividades, 'actividad_cargada', 'Actividad reciente cargada correctamente');
+    }    
+   
+    public function citasHoy() {
+        $id_asistente = $_POST['id_asistente'] ?? 0;
+        $id_sesion = $_SESSION['usuario'];
+        
+        if($id_asistente != $id_sesion) {
+            ApiResponse::error('No autorizado', ApiResponse::CODE_FORBIDDEN, [], 403);
+            return;
+        }
+        
+        $citas = $this->obtenerCitasHoy();
+        
+        ApiResponse::success($citas, 'citas_cargadas', 'Citas de hoy cargadas correctamente');
+    }    
+  
+    private function obtenerActividadRecienteSistema($limit = 10) {
+        try {
+            $db = new Conexion();
+            $actividades = array();
+            
+            // Obtener recetas recientes
+            $sql = "SELECT 
+                        r.id_receta as id,
+                        r.nombre_medicamento as titulo,
+                        r.fecha_receta as fecha,
+                        CONCAT(rp.nombre_paciente, ' ', rp.apellido_paciente) as paciente,
+                        'receta' as tipo
+                    FROM recetas r
+                    LEFT JOIN registro_paciente rp ON r.id_paciente = rp.id_paciente
+                    WHERE r.estado = 1
+                    ORDER BY r.fecha_receta DESC
+                    LIMIT :limit";
+            
+            $query = $db->pdo->prepare($sql);
+            $query->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $query->execute();
+            
+            while ($row = $query->fetch(PDO::FETCH_OBJ)) {
+                $actividades[] = array(
+                    'id' => $row->id,
+                    'titulo' => 'Receta emitida: ' . ($row->titulo ?? 'Medicamento'),
+                    'descripcion' => 'Paciente: ' . ($row->paciente ?? 'N/A'),
+                    'fecha' => $this->formatearFecha($row->fecha),
+                    'tipo' => 'receta'
+                );
+            }
+            
+            return $actividades;
+        } catch(PDOException $e) {
+            error_log("Error en obtenerActividadRecienteSistema: " . $e->getMessage());
+            return array();
+        }
+    }
+    
+    private function obtenerCitasHoy() {
+        try {
+            $db = new Conexion();
+            $sql = "SELECT 
+                        c.id_cita,
+                        c.fecha_cita,
+                        c.hora_cita,
+                        c.estado,
+                        CONCAT(rp.nombre_paciente, ' ', rp.apellido_paciente) as paciente_nombre,
+                        CONCAT(rm.nombre_medico, ' ', rm.apellido_medico) as medico_nombre,
+                        con.nombre as consultorio_nombre
+                    FROM citas c
+                    LEFT JOIN registro_paciente rp ON c.id_paciente = rp.id_paciente
+                    LEFT JOIN registro_medico rm ON c.id_medico = rm.id_medico
+                    LEFT JOIN consultorios con ON c.id_consultorio = con.id_consultorio
+                    WHERE DATE(c.fecha_cita) = CURDATE()
+                    ORDER BY c.hora_cita ASC";
+            
+            $query = $db->pdo->prepare($sql);
+            $query->execute();
+            $resultados = $query->fetchAll(PDO::FETCH_OBJ);
+            
+            $citas = array();
+            foreach ($resultados as $cita) {
+                $citas[] = array(
+                    'id_cita' => $cita->id_cita,
+                    'fecha' => $cita->fecha_cita,
+                    'hora' => substr($cita->hora_cita, 0, 5),
+                    'estado' => $cita->estado,
+                    'paciente_nombre' => $cita->paciente_nombre ?? 'Paciente',
+                    'medico_nombre' => $cita->medico_nombre ?? 'Médico asignado',
+                    'consultorio' => $cita->consultorio_nombre ?? 'Consultorio'
+                );
+            }
+            
+            return $citas;
+        } catch(PDOException $e) {
+            error_log("Error en obtenerCitasHoy: " . $e->getMessage());
+            return array();
+        }
+    }
+    
+    private function formatearFecha($fecha) {
+        if (empty($fecha)) return '';
+        
+        $timestamp = strtotime($fecha);
+        $hoy = strtotime(date('Y-m-d'));
+        $ayer = strtotime('-1 day', $hoy);
+        
+        if ($timestamp >= $hoy) {
+            return 'Hoy, ' . date('g:i A', $timestamp);
+        } elseif ($timestamp >= $ayer) {
+            return 'Ayer, ' . date('g:i A', $timestamp);
+        } else {
+            return date('d/m/Y', $timestamp);
+        }
+    }    
+    // ==================== VISTAS (Rutas no-API) ====================   
+    public function dashboard() {
+        AuthHelper::checkRole('asistente', true);
+        
+        $options = [
+            'title' => 'Panel del Asistente - BioVital',
+            'breadcrumbs' => [
+                ['label' => 'Inicio', 'url' => APP_URL . '/panel/asistente'],
+                ['label' => 'Dashboard']
+            ],
+            'active_page' => 'dashboard',
+            'css' => '<link rel="stylesheet" href="' . APP_URL . '/css/dashboard-utils.css">'
+        ];
+        
+        $data = [
+            'nombre_usuario' => $_SESSION['nombre_us'] ?? 'Usuario',
+            'id_asistente' => $_SESSION['usuario'] ?? 0
+        ];
+        
+        ViewHelper::renderDashboard('asistente/asi_dashboard', $data, $options);
     }
 }
 ?>

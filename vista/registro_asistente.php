@@ -1,6 +1,11 @@
 <?php
+
+// vista/registro_asistente.php 
+// Registro de Asistente - Estilo BioVital Dashboard
+
 // vista/registro_asistente.php
 // Registro de asistentes - Versión con interfaz unificada BioVital
+
 ?>
 <!DOCTYPE html>
 <html lang="es">

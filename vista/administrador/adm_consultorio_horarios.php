@@ -232,9 +232,15 @@ $id_consultorio = $id_consultorio ?? $_GET['id'] ?? 0;
                 
                 <!-- Botones de navegación -->
                 <div class="info-card text-center">
+
+                    <a href="<?php echo APP_URL; ?>/consultorios/detalle/<?php echo $id_consultorio; ?>" class="btn btn-info btn-block btn-sm">
+    <i class="fas fa-arrow-left"></i> Volver al Detalle
+</a>
+
                     <a href="<?php echo APP_URL; ?>/consultorios/detalle?id=<?php echo $id_consultorio; ?>" class="btn btn-info btn-block btn-sm">
                         <i class="fas fa-arrow-left"></i> Volver al Detalle
                     </a>
+
                     <button class="btn btn-outline-primary btn-block btn-sm mt-2" id="btnRefreshMobile">
                         <i class="fas fa-sync-alt"></i> Actualizar Horarios
                     </button>

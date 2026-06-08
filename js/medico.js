@@ -1,24 +1,58 @@
+
 // Esperar a que APP_URL esté definida
+
 $(document).ready(function() {
-    // Verificar que APP_URL esté definida
     if (typeof APP_URL === 'undefined') {
         console.error('ERROR: APP_URL no está definida');
         $('#nombre_us').html('Error de configuración. Recargue la página.');
         return;
-    }
-    
+    }    
     console.log('=== DEPURACIÓN MÉDICO ===');
-    console.log('APP_URL:', APP_URL);
-    
+    console.log('APP_URL:', APP_URL);    
     var id_usuario = $('#id_usuario').val();
-    var edit = false;
-    
-    console.log('ID Usuario:', id_usuario);
-    
+    var edit = false;    
+    console.log('ID Usuario:', id_usuario);    
     if(!id_usuario || id_usuario === '') {
         console.error('ERROR: ID de médico no encontrado');
         $('#nombre_us').html('Error: Sesión no válida');
         return;
+
+    }    
+    // ==================== FUNCIÓN PRINCIPAL: CARGAR DATOS DEL MÉDICO ====================
+    function cargarDatosMedico(id) {
+        console.log('Cargando datos del médico ID:', id);
+        console.log('URL de petición:', APP_URL + '/api/medicos/buscar');
+        
+        $.ajax({
+            url: APP_URL + '/api/medicos/buscar',
+            type: 'POST',
+            data: { id_medico: id, dato: id },
+            dataType: 'json',
+            timeout: 10000,
+            success: function(response) {
+                console.log('Respuesta del servidor:', response);
+                
+                var medico = response.data || response;
+                
+                if (!response.success || medico.error) {
+                    console.error('Error del servidor:', medico.error || response.message);
+                    $('#nombre_us').html('Error: ' + (medico.error || response.message));
+                    return;
+                }                
+                actualizarUI(medico);
+                
+                if (medico.direccion && medico.direccion !== '-') {
+                    cargarDireccionExistente(medico.direccion);
+                } else {
+                    cargarEstados();
+                }
+                
+                console.log('Datos actualizados correctamente');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error AJAX - Status:', status);
+                console.error('Error AJAX - Detalle:', error);
+                $('#nombre_us').html('Error de conexión: ' + status);
     }
     
     cargarDatosMedico(id_usuario);
@@ -63,6 +97,7 @@ function cargarDatosMedico(id) {
             if (medico.direccion && medico.direccion !== '-') {
                 cargarDireccionExistente(medico.direccion);
             } else {
+
                 cargarEstados();
             }
             
@@ -77,7 +112,74 @@ function cargarDatosMedico(id) {
         }
     });
 }
-    
+
+    function actualizarUI(medico) {
+        $('#nombre_us').html(medico.nombre || 'No disponible');
+        $('#apellidos_us').html(medico.apellidos || 'No disponible');
+        $('#edad').html(medico.fecha_nacimiento || 'No disponible');
+        $('#cedula_us').html(medico.cedula || 'No disponible');
+        $('#us_tipo').html(medico.tipo || 'Médico');
+        $('#telefono_us').html(medico.telefono || '-');
+        $('#correo_us').html(medico.correo || '-');
+        $('#sexo_us').html(medico.sexo || '-');
+        $('#adicional_us').html(medico.adicional || '-');
+        $('#direccion_us').html(medico.direccion || '-');
+        $('#mpps_registro_us').html(medico.mpps_registro || '-');
+        
+        $('#telefono').val(medico.telefono || '');
+        $('#correo').val(medico.correo || '');
+        $('#sexo').val(medico.sexo || '');
+        $('#mpps_registro').val(medico.mpps_registro || '');
+        $('#adicional').val(medico.adicional || '');
+        $('#direccion_detallada').val('');
+        
+        if (medico.avatar && medico.avatar !== '') {
+            var avatarUrl = medico.avatar;
+            if (avatarUrl.indexOf('http') === -1 && avatarUrl.indexOf('/') === 0) {
+                avatarUrl = APP_URL + avatarUrl;
+            } else if (avatarUrl.indexOf('http') === -1) {
+                avatarUrl = APP_URL + '/' + avatarUrl;
+            }
+            $('#avatar1, #avatar2, #avatar3, #avatar4, #avatar_nav').attr('src', avatarUrl);
+        } else {
+            var defaultAvatar = APP_URL + '/img/avatarDES.jpg';
+            $('#avatar1, #avatar2, #avatar3, #avatar4, #avatar_nav').attr('src', defaultAvatar);
+        }
+    }    
+    // ==================== FUNCIONES DE UBICACIÓN ====================   
+    function cargarDireccionExistente(direccion_completa) {
+        console.log('Parseando dirección existente:', direccion_completa);
+        
+        if (!direccion_completa || direccion_completa === '-') {
+            console.log('No hay dirección guardada');
+            cargarEstados();
+            return;
+        }
+        
+        let direccion_detallada = '';
+        let ubicacion = direccion_completa;
+        
+        // Separar la dirección detallada de la ubicación
+        if (direccion_completa.includes(' - ')) {
+            let partes = direccion_completa.split(' - ');
+            ubicacion = partes[0];
+            direccion_detallada = partes.slice(1).join(' - ');
+        }
+        
+        // Dividir la ubicación por comas
+        let ubicacion_partes = ubicacion.split(', ').filter(p => p.trim() !== '');
+        console.log('Partes de ubicación:', ubicacion_partes);
+        
+        // Cargar la dirección detallada en el campo
+        $('#direccion_detallada').val(direccion_detallada);
+        
+        // Cargar los selects con los valores existentes
+        if (ubicacion_partes.length > 0) {
+            cargarEstadosConSeleccion(ubicacion_partes);
+        } else {
+            cargarEstados();
+        }
+
   function actualizarUI(medico) {
     console.log('Actualizando UI con datos:', medico);
     
@@ -127,6 +229,7 @@ function cargarDatosMedico(id) {
         console.log('No hay dirección guardada');
         cargarEstados();
         return;
+
     }
     
     let direccion_detallada = '';
@@ -259,6 +362,29 @@ function cargarCiudadesConSeleccion(id_estado, ubicacion_partes) {
                     ciudadId = id;
                 }
             }
+
+        });
+    }   
+   
+    function cargarEstados() {
+        console.log('Cargando lista de estados...');        
+        $.ajax({
+            url: APP_URL + '/api/ubicacion/estados',
+            type: 'POST',
+            dataType: 'json',
+            success: function(response) {
+                console.log('Respuesta estados:', response);
+                
+                var estados = [];
+                if (response.success && response.data) {
+                    estados = response.data;
+                } else if (Array.isArray(response)) {
+                    estados = response;
+                } else if (response.estados) {
+                    estados = response.estados;
+                } else {
+                    estados = response;
+
             $('#ciudad').html(options).prop('disabled', false);
             
             if (ciudadId) {
@@ -312,6 +438,7 @@ function cargarMunicipiosConSeleccion(id_estado, ubicacion_partes) {
                 options += `<option value="${id}">${nombre}</option>`;
                 if (nombre === municipioSeleccionado) {
                     municipioId = id;
+
                 }
             }
             $('#municipio').html(options).prop('disabled', false);
@@ -672,8 +799,6 @@ function cargarParroquias(id_municipio) {
         e.preventDefault();
         edit = true;
         
-        console.log('Editando médico ID:', id_usuario);
-        
         var $btn = $(this);
         var originalText = $btn.html();
         $btn.html('<i class="fas fa-spinner fa-spin"></i> Cargando...');
@@ -683,21 +808,31 @@ function cargarParroquias(id_municipio) {
             type: 'POST',
             data: { id_medico: id_usuario },
             dataType: 'json',
+
+            success: function(response) {
+
             success: function(medico) {
-                console.log('Datos a editar:', medico);
-                
-                if(medico.error) {
-                    alert('Error: ' + medico.error);
+
+                if (!response.success || medico.error) {
+                    alert('Error: ' + (medico.error || response.message));
                     return;
                 }
                 
-                // Llenar los campos del formulario
                 $('#telefono').val(medico.telefono || '').prop('disabled', false);
                 $('#correo').val(medico.correo || '').prop('disabled', false);
                 $('#sexo').val(medico.sexo || '').prop('disabled', false);
                 $('#adicional').val(medico.adicional || '').prop('disabled', false);
+
+                $('#direccion_detallada').val(medico.direccion_detallada || '');
                 
-                // Cargar la dirección existente en los selectores
+                $('#estado, #ciudad, #municipio, #parroquia, #direccion_detallada').prop('disabled', false);
+                
+                $('.btn-outline-success')
+                    .removeClass('btn-outline-success')
+                    .addClass('btn-success')
+                    .prop('disabled', false);
+
+                
                 if (medico.direccion && medico.direccion !== '-') {
                     cargarDireccionExistente(medico.direccion);
                 } else {
@@ -721,9 +856,8 @@ function cargarParroquias(id_municipio) {
                 $btn.html(originalText);
             }
         });
-    });
-    
-    // ==================== FORMULARIO DE EDICIÓN - GUARDAR CAMBIOS ====================
+    });    
+    // ==================== FORMULARIO DE EDICIÓN ====================
     $('#form-usuario').submit(function(e) {
         e.preventDefault();
         
@@ -732,38 +866,28 @@ function cargarParroquias(id_municipio) {
             return;
         }
         
-        // Construir dirección completa
         var estado_nombre = $('#estado option:selected').text();
         var ciudad_nombre = $('#ciudad option:selected').text();
         var municipio_nombre = $('#municipio option:selected').text();
         var parroquia_nombre = $('#parroquia option:selected').text();
         var direccion_detallada = $('#direccion_detallada').val();
         
-        console.log('Estado seleccionado:', estado_nombre);
-        console.log('Ciudad seleccionada:', ciudad_nombre);
-        console.log('Municipio seleccionado:', municipio_nombre);
-        console.log('Parroquia seleccionada:', parroquia_nombre);
-        console.log('Dirección detallada:', direccion_detallada);
-        
         var direccion_completa = '';
-        
         if (estado_nombre && estado_nombre !== 'Seleccione un estado...' && estado_nombre !== '') {
             direccion_completa = estado_nombre;
         }
-        if (ciudad_nombre && ciudad_nombre !== 'Seleccione una ciudad...' && ciudad_nombre !== '' && ciudad_nombre !== 'Seleccione un estado primero...') {
+        if (ciudad_nombre && ciudad_nombre !== 'Seleccione una ciudad...' && ciudad_nombre !== '') {
             direccion_completa += (direccion_completa ? ', ' : '') + ciudad_nombre;
         }
-        if (municipio_nombre && municipio_nombre !== 'Seleccione un municipio...' && municipio_nombre !== '' && municipio_nombre !== 'Seleccione un estado primero...') {
+        if (municipio_nombre && municipio_nombre !== 'Seleccione un municipio...' && municipio_nombre !== '') {
             direccion_completa += (direccion_completa ? ', ' : '') + municipio_nombre;
         }
-        if (parroquia_nombre && parroquia_nombre !== 'Seleccione una parroquia...' && parroquia_nombre !== '' && parroquia_nombre !== 'Seleccione un municipio primero...') {
+        if (parroquia_nombre && parroquia_nombre !== 'Seleccione una parroquia...' && parroquia_nombre !== '') {
             direccion_completa += (direccion_completa ? ', ' : '') + parroquia_nombre;
         }
         if (direccion_detallada && direccion_detallada !== '') {
             direccion_completa += (direccion_completa ? ' - ' : '') + direccion_detallada;
         }
-        
-        console.log('Dirección completa a guardar:', direccion_completa);
         
         var datos = {
             id_medico: id_usuario,
@@ -773,8 +897,6 @@ function cargarParroquias(id_municipio) {
             sexo: $('#sexo').val(),
             adicional: $('#adicional').val()
         };
-        
-        console.log('Guardando datos:', datos);
         
         var $btn = $(this).find('button[type="submit"]');
         var originalText = $btn.html();
@@ -786,13 +908,10 @@ function cargarParroquias(id_municipio) {
             data: datos,
             dataType: 'json',
             success: function(response) {
-                console.log('Respuesta editar:', response);
-                
                 if (response.success) {
                     $('#editado').show(1000);
                     setTimeout(function() { $('#editado').hide(2000); }, 2000);
                     
-                    // Resetear formulario
                     $('#form-usuario').trigger('reset');
                     $('#telefono, #correo, #sexo, #adicional').prop('disabled', true);
                     $('#estado, #ciudad, #municipio, #parroquia, #direccion_detallada').prop('disabled', true);
@@ -802,14 +921,12 @@ function cargarParroquias(id_municipio) {
                         .addClass('btn-outline-success')
                         .prop('disabled', true);
                     
-                    // Recargar datos del médico
                     cargarDatosMedico(id_usuario);
-                    
                     alert('Datos actualizados correctamente');
                 } else {
                     $('#noeditado').show(1000);
                     setTimeout(function() { $('#noeditado').hide(2000); }, 2000);
-                    alert(response.error || 'Error al guardar');
+                    alert(response.message || 'Error al guardar');
                 }
             },
             error: function(xhr, status, error) {
@@ -822,8 +939,7 @@ function cargarParroquias(id_municipio) {
                 $btn.prop('disabled', false).html(originalText);
             }
         });
-    });
-    
+    });    
     // ==================== CAMBIAR CONTRASEÑA ====================
     $('#form-pass').submit(function(e) {
         e.preventDefault();
@@ -842,9 +958,7 @@ function cargarParroquias(id_municipio) {
             },
             dataType: 'json',
             success: function(response) {
-                console.log('Respuesta cambio contraseña:', response);
-                
-                if (response.resultado == 'update') {
+                if (response.resultado === 'update' || response.success) {
                     $('#update').show(1000);
                     setTimeout(function() { $('#update').hide(2000); }, 2000);
                     $('#form-pass').trigger('reset');
@@ -885,19 +999,35 @@ function cargarParroquias(id_municipio) {
             contentType: false,
             dataType: 'json',
             success: function(response) {
+
+                if (response.alert === 'edit' || response.success) {
+                    var timestamp = new Date().getTime();
+                    var nuevaRuta = (response.ruta || response.data.ruta) + '?t=' + timestamp;
+                    
+                    $('#avatar1, #avatar2, #avatar3, #avatar4, #avatar_nav').attr('src', nuevaRuta);
+                    
+
                 console.log('Respuesta cambio foto:', response);
                 
                 if (response.alert == 'edit') {
                     var nuevaRuta = response.ruta;
                     $('#avatar1, #avatar2, #avatar3, #avatar4').attr('src', nuevaRuta + '?t=' + new Date().getTime());
+
                     $('#edit').show(1000);
                     setTimeout(function() { $('#edit').hide(2000); }, 2000);
                     $('#form-photo').trigger('reset');
                     setTimeout(function() { $('#cambiophoto').modal('hide'); }, 1500);
+
+
+
                     cargarDatosMedico(id_usuario);
                 } else {
                     $('#noedit').show(1000);
                     setTimeout(function() { $('#noedit').hide(2000); }, 2000);
+
+                    alert(response.message || 'Error al cambiar la foto');
+
+
                 }
             },
             error: function(xhr, status, error) {
@@ -909,5 +1039,13 @@ function cargarParroquias(id_municipio) {
                 $btn.prop('disabled', false).html(originalText);
             }
         });
+    });    
+    // ==================== INICIALIZAR ====================
+    cargarDatosMedico(id_usuario);    
+    window.recargarDatosMedico = function() {
+        cargarDatosMedico(id_usuario);
+    };
+
     });
+
 });
