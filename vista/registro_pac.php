@@ -1,0 +1,321 @@
+<?php
+
+// vista/registro_pac.php 
+// Registro de Paciente - Estilo BioVital Dashboard
+
+// vista/registro_pac.php
+// Registro de pacientes - Versión con interfaz unificada BioVital
+
+// Incluir seguridad
+$securityPath = dirname(__DIR__) . '/modelo/Security.php';
+if (!file_exists($securityPath)) {
+    die("Error: No se encuentra Security.php en: " . $securityPath);
+}
+include_once $securityPath;
+
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Paciente - BioVital</title>
+    
+    <script>var APP_URL = '<?php echo APP_URL; ?>';</script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 4 CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/css/all.min.css">
+    
+    <!-- CSS Unificado de Registro BioVital -->
+    <link rel="stylesheet" href="<?php echo APP_URL; ?>/css/registro.css">
+    <style>
+        .password-toggle {
+            background: #e9ecef;
+            border: 1px solid #ced4da;
+            border-left: none;
+            border-radius: 0 0.25rem 0.25rem 0;
+            padding: 0.375rem 0.75rem;
+            cursor: pointer;
+            color: #6c757d;
+            transition: all 0.3s;
+        }
+        .password-toggle:hover {
+            color: #4e73df;
+            background: #dee2e6;
+        }
+        .password-toggle:focus {
+            outline: none;
+            box-shadow: none;
+        }
+        .input-group .form-control {
+            border-radius: 0.25rem 0 0 0.25rem !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="registro-wrapper">
+    <!-- Navbar -->
+    <div class="registro-navbar">
+        <a href="<?php echo APP_URL; ?>">
+            <img src="<?php echo APP_URL; ?>/img/logo_azul.png" alt="BioVital">
+            <span class="brand-text">Bio<em>vital</em></span>
+        </a>
+    </div>
+    
+    <div class="registro-container">
+        <div class="registro-header">
+            <h2><i class="fas fa-user-plus"></i> Crear Cuenta de Paciente</h2>
+            <p>Complete todos los campos para registrarse en BioVital</p>
+        </div>
+        <div class="registro-body">
+            
+            <form id="form-registro" method="POST" action="<?php echo APP_URL; ?>/api/registro/paciente">
+                <!-- CSRF Token -->
+                <?php echo Security::campoCSRF(); ?>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group required">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" 
+                                   placeholder="Ingrese su nombre" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group required">
+                            <label for="apellidos">Apellido</label>
+                            <input type="text" class="form-control" id="apellidos" name="apellidos" 
+                                   placeholder="Ingrese su apellido" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group required">
+                            <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                            <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group required">
+                            <select class="form-control" id="tipo_cedula" name="tipo_cedula" required style="min-height: 45px;">
+                                <option value="">Tipo</option>
+                                <option value="V">V</option>
+                                <option value="E">E</option>
+                                <option value="P">P</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group required">
+                            <label for="cedula">Número de Documento</label>
+                            <input type="text" class="form-control" id="cedula" name="cedula"
+                                   placeholder="Ej: 12345678" required disabled>
+                            <small class="help-text">Seleccione el tipo de documento primero</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group required">
+                            <label for="telefono">Teléfono</label>
+                            <input type="tel" class="form-control" id="telefono" name="telefono" 
+                                   placeholder="Ej: 04141234567" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group required">
+                            <label for="sexo">Sexo</label>
+                            <select class="form-control" id="sexo" name="sexo" required>
+                                <option value="">Seleccione...</option>
+                                <option value="Masculino">Masculino</option>
+                                <option value="Femenino">Femenino</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ==================== SISTEMA DE UBICACIÓN ==================== -->
+                <div class="seccion-titulo">
+                    <i class="fas fa-map-marker-alt"></i> Ubicación
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group required">
+                            <label for="estado">Estado</label>
+                            <select class="form-control" id="estado" name="estado" required>
+                                <option value="">Seleccione un estado...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group required">
+                            <label for="ciudad">Ciudad</label>
+                            <select class="form-control" id="ciudad" name="ciudad" required disabled>
+                                <option value="">Primero seleccione un estado...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="municipio">Municipio</label>
+                            <select class="form-control" id="municipio" name="municipio" disabled>
+                                <option value="">Primero seleccione un estado...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="parroquia">Parroquia</label>
+                            <select class="form-control" id="parroquia" name="parroquia" disabled>
+                                <option value="">Primero seleccione un municipio...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group required">
+                    <label for="direccion">Dirección Detallada</label>
+                    <input type="text" class="form-control" id="direccion" name="direccion" required 
+                           placeholder="Av. Principal, Edificio, Número, etc.">
+                    <small class="help-text">Ej: Av. Principal, Edificio Central, Casa #123, Urbanización Las Delicias</small>
+                </div>
+                <!-- ==================== FIN SISTEMA DE UBICACIÓN ==================== -->
+                
+                <div class="form-group required">
+                    <label for="correo">Correo Electrónico</label>
+                    <input type="email" class="form-control" id="correo" name="correo" 
+                           placeholder="ejemplo@correo.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="adicional">Información Adicional</label>
+                    <textarea class="form-control" id="adicional" name="adicional" rows="3" 
+                              placeholder="Alergias, condiciones médicas, medicamentos que toma regularmente, etc."></textarea>
+                    <small class="help-text">Esta información ayudará a los médicos a conocer mejor su historial</small>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group required">
+                            <label for="pass">Contraseña</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="pass" name="pass" 
+                                       placeholder="Mínimo 6 caracteres" required>
+                                <button type="button" class="password-toggle" id="togglePass">
+                                    <i class="fas fa-eye" id="eyeIconPass"></i>
+                                </button>
+                            </div>
+                            <small class="help-text">Use una contraseña segura</small>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group required">
+                            <label for="confirm_pass">Confirmar Contraseña</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="confirm_pass" name="confirm_pass" 
+                                       placeholder="Repita su contraseña" required>
+                                <button type="button" class="password-toggle" id="toggleConfirmPass">
+                                    <i class="fas fa-eye" id="eyeIconConfirmPass"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-registro">
+                    <i class="fas fa-check-circle"></i> Crear Cuenta
+                </button>
+                
+                <div class="csrf-info">
+                    <i class="fas fa-shield-alt"></i> Formulario protegido contra CSRF - Tus datos están seguros
+                </div>
+            </form>
+            
+            <!-- Alertas -->
+            <div id="alert-success" class="alert alert-success alert-dismissible fade show" role="alert" style="display:none;">
+                <i class="fas fa-check-circle"></i> <span id="success-message"></span>
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+            </div>
+
+            <div id="alert-error" class="alert alert-danger alert-dismissible fade show" role="alert" style="display:none;">
+                <i class="fas fa-exclamation-circle"></i> <span id="error-message"></span>
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+            </div>
+            
+            <!-- Enlace a login -->
+            <div class="login-link">
+                <a href="<?php echo APP_URL; ?>"><i class="fas fa-sign-in-alt"></i> ¿Ya tienes cuenta? Inicia sesión aquí</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="<?php echo APP_URL; ?>/js/registro_paciente.js"></script>
+<script src="<?php echo APP_URL; ?>/js/registro_ubicacion.js"></script>
+<script>
+$(document).ready(function() {
+    $('#tipo_cedula').on('change', function() {
+        if ($(this).val() !== '') {
+            $('#cedula').prop('disabled', false);
+            $('#cedula').focus();
+        } else {
+            $('#cedula').prop('disabled', true);
+            $('#cedula').val('');
+        }
+    });
+
+    // Toggle password visibility
+    $('#togglePass').on('click', function () {
+        var passwordInput = $('#pass');
+        var eyeIcon = $('#eyeIconPass');
+        
+        if (passwordInput.attr('type') === 'password') {
+            passwordInput.attr('type', 'text');
+            eyeIcon.removeClass('fa-eye').addClass('fa-eye-slash');
+        } else {
+            passwordInput.attr('type', 'password');
+            eyeIcon.removeClass('fa-eye-slash').addClass('fa-eye');
+        }
+    });
+
+    $('#toggleConfirmPass').on('click', function () {
+        var passwordInput = $('#confirm_pass');
+        var eyeIcon = $('#eyeIconConfirmPass');
+        
+        if (passwordInput.attr('type') === 'password') {
+            passwordInput.attr('type', 'text');
+            eyeIcon.removeClass('fa-eye').addClass('fa-eye-slash');
+        } else {
+            passwordInput.attr('type', 'password');
+            eyeIcon.removeClass('fa-eye-slash').addClass('fa-eye');
+        }
+    });
+});
+</script>
+</body>
+</html>
