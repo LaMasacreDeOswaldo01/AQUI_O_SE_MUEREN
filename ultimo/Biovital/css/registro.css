@@ -1,0 +1,434 @@
+/* ========== BIOVITAL REGISTRO - ESTILOS UNIFICADOS ========== */
+/* Colores consistentes con home.css y dashboard.css */
+
+:root {
+    --bv-primary: #0077b6;
+    --bv-primary-light: #90e0ef;
+    --bv-accent: #4e73df;
+    --bv-dark: #0f172a;
+    --bv-text: #1f2937;
+    --bv-text-light: #64748b;
+    --bv-bg: #f0f9ff;
+    --bv-border: #e2e8f0;
+    --bv-success: #10b981;
+    --bv-error: #ef4444;
+    --bv-radius: 16px;
+    --bv-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    --bv-shadow-lg: 0 20px 40px rgba(0,119,182,0.12);
+    --bv-transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+    
+    /* Colores por rol */
+    --rol-paciente: #4e73df;
+    --rol-medico: #0d9488;
+    --rol-asistente: #9333ea;
+    --rol-admin: #e11d48;
+}
+
+/* ---- Base ---- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bv-bg);
+    min-height: 100vh;
+    padding: 40px 0;
+    color: var(--bv-text);
+}
+
+/* ---- Contenedor Principal ---- */
+.registro-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.registro-container {
+    background: white;
+    border-radius: var(--bv-radius);
+    box-shadow: var(--bv-shadow);
+    overflow: hidden;
+    transition: var(--bv-transition);
+}
+
+.registro-container:hover {
+    box-shadow: var(--bv-shadow-lg);
+}
+
+/* ---- Header ---- */
+.registro-header {
+    background: linear-gradient(135deg, var(--bv-primary), var(--bv-accent));
+    color: white;
+    padding: 40px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.registro-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+}
+
+.registro-header::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -5%;
+    width: 200px;
+    height: 200px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+}
+
+.registro-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+}
+
+.registro-header h2 i {
+    margin-right: 10px;
+    opacity: 0.9;
+}
+
+.registro-header p {
+    margin: 10px 0 0;
+    opacity: 0.9;
+    font-size: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* ---- Body ---- */
+.registro-body {
+    padding: 40px;
+}
+
+/* ---- Secciones ---- */
+.seccion-titulo {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--bv-dark);
+    margin: 30px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--bv-border);
+}
+
+.seccion-titulo i {
+    color: var(--bv-accent);
+    margin-right: 8px;
+}
+
+.seccion-titulo:first-of-type {
+    margin-top: 0;
+}
+
+/* ---- Formularios ---- */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--bv-text);
+    margin-bottom: 8px;
+    display: block;
+    font-size: 0.9rem;
+}
+
+.form-group.required label::after {
+    content: " *";
+    color: var(--bv-error);
+}
+
+.form-control, .form-select {
+    border-radius: 10px;
+    border: 1.5px solid var(--bv-border);
+    padding: 12px 15px;
+    font-size: 0.95rem;
+    transition: var(--bv-transition);
+    background: white;
+    position: relative;
+    z-index: 1;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--bv-accent);
+    box-shadow: 0 0 0 4px rgba(78,115,223,0.1);
+    outline: none;
+    z-index: 10;
+}
+
+/* Mejorar visualización de los select */
+select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
+    cursor: pointer;
+    min-height: 45px;
+}
+
+select.form-control:focus {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234e73df' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+}
+
+select.form-control:disabled {
+    background-color: #f8fafc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.form-control::placeholder {
+    color: #94a3b8;
+}
+
+.help-text {
+    font-size: 0.8rem;
+    color: var(--bv-text-light);
+    margin-top: 6px;
+}
+
+/* ---- Botón de Registro ---- */
+.btn-registro {
+    background: linear-gradient(135deg, var(--bv-accent), var(--bv-primary));
+    border: none;
+    padding: 14px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 25px;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: var(--bv-transition);
+    box-shadow: 0 4px 12px rgba(78,115,223,0.25);
+}
+
+.btn-registro:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(78,115,223,0.35);
+}
+
+.btn-registro:active {
+    transform: translateY(0);
+}
+
+.btn-registro i {
+    margin-right: 8px;
+}
+
+/* ---- CSRF Info ---- */
+.csrf-info {
+    font-size: 0.8rem;
+    color: var(--bv-text-light);
+    margin-top: 15px;
+    text-align: center;
+}
+
+.csrf-info i {
+    color: var(--bv-success);
+    margin-right: 5px;
+}
+
+/* ---- Alertas ---- */
+.alert {
+    margin-top: 20px;
+    border-radius: 10px;
+    display: none;
+    border: none;
+    padding: 15px;
+}
+
+.alert.alert-success {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.alert.alert-danger {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* ---- Login Link ---- */
+.login-link {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 25px;
+    border-top: 1px solid var(--bv-border);
+}
+
+.login-link a {
+    color: var(--bv-accent);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: var(--bv-transition);
+}
+
+.login-link a:hover {
+    color: var(--bv-primary);
+    text-decoration: underline;
+}
+
+.login-link a i {
+    margin-right: 6px;
+}
+
+/* ---- Navbar Registro ---- */
+.registro-navbar {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.registro-navbar a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.registro-navbar img {
+    height: 50px;
+}
+
+.registro-navbar .brand-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--bv-accent);
+}
+
+.registro-navbar .brand-text em {
+    color: var(--bv-primary);
+    font-style: normal;
+}
+
+/* ---- Variantes por Rol ---- */
+/* Paciente - Azul índigo (default) */
+
+/* Médico - Teal */
+.registro-container.rol-medico .registro-header {
+    background: linear-gradient(135deg, #0d9488, #0f766e);
+}
+
+.registro-container.rol-medico .btn-registro {
+    background: linear-gradient(135deg, #0d9488, #0f766e);
+    box-shadow: 0 4px 12px rgba(13,148,136,0.25);
+}
+
+.registro-container.rol-medico .btn-registro:hover {
+    box-shadow: 0 8px 20px rgba(13,148,136,0.35);
+}
+
+.registro-container.rol-medico .seccion-titulo i,
+.registro-container.rol-medico .login-link a {
+    color: #0d9488;
+}
+
+/* Asistente - Púrpura */
+.registro-container.rol-asistente .registro-header {
+    background: linear-gradient(135deg, #9333ea, #7c3aed);
+}
+
+.registro-container.rol-asistente .btn-registro {
+    background: linear-gradient(135deg, #9333ea, #7c3aed);
+    box-shadow: 0 4px 12px rgba(147,51,234,0.25);
+}
+
+.registro-container.rol-asistente .btn-registro:hover {
+    box-shadow: 0 8px 20px rgba(147,51,234,0.35);
+}
+
+.registro-container.rol-asistente .seccion-titulo i,
+.registro-container.rol-asistente .login-link a {
+    color: #9333ea;
+}
+
+/* Administrador - Rojo */
+.registro-container.rol-admin .registro-header {
+    background: linear-gradient(135deg, #e11d48, #be123c);
+}
+
+.registro-container.rol-admin .btn-registro {
+    background: linear-gradient(135deg, #e11d48, #be123c);
+    box-shadow: 0 4px 12px rgba(225,29,72,0.25);
+}
+
+.registro-container.rol-admin .btn-registro:hover {
+    box-shadow: 0 8px 20px rgba(225,29,72,0.35);
+}
+
+.registro-container.rol-admin .seccion-titulo i,
+.registro-container.rol-admin .login-link a {
+    color: #e11d48;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+    body {
+        padding: 20px 0;
+        background: white;
+    }
+    
+    .registro-wrapper {
+        padding: 0;
+    }
+    
+    .registro-container {
+        border-radius: 0;
+        box-shadow: none;
+    }
+    
+    .registro-header {
+        padding: 30px 20px;
+        border-radius: 0;
+    }
+    
+    .registro-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .registro-body {
+        padding: 25px;
+    }
+    
+    .registro-navbar {
+        margin-bottom: 20px;
+    }
+    
+    .registro-navbar img {
+        height: 40px;
+    }
+    
+    .registro-navbar .brand-text {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .registro-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .registro-header p {
+        font-size: 0.9rem;
+    }
+    
+    .registro-body {
+        padding: 20px;
+    }
+    
+    .btn-registro {
+        padding: 12px 20px;
+    }
+}
