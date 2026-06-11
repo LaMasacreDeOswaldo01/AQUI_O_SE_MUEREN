@@ -329,6 +329,7 @@ class Administrador {
         foreach ($roles as $rolActual) {
             $consulta = $consultas[$rolActual];
             
+            // Consulta simplificada sin JOIN inicialmente
             $sql = "SELECT 
                         {$consulta['id_field']} as id,
                         {$consulta['nombre_field']} as nombre,
@@ -337,9 +338,8 @@ class Administrador {
                         {$consulta['telefono_field']} as telefono,
                         {$consulta['correo_field']} as correo,
                         '{$rolActual}' as tipo,
-                        lp.status as activo
-                    FROM {$consulta['tabla']} r
-                    LEFT JOIN {$consulta['tabla_login']} lp ON r.{$consulta['id_field']} = lp.{$consulta['id_field']}
+                        1 as activo
+                    FROM {$consulta['tabla']}
                     WHERE 1=1";
             
             $params = [];
@@ -355,27 +355,26 @@ class Administrador {
                 $params[':busqueda'] = "%$busqueda%";
             }
             
-            // Filtro por estado
-            if (!empty($estado) && $estado !== 'todos') {
-                $statusValue = ($estado === 'activo') ? 'activo' : 'inactivo';
-                $sql .= " AND lp.status = :estado";
-                $params[':estado'] = $statusValue;
-            }
-            
             $sql .= " ORDER BY {$consulta['nombre_field']} ASC";
+            
+            error_log("SQL para {$rolActual}: " . $sql);
             
             $query = $this->acceso->prepare($sql);
             $query->execute($params);
             
-            while ($row = $query->fetch(PDO::FETCH_OBJ)) {
-                $row->activo = ($row->activo === 'activo') ? 1 : 0;
+            $resultados = $query->fetchAll(PDO::FETCH_OBJ);
+            error_log("Resultados para {$rolActual}: " . count($resultados));
+            
+            foreach ($resultados as $row) {
                 $usuarios[] = $row;
             }
         }
         
+        error_log("Total usuarios: " . count($usuarios));
         return $usuarios;
     } catch(PDOException $e) {
         error_log("Error en listarUsuarios: " . $e->getMessage());
+        error_log("SQL error: " . $e->getCode() . " - " . $e->errorInfo[2] ?? '');
         return array();
     }
 }    
