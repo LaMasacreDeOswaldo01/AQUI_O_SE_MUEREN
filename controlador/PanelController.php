@@ -62,6 +62,27 @@ class PanelController {
     
     ViewHelper::renderDashboard('asistente/asi_catalogo', $data, $options);
 }
+
+    public function asistenteRegistroPaciente() {
+        AuthHelper::checkRole('asistente', true);
+        
+        $options = [
+            'title' => 'Registro de Paciente - BioVital',
+            'breadcrumbs' => [
+                ['label' => 'Inicio', 'url' => APP_URL . '/panel/asistente'],
+                ['label' => 'Registro de Paciente']
+            ],
+            'active_page' => 'registro_paciente',
+            'css' => '<link rel="stylesheet" href="' . APP_URL . '/css/dashboard-utils.css">'
+        ];
+        
+        $data = [
+            'nombre_usuario' => $_SESSION['nombre_us'] ?? 'Usuario',
+            'id_asistente' => $_SESSION['usuario'] ?? 0
+        ];
+        
+        ViewHelper::renderDashboard('asistente/asi_registro_paciente', $data, $options);
+    }
     
     public function administrador() {
         AuthHelper::checkRole('administrador', true);

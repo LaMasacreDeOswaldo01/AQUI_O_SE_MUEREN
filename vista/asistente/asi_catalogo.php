@@ -307,12 +307,12 @@ $id_asistente = $id_asistente ?? $_SESSION['usuario'] ?? 0;
                 </a>
             </div>
             <div class="col-md-4">
-                <a href="#" class="quick-card bv-animate bv-animate-delay-2" id="btnTriaje">
+                <a href="<?php echo APP_URL; ?>/asistente/registrar-paciente" class="quick-card bv-animate bv-animate-delay-2">
                     <div class="quick-icon">
-                        <i class="fas fa-procedures"></i>
+                        <i class="fas fa-user-plus"></i>
                     </div>
-                    <h3>Triaje</h3>
-                    <p>Registra signos vitales y motivos de consulta previos a la atención.</p>
+                    <h3>Registro de Paciente</h3>
+                    <p>Registra nuevos pacientes en el sistema de BioVital.</p>
                 </a>
             </div>
             <div class="col-md-4">

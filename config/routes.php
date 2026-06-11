@@ -86,6 +86,9 @@ return
     'api/asistentes/editar' => ['controller' => 'AsistenteController', 'action' => 'editarUsuario', 'method' => 'POST', 'rol' => 'asistente'],
     'api/asistentes/cambiar-foto' => ['controller' => 'AsistenteController', 'action' => 'cambiarFoto', 'method' => 'POST', 'rol' => 'asistente'],
     'api/asistentes/cambiar-password' => ['controller' => 'AsistenteController', 'action' => 'cambiarPassword', 'method' => 'POST', 'rol' => 'asistente'],
+    'api/asistentes/registrar-paciente' => ['controller' => 'AsistenteController', 'action' => 'registrarPaciente', 'method' => 'POST', 'rol' => 'asistente'],
+    'api/asistentes/listar-pacientes' => ['controller' => 'AsistenteController', 'action' => 'listarPacientes', 'method' => 'POST', 'rol' => 'asistente'],
+    'asistente/registrar-paciente' => ['controller' => 'PanelController', 'action' => 'asistenteRegistroPaciente', 'rol' => 'asistente'],
       // ==================== ADMINISTRADOR ====================
     'api/administradores/estadisticas-generales' => ['controller' => 'AdministradorController', 'action' => 'estadisticasGenerales', 'method' => 'POST', 'rol' => 'administrador'],
     'api/administradores/actividad-reciente' => ['controller' => 'AdministradorController', 'action' => 'actividadReciente', 'method' => 'POST', 'rol' => 'administrador'],
